@@ -1,0 +1,72 @@
+{% extends 'account/_auth_layout.html' %}
+{% load allauth i18n %}
+{% block title %}Email Addresses - Dovix AI{% endblock %}
+{% block card_modifier %} auth-card--wide{% endblock %}
+
+{% block auth_content %}
+<h2 class="auth-card__title">Email Addresses</h2>
+
+{% if emailaddresses %}
+    <p class="auth-card__sub" style="margin-bottom:14px;">The following email addresses are associated with your account.</p>
+
+    <form method="post" action="{% url 'account_email' %}">
+        {% csrf_token %}
+        <ul class="auth-emails">
+            {% for radio in emailaddress_radios %}
+                {% with emailaddress=radio.emailaddress %}
+                    <li class="auth-email-row">
+                        <input type="radio" name="email" id="{{ radio.id }}" value="{{ emailaddress.email }}" {% if radio.checked %}checked{% endif %}>
+                        <label for="{{ radio.id }}" class="flex-grow-1 mb-0">{{ emailaddress.email }}</label>
+                        {% if emailaddress.verified %}
+                            <span class="auth-badge auth-badge--ok">Verified</span>
+                        {% else %}
+                            <span class="auth-badge auth-badge--warn">Unverified</span>
+                        {% endif %}
+                        {% if emailaddress.primary %}
+                            <span class="auth-badge auth-badge--primary">Primary</span>
+                        {% endif %}
+                    </li>
+                {% endwith %}
+            {% endfor %}
+        </ul>
+
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <button type="submit" name="action_primary" class="btn auth-btn-primary flex-fill">Make Primary</button>
+            <button type="submit" name="action_send" class="btn auth-btn-outline flex-fill">Re-send Verification</button>
+            <button type="submit" name="action_remove" class="btn btn-outline-danger flex-fill">Remove</button>
+        </div>
+    </form>
+{% else %}
+    <p class="text-muted">No email addresses associated with your account.</p>
+{% endif %}
+
+{% if can_add_email %}
+    <hr class="my-4">
+    <h3 class="fw-bold" style="font-size:17px;">Add Email Address</h3>
+    <form method="post" action="{% url 'account_email' %}">
+        {% csrf_token %}
+        <div class="auth-field">
+            <div class="auth-input">
+                <i class="mdi mdi-email-outline"></i>
+                <input type="email" name="email" class="form-control" placeholder="Enter an email address" maxlength="320" required id="id_email">
+            </div>
+            {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
+        </div>
+        <button type="submit" name="action_add" class="btn auth-btn-primary w-100">Add Email</button>
+    </form>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    const message = "{% trans 'Do you really want to remove the selected email address?' %}";
+    const actions = document.getElementsByName('action_remove');
+    if (actions.length) {
+        actions[0].addEventListener('click', function (e) {
+            if (!confirm(message)) e.preventDefault();
+        });
+    }
+})();
+</script>
+{% endblock %}

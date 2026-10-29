@@ -1,0 +1,327 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+
+<div class="app-page">
+
+    <div class="app-page__head">
+        <div class="app-page__greeting">
+            <span class="stat-card__icon stat-card__icon--green" style="width:44px;height:44px;"><i class="mdi mdi-send-outline"></i></span>
+            <div>
+                <h1 class="app-page__title">Create Campaign</h1>
+                <p class="app-page__subtitle">Setup your WhatsApp campaign in one place. Fill in all the details below and launch it when ready.</p>
+            </div>
+        </div>
+        <a href="{% url 'campaign_list' %}" class="btn-au-outline"><i class="mdi mdi-arrow-left"></i> Back to Campaigns</a>
+    </div>
+
+    <div class="campaign-steps">
+        <div class="campaign-step is-active" data-step="1"><span class="campaign-step__dot">1</span><span class="campaign-step__label">Campaign Name</span></div>
+        <div class="campaign-step" data-step="2"><span class="campaign-step__dot">2</span><span class="campaign-step__label">Select Audience</span></div>
+        <div class="campaign-step" data-step="3"><span class="campaign-step__dot">3</span><span class="campaign-step__label">Create Message</span></div>
+        <div class="campaign-step" data-step="4"><span class="campaign-step__dot">4</span><span class="campaign-step__label">Test Campaign</span></div>
+        <div class="campaign-step" data-step="5"><span class="campaign-step__dot">5</span><span class="campaign-step__label">Preview &amp; Send</span></div>
+    </div>
+
+    <form id="campaignForm" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="action" id="formAction" value="refresh">
+        <input type="hidden" name="send_mode" id="sendMode" value="now">
+           <input type="hidden" name="draft_id" id="draftIdInput" value="">
+        <input type="hidden" name="retargeted_from_id" id="retargetedFromInput" value="">
+     <input type="hidden" name="audience_mode" id="audienceModeInput" value="all">
+        <input type="hidden" name="tags" id="tagsInput" value="">
+        <input type="hidden" name="contact_ids" id="contactIdsInput" value="">
+        <input type="hidden" name="final_data" id="finalDataInput" value="{}">
+        <input type="hidden" name="media_id" id="mediaIdInput" value="">
+        <input type="hidden" name="media_filename" id="mediaFilenameInput" value="">
+        <input type="hidden" name="add_unsubscribe_button" id="unsubscribeInput" value="0">
+        <input type="hidden" name="track_status" id="trackStatusInput" value="0">
+
+        <div class="campaign-grid">
+            <!-- LEFT COLUMN -->
+            <div class="campaign-col">
+
+                <div class="au-panel" data-section="1">
+                    <div class="au-panel__header">
+                        <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-message-text-outline"></i></span> Campaign Name</h2>
+                    </div>
+                    <p class="au-panel__desc">Give your campaign a name so you can easily identify it later.</p>
+
+                    <div class="mb-3">
+                        <label class="form-label d-flex justify-content-between">Campaign Name *
+                            <span class="au-cell-sub" id="campaignNameCount">0/100</span>
+                        </label>
+                        <input type="text" id="campaignNameInput" name="campaign_name" class="form-control" placeholder="e.g. Summer Offers" maxlength="100" required>
+                        <div id="campaignNameError" class="text-danger small mt-1" style="display:none;"></div>
+                    </div>
+
+                  </div>
+
+                <div class="au-panel" data-section="3">
+                    <div class="au-panel__header">
+                        <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-message-draw"></i></span> Create Message</h2>
+                    </div>
+                    <p class="au-panel__desc">Write your message and add media (optional).</p>
+
+                    {% comment %} <div class="mb-3">
+                        <label class="form-label d-block">Campaign Type</label>
+                        <div class="campaign-type-grid">
+                            <label class="campaign-type-card is-active">
+                                <input type="radio" name="campaign_type" value="broadcast" checked hidden>
+                                <i class="mdi mdi-bullhorn-outline"></i>
+                                <span class="campaign-type-card__title">Broadcast</span>
+                                <span class="campaign-type-card__desc">Same message for everyone</span>
+                            </label>
+                            <label class="campaign-type-card">
+                                <input type="radio" name="campaign_type" value="personalized" hidden>
+                                <i class="mdi mdi-account-outline"></i>
+                                <span class="campaign-type-card__title">Personalized</span>
+                                <span class="campaign-type-card__desc">Insert each contact's name</span>
+                            </label>
+                        </div>
+                    </div> {% endcomment %}
+                  <label class="form-label">Message Type</label>
+                    <div class="msg-type-tabs mb-3">
+                        <button type="button" class="msg-type-tab is-active" data-msg-type="text"><i class="mdi mdi-lightning-bolt-outline"></i> Text</button>
+                        <button type="button" class="msg-type-tab" data-msg-type="image"><i class="mdi mdi-image-outline"></i> Image</button>
+                        <button type="button" class="msg-type-tab" data-msg-type="document"><i class="mdi mdi-file-document-outline"></i> Document</button>
+                        <button type="button" class="msg-type-tab" data-msg-type="template"><i class="mdi mdi-view-grid-outline"></i> Template</button>
+                    </div>
+
+                    <!-- TEXT -->
+                    <div class="msg-type-panel" data-panel="text">
+                        <label class="form-label d-flex justify-content-between">Message *
+                            <span class="au-cell-sub" id="messageTextCount">0/1024</span>
+                        </label>
+                        <textarea id="messageText" name="message_text" class="form-control" rows="6" maxlength="1024" placeholder="Hello {{name}},&#10;We have special offers just for you!"></textarea>
+                        {% comment %} <small class="au-cell-sub">Use <code>{{name}}</code> to personalize when Campaign Type is Personalized.</small> {% endcomment %}
+                    </div>
+
+                    <!-- IMAGE / DOCUMENT (shared markup, toggled by JS) -->
+                    <div class="msg-type-panel" data-panel="image" hidden>
+                        <label class="form-label">Upload Image *</label>
+                        <div class="d-flex gap-2 align-items-center flex-wrap mb-2">
+                            <label class="au-file-input" id="mediaImageLabel">
+                                <input type="file" id="mediaImageFile" accept="image/*" hidden>
+                                <span class="au-file-input__button">Choose File</span>
+                                <span class="au-file-input__name" data-media-filename>No file chosen</span>
+                            </label>
+                            <button type="button" class="btn-au-outline btn-sm" data-upload-media="image">Upload</button>
+                            <span class="au-cell-sub" data-media-status></span>
+                        </div>
+                    </div>
+
+                    <div class="msg-type-panel" data-panel="document" hidden>
+                        <label class="form-label">Upload Document *</label>
+                        <div class="d-flex gap-2 align-items-center flex-wrap mb-2">
+                            <label class="au-file-input" id="mediaDocumentLabel">
+                                <input type="file" id="mediaDocumentFile" accept=".pdf,.doc,.docx" hidden>
+                                <span class="au-file-input__button">Choose File</span>
+                                <span class="au-file-input__name" data-media-filename>No file chosen</span>
+                            </label>
+                            <button type="button" class="btn-au-outline btn-sm" data-upload-media="document">Upload</button>
+                            <span class="au-cell-sub" data-media-status></span>
+                        </div>
+                        <label class="form-label">Caption (optional)</label>
+                        <textarea class="form-control" rows="3" maxlength="1024" data-media-caption="document" placeholder="Add a caption... use {{name}} to personalize"></textarea>
+                    </div>
+
+                    <!-- TEMPLATE -->
+                    <div class="msg-type-panel" data-panel="template" hidden>
+                        <label class="form-label">Choose Template</label>
+                        <select name="template_name" id="template_name" class="form-select mb-2">
+                            <option value="">Select a template</option>
+                            {% for template_name in approved_templates %}
+                            <option value="{{ template_name }}">{{ template_name }}</option>
+                            {% empty %}
+                            <option disabled>No approved templates found</option>
+                            {% endfor %}
+                        </select>
+                        <div id="templateDetailsContainer" style="display:none;">
+                            <div id="headerExample" class="template-fields" style="display:none;"></div>
+                            <div id="bodyExample" class="template-fields" style="display:none;"></div>
+                            <div id="buttonExample" class="template-fields" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="au-panel" data-section="4">
+                    <div class="au-panel__header">
+                        <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-clock-outline"></i></span> Schedule &amp; Settings</h2>
+                    </div>
+                    <p class="au-panel__desc">Set when to send this campaign and configure additional options.</p>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label d-block">Schedule Type</label>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="msg-type-tab is-active flex-fill" data-schedule="now"><i class="mdi mdi-lightning-bolt-outline"></i> Send Now</button>
+                                <button type="button" class="msg-type-tab flex-fill" data-schedule="later"><i class="mdi mdi-calendar-outline"></i> Schedule Later</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="scheduleTimeWrap" hidden>
+                            <label class="form-label">Send Time (if scheduled)</label>
+                            <input type="datetime-local" id="scheduledTimeInput" name="scheduled_time" class="form-control">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <label class="form-label d-block">Additional Options</label>
+                    <div class="campaign-toggle-row">
+                        <div>
+                            <div class="campaign-toggle-row__title">Add Unsubscribe Button</div>
+                            <div class="au-cell-sub">Lets recipients opt out of future messages with one tap</div>
+                        </div>
+                        <label class="form-check form-switch mb-0">
+                            <input type="checkbox" class="form-check-input" id="unsubscribeToggle">
+                        </label>
+                    </div>
+                    <div class="campaign-toggle-row">
+                        <div>
+                            <div class="campaign-toggle-row__title">Track Delivery &amp; Read Status</div>
+                            <div class="au-cell-sub">View delivery/read analytics for this campaign afterwards</div>
+                        </div>
+                        <label class="form-check form-switch mb-0">
+                            <input type="checkbox" class="form-check-input" id="trackStatusToggle">
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="campaign-col">
+
+                <div class="au-panel" data-section="2">
+                    <div class="au-panel__header">
+                        <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-account-group-outline"></i></span> Select Audience</h2>
+                    </div>
+                    <p class="au-panel__desc">Choose your target audience or filter contacts using tags.</p>
+
+                    {% if retarget_notice %}
+                    <div class="au-toast au-toast--info mb-3">
+                        <i class="mdi mdi-radar"></i>
+                        <span>
+                            Retargeting {{ retarget_notice.selected_count }} contact{{ retarget_notice.selected_count|pluralize }} from “{{ retarget_notice.original_name }}”.
+                            {% if retarget_notice.skipped_opted_out %}
+                                <strong>{{ retarget_notice.skipped_opted_out }}</strong> contact{{ retarget_notice.skipped_opted_out|pluralize }} excluded because they've opted out.
+                            {% endif %}
+                            {% if retarget_notice.skipped_no_contact %}
+                                <strong>{{ retarget_notice.skipped_no_contact }}</strong> no longer {{ retarget_notice.skipped_no_contact|pluralize:"has,have" }} a saved contact.
+                            {% endif %}
+                        </span>
+                        <button type="button" class="au-toast__close" onclick="this.closest('.au-toast').remove()" aria-label="Dismiss">&times;</button>
+                    </div>
+                    {% endif %}
+
+                    <div class="msg-type-tabs mb-3">
+                        <button type="button" class="msg-type-tab is-active" data-audience-mode="all">All Contacts</button>
+                        <button type="button" class="msg-type-tab" data-audience-mode="tag">By Tag</button>
+                        {% comment %} <button type="button" class="msg-type-tab" data-audience-mode="manual">Manually Select</button> {% endcomment %}
+                    </div>
+
+                    <div class="audience-stat-grid">
+                        <div class="audience-stat">
+                            <i class="mdi mdi-account-group-outline"></i>
+                            <div><div class="audience-stat__value" id="statTotal">{{ total_contacts }}</div><div class="au-cell-sub">Total Contacts</div></div>
+                        </div>
+                        <div class="audience-stat audience-stat--selected">
+                            <i class="mdi mdi-check-circle-outline"></i>
+                            <div><div class="audience-stat__value" id="statSelected">{{ total_contacts }}</div><div class="au-cell-sub">Selected</div></div>
+                        </div>
+                        <div class="audience-stat">
+                            <i class="mdi mdi-close-circle-outline"></i>
+                            <div><div class="audience-stat__value" id="statUnselected">0</div><div class="au-cell-sub">Unselected</div></div>
+                        </div>
+                    </div>
+
+                    <div id="audienceTagPanel" hidden>
+                        <label class="form-label d-flex justify-content-between">Filter by Tags
+                            <a href="#" id="clearTagsLink" class="small">Clear All</a>
+                        </label>
+                        <select id="tagPicker" class="form-select mb-2">
+                            <option value="">Select tags</option>
+                            {% for tag in tags %}
+                            <option value="{{ tag.name }}">{{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="chip-row" id="selectedTagsChips"></div>
+                    </div>
+
+                    <div id="audienceManualPanel" hidden>
+                        <label class="form-label">Search Contacts</label>
+                        <input type="text" id="manualContactSearch" class="form-control mb-2" placeholder="Search by name or number...">
+                        <div class="manual-contact-list" id="manualContactList"></div>
+                        <div class="chip-row mt-2" id="selectedContactsChips"></div>
+                    </div>
+                </div>
+
+                <div class="au-panel" data-section="5">
+                    <div class="au-panel__header">
+                        <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-cellphone-message"></i></span> Preview</h2>
+                    </div>
+                    <p class="au-panel__desc">See how your message will look to the recipients.</p>
+
+                    <div class="wa-preview">
+                        <div class="wa-preview__header">
+                            <i class="mdi mdi-arrow-left"></i>
+                            <div class="wa-preview__avatar"><i class="mdi mdi-store-outline"></i></div>
+                            <div class="wa-preview__title">
+                                <div>Your Business</div>
+                                <small>Business Account</small>
+                            </div>
+                            <i class="mdi mdi-video-outline ms-auto"></i>
+                            <i class="mdi mdi-phone-outline"></i>
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </div>
+                        <div class="wa-preview__body" id="wa-preview-body">
+                            <div class="wa-bubble" id="wa-preview-bubble">
+                                <div id="wa-preview-content">Start typing your message to see a preview here.</div>
+                                <span class="wa-bubble__time">11:20 AM <i class="mdi mdi-check-all"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 d-flex gap-2">
+                        <input type="text" id="test_number" class="form-control" placeholder="Test mobile number, e.g. +919876543210">
+                        <button type="button" id="test-btn" class="btn-au-outline text-nowrap">Send Test</button>
+                    </div>
+                       <div id="testStatus" class="au-toast mt-2" style="display:none;"></div>
+             </div>
+
+                <div class="au-panel campaign-ready">
+                    <div class="au-panel__header">
+                        <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-rocket-launch-outline"></i></span> Ready to Launch?</h2>
+                    </div>
+                    <p class="au-panel__desc">Review all details and click the send button to start your campaign.</p>
+                    <div id="formTopLevelError" class="au-toast au-toast--error" style="display:none;"></div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button type="button" id="sendCampaignBtn" class="btn-au-primary flex-fill justify-content-center"><i class="mdi mdi-send-outline"></i> Send Campaign</button>
+                        <button type="button" id="saveDraftBtn" class="btn-au-outline flex-fill justify-content-center">Save as Draft</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    window.CAMPAIGN_CONFIG = {
+        createCampaignUrl: "{% url 'create_campaign' %}",
+        searchContactsUrl: "{% url 'campaign_search_contacts' %}",
+        checkNameUrl: "{% url 'check_campaign_name' %}",
+        uploadMediaUrl: "{% url 'upload_media' %}",
+        campaignListUrl: "{% url 'campaign_list' %}",
+        totalContacts: {{ total_contacts }},
+           prebuiltTags: {{ prebuilt_tags_json|safe }},
+        draft: {% if draft_json %}{{ draft_json|safe }}{% else %}null{% endif %},
+        retargetedFromId: {% if retargeted_from_id %}{{ retargeted_from_id }}{% else %}null{% endif %}
+ };
+</script>
+<script src="{% static 'js/campaign.js' %}?v={% now 'U' %}"></script>
+{% endblock %}

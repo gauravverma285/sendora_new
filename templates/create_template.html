@@ -1,0 +1,743 @@
+{% extends 'services.html' %}
+{% load static %}
+{% block design %}
+
+<div class="tpl-page">
+
+  <a href="{% url 'template_list' %}" class="tpl-back"><i class="mdi mdi-arrow-left"></i> Back to Templates</a>
+  <h1 class="tpl-title">Create WhatsApp Message Template</h1>
+  <p class="tpl-subtitle">Create and manage your WhatsApp message template. This template will be available for your campaigns and automation flows.</p>
+
+  <div id="messageBox"></div>
+
+  <form method="POST" id="createTemplateForm" action="{% url 'create_template' %}">
+    {% csrf_token %}
+
+    <!-- Step 1: Template Details -->
+    <div class="tpl-card">
+      <div class="tpl-card__head">
+        <span class="tpl-step-num">1</span>
+        <div>
+          <h2 class="tpl-card__title">Template Details</h2>
+          <p class="tpl-card__desc">Give your template a name and choose the language and category.</p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="tpl-label">Template Name <span class="text-danger">*</span></label>
+          <div class="tpl-input-icon">
+            <i class="mdi mdi-pencil-outline"></i>
+            <input type="text" pattern="^[a-z]+(?:_[a-z]+)*$" class="form-control" placeholder="Enter template name" aria-label="Template name" name="template_name" maxlength="512" id="templateNameInput" required>
+          </div>
+          <div class="tpl-counter" id="templateNameCounter">0/512</div>
+        </div>
+        <div class="col-md-4">
+          <label class="tpl-label">Select Language <span class="text-danger">*</span></label>
+          <div class="tpl-input-icon">
+            <i class="mdi mdi-web"></i>
+            <select class="form-select" aria-label="Language" name="language" required>
+              <option selected value="en">English</option>
+              <option value="af">Afrikaans</option>
+              <option value="sq">Albanian - shqip</option>
+              <option value="am">Amharic - አማርኛ</option>
+              <option value="ar">Arabic - العربية</option>
+              <option value="an">Aragonese - aragonés</option>
+              <option value="hy">Armenian - հայերեն</option>
+              <option value="ast">Asturian - asturianu</option>
+              <option value="az">Azerbaijani - azərbaycan dili</option>
+              <option value="eu">Basque - euskara</option>
+              <option value="be">Belarusian - беларуская</option>
+              <option value="bn">Bengali - বাংলা</option>
+              <option value="bs">Bosnian - bosanski</option>
+              <option value="br">Breton - brezhoneg</option>
+              <option value="bg">Bulgarian - български</option>
+              <option value="ca">Catalan - català</option>
+              <option value="ckb">Central Kurdish - کوردی (دەستنوسی عەرەبی)</option>
+              <option value="zh">Chinese - 中文</option>
+              <option value="zh-HK">Chinese (Hong Kong) - 中文（香港）</option>
+              <option value="zh-CN">Chinese (Simplified) - 中文（简体）</option>
+              <option value="zh-TW">Chinese (Traditional) - 中文（繁體）</option>
+              <option value="co">Corsican</option>
+              <option value="hr">Croatian - hrvatski</option>
+              <option value="cs">Czech - čeština</option>
+              <option value="da">Danish - dansk</option>
+              <option value="nl">Dutch - Nederlands</option>
+              <option value="en-AU">English (Australia)</option>
+              <option value="en-CA">English (Canada)</option>
+              <option value="en-IN">English (India)</option>
+              <option value="en-NZ">English (New Zealand)</option>
+              <option value="en-ZA">English (South Africa)</option>
+              <option value="en-GB">English (United Kingdom)</option>
+              <option value="en-US">English (United States)</option>
+              <option value="eo">Esperanto - esperanto</option>
+              <option value="et">Estonian - eesti</option>
+              <option value="fo">Faroese - føroyskt</option>
+              <option value="fil">Filipino</option>
+              <option value="fi">Finnish - suomi</option>
+              <option value="fr">French - français</option>
+              <option value="fr-CA">French (Canada) - français (Canada)</option>
+              <option value="fr-FR">French (France) - français (France)</option>
+              <option value="fr-CH">French (Switzerland) - français (Suisse)</option>
+              <option value="gl">Galician - galego</option>
+              <option value="ka">Georgian - ქართული</option>
+              <option value="de">German - Deutsch</option>
+              <option value="de-AT">German (Austria) - Deutsch (Österreich)</option>
+              <option value="de-DE">German (Germany) - Deutsch (Deutschland)</option>
+              <option value="de-LI">German (Liechtenstein) - Deutsch (Liechtenstein)</option>
+              <option value="de-CH">German (Switzerland) - Deutsch (Schweiz)</option>
+              <option value="el">Greek - Ελληνικά</option>
+              <option value="gn">Guarani</option>
+              <option value="gu">Gujarati - ગુજરાતી</option>
+              <option value="ha">Hausa</option>
+              <option value="haw">Hawaiian - ʻŌlelo Hawaiʻi</option>
+              <option value="he">Hebrew - עברית</option>
+              <option value="hi">Hindi - हिन्दी</option>
+              <option value="hu">Hungarian - magyar</option>
+              <option value="is">Icelandic - íslenska</option>
+              <option value="id">Indonesian - Indonesia</option>
+              <option value="ia">Interlingua</option>
+              <option value="ga">Irish - Gaeilge</option>
+              <option value="it">Italian - italiano</option>
+              <option value="it-IT">Italian (Italy) - italiano (Italia)</option>
+              <option value="it-CH">Italian (Switzerland) - italiano (Svizzera)</option>
+              <option value="ja">Japanese - 日本語</option>
+              <option value="kn">Kannada - ಕನ್ನಡ</option>
+              <option value="kk">Kazakh - қазақ тілі</option>
+              <option value="km">Khmer - ខ្មែរ</option>
+              <option value="ko">Korean - 한국어</option>
+              <option value="ku">Kurdish - Kurdî</option>
+              <option value="ky">Kyrgyz - кыргызча</option>
+              <option value="lo">Lao - ລາວ</option>
+              <option value="la">Latin</option>
+              <option value="lv">Latvian - latviešu</option>
+              <option value="ln">Lingala - lingála</option>
+              <option value="lt">Lithuanian - lietuvių</option>
+              <option value="mk">Macedonian - македонски</option>
+              <option value="ms">Malay - Bahasa Melayu</option>
+              <option value="ml">Malayalam - മലയാളം</option>
+              <option value="mt">Maltese - Malti</option>
+              <option value="mr">Marathi - मराठी</option>
+              <option value="mn">Mongolian - монгол</option>
+              <option value="ne">Nepali - नेपाली</option>
+              <option value="no">Norwegian - norsk</option>
+              <option value="nb">Norwegian Bokmål - norsk bokmål</option>
+              <option value="nn">Norwegian Nynorsk - nynorsk</option>
+              <option value="oc">Occitan</option>
+              <option value="or">Oriya - ଓଡ଼ିଆ</option>
+              <option value="om">Oromo - Oromoo</option>
+              <option value="ps">Pashto - پښتو</option>
+              <option value="fa">Persian - فارسی</option>
+              <option value="pl">Polish - polski</option>
+              <option value="pt">Portuguese - português</option>
+              <option value="pt-BR">Portuguese (Brazil) - português (Brasil)</option>
+              <option value="pt-PT">Portuguese (Portugal) - português (Portugal)</option>
+              <option value="pa">Punjabi - ਪੰਜਾਬੀ</option>
+              <option value="qu">Quechua</option>
+              <option value="ro">Romanian - română</option>
+              <option value="mo">Romanian (Moldova) - română (Moldova)</option>
+              <option value="rm">Romansh - rumantsch</option>
+              <option value="ru">Russian - русский</option>
+              <option value="gd">Scottish Gaelic</option>
+              <option value="sr">Serbian - српски</option>
+              <option value="sh">Serbo-Croatian - Srpskohrvatski</option>
+              <option value="sn">Shona - chiShona</option>
+              <option value="sd">Sindhi</option>
+              <option value="si">Sinhala - සිංහල</option>
+              <option value="sk">Slovak - slovenčina</option>
+              <option value="sl">Slovenian - slovenščina</option>
+              <option value="so">Somali - Soomaali</option>
+              <option value="st">Southern Sotho</option>
+              <option value="es">Spanish - español</option>
+              <option value="es-AR">Spanish (Argentina) - español (Argentina)</option>
+              <option value="es-419">Spanish (Latin America) - español (Latinoamérica)</option>
+              <option value="es-MX">Spanish (Mexico) - español (México)</option>
+              <option value="es-ES">Spanish (Spain) - español (España)</option>
+              <option value="es-US">Spanish (United States) - español (Estados Unidos)</option>
+              <option value="su">Sundanese</option>
+              <option value="sw">Swahili - Kiswahili</option>
+              <option value="sv">Swedish - svenska</option>
+              <option value="tg">Tajik - тоҷикӣ</option>
+              <option value="ta">Tamil - தமிழ்</option>
+              <option value="tt">Tatar</option>
+              <option value="te">Telugu - తెలుగు</option>
+              <option value="th">Thai - ไทย</option>
+              <option value="ti">Tigrinya - ትግርኛ</option>
+              <option value="to">Tongan - lea fakatonga</option>
+              <option value="tr">Turkish - Türkçe</option>
+              <option value="tk">Turkmen</option>
+              <option value="tw">Twi</option>
+              <option value="uk">Ukrainian - українська</option>
+              <option value="ur">Urdu - اردو</option>
+              <option value="ug">Uyghur</option>
+              <option value="uz">Uzbek - o‘zbek</option>
+              <option value="vi">Vietnamese - Tiếng Việt</option>
+              <option value="wa">Walloon - wa</option>
+              <option value="cy">Welsh - Cymraeg</option>
+              <option value="fy">Western Frisian</option>
+              <option value="xh">Xhosa</option>
+              <option value="yi">Yiddish</option>
+              <option value="yo">Yoruba - Èdè Yorùbá</option>
+              <option value="zu">Zulu - isiZulu</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="tpl-label">Category <span class="text-danger">*</span></label>
+          <div class="tpl-input-icon">
+            <i class="mdi mdi-tag-outline"></i>
+            <select class="form-select" id="categorySelect" aria-label="Category" name="category" required>
+              <option value="MARKETING" selected>Marketing</option>
+              <option value="UTILITY">Utility</option>
+              <option value="AUTHENTICATION">Authentication</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Content -->
+    <div class="tpl-card">
+      <div class="tpl-card__head">
+        <span class="tpl-step-num">2</span>
+        <div>
+          <h2 class="tpl-card__title">Content</h2>
+          <p class="tpl-card__desc">Fill out the header, body and footer sections of your template.</p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-7">
+
+          <div id="marketingFields">
+
+            <div class="mb-3">
+              <label class="tpl-label">Variable Format</label>
+              <select class="form-select enterVariable" aria-label="Variable format" style="max-width: 220px;">
+                <option value="Number" selected>Number</option>
+                <!-- <option value="Name">Name</option> -->
+              </select>
+            </div>
+
+            <div class="mb-1">
+              <label class="tpl-label">Header <small class="text-muted">(Optional)</small></label>
+              <div class="tpl-input-icon">
+                <i class="mdi mdi-image-outline"></i>
+                <select class="form-select" id="headerSelect" aria-label="Header type" name="header_type">
+                  <option value="none" selected>None</option>
+                  <option value="text">Text</option>
+                  <option value="image">Image</option>
+                  <option value="video">Video</option>
+                  <option value="document">Document</option>
+                  <option value="location">Location</option>
+                </select>
+              </div>
+              <div id="headerInputContainer" class="mt-2"></div>
+            </div>
+
+            <div class="mb-1 mt-3">
+              <label class="tpl-label">Body <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" maxlength="1024" name="body_text" placeholder="Type your message here..." required></textarea>
+              <div class="tpl-counter" id="bodyCounter">0/1024</div>
+            </div>
+
+            <div class="mb-1">
+              <label class="tpl-label">Footer <small class="text-muted">(Optional)</small></label>
+              <input class="form-control" id="exampleFormControlTextarea2" maxlength="60" placeholder="Add a short footer (e.g. reply STOP to unsubscribe)" name="footer_text">
+              <div class="tpl-counter" id="footerCounter">0/60</div>
+            </div>
+
+          </div><!-- /marketingFields -->
+
+          <div id="authenticationFields" style="display: none;">
+            <div class="tpl-subcard">
+              <p class="tpl-card__desc mb-3">Authentication templates use fixed, Meta-generated body and footer text based on the options below &mdash; there's no free text to write, and no header is allowed.</p>
+
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="addSecurityRecommendation" name="add_security_recommendation">
+                <label class="form-check-label" for="addSecurityRecommendation">Add security recommendation ("For your security, do not share this code")</label>
+              </div>
+
+              <label class="tpl-label">Code expiration <small class="text-muted">(minutes, optional)</small></label>
+              <input type="number" class="form-control" id="codeExpirationInput" name="code_expiration_minutes" min="1" max="90" placeholder="e.g. 10" style="max-width: 220px;">
+            </div>
+
+            <div class="tpl-subcard">
+              <h6 class="fw-bold mb-1">OTP Button</h6>
+              <p class="tpl-card__desc mb-3">Authentication templates support exactly one OTP button.</p>
+
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="tpl-label">OTP type</label>
+                  <select class="form-select" id="otpTypeSelect" name="otp_type">
+                    <option value="COPY_CODE" selected>Copy code</option>
+                    <option value="ONE_TAP">One-tap autofill</option>
+                    <option value="ZERO_TAP">Zero-tap autofill</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <label class="tpl-label">Button text</label>
+                  <input type="text" class="form-control" id="otpButtonTextInput" name="otp_button_text" value="Copy Code">
+                </div>
+              </div>
+            </div>
+          </div><!-- /authenticationFields -->
+
+        </div>
+
+        <div class="col-lg-5">
+          <div class="tpl-preview-panel">
+            <p class="tpl-preview-panel__eyebrow"><i class="mdi mdi-eye-outline"></i> Template Preview</p>
+            <p class="tpl-preview-panel__desc">This is how your template will look to customers.</p>
+
+            <div class="tpl-phone">
+              <div class="tpl-phone__header"><i class="mdi mdi-arrow-left"></i> <i class="mdi mdi-whatsapp"></i> WhatsApp <i class="mdi mdi-dots-vertical ms-auto"></i></div>
+              <div class="tpl-phone__body">
+                <div class="tpl-phone__bubble">
+                  <div class="tpl-phone__header-media" id="previewHeader" hidden></div>
+                  <div class="tpl-phone__text" id="previewBody">Your message will appear here&hellip;</div>
+                  <div class="tpl-phone__footer" id="previewFooter" hidden></div>
+                  <div class="tpl-phone__buttons" id="previewButtons" hidden></div>
+                  <span class="tpl-phone__time">11:29 AM <i class="mdi mdi-check-all"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Buttons -->
+    <div class="tpl-card" id="marketingButtonsCard">
+      <div class="tpl-card__head">
+        <span class="tpl-step-num">3</span>
+        <div>
+          <h2 class="tpl-card__title">Buttons <small class="text-muted fw-normal">(Optional)</small></h2>
+          <p class="tpl-card__desc">Create buttons that let customers respond to your message or take action. You can add up to 10 buttons. If you add more than 3 buttons, they will appear in a list.</p>
+        </div>
+      </div>
+
+      <div class="dropdown mb-3">
+        <button class="btn tpl-btn-add" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="mdi mdi-plus"></i> Add Button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" data-option="marketing">Marketing opt-out <span class="max-limit">(1 max)</span></a></li>
+          <li><a class="dropdown-item" data-option="custom">Custom</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" data-option="visit">Visit website <span class="max-limit">(2 remaining)</span></a></li>
+          <li><a class="dropdown-item" data-option="call">Call phone number <span class="max-limit">(1 max)</span></a></li>
+          <li><a class="dropdown-item" data-option="copy">Copy offer code <span class="max-limit">(1 max)</span></a></li>
+        </ul>
+      </div>
+
+      <div class="tpl-callout">
+        <i class="mdi mdi-lightbulb-on-outline"></i>
+        <div>
+          <strong>We recommend adding the marketing opt-out button</strong>
+          <p class="mb-0">Allow customers to request to opt out of all marketing messages. This can help reduce blocks from customers and increase your quality rating.</p>
+        </div>
+      </div>
+
+      <!-- Placeholder for dynamically added buttons sections (populated by create_template.js) -->
+      <div id="aboveSections" style="display: none;">
+        <div id="sections"></div>
+      </div>
+
+      <button type="button" class="tpl-add-another" id="addAnotherButtonBtn">
+        <i class="mdi mdi-plus"></i> Add Another Button
+      </button>
+    </div>
+
+    <!-- Actions -->
+    <div class="tpl-actions">
+      <a href="{% url 'template_list' %}" class="btn tpl-btn-discard">Discard</a>
+      <button class="btn tpl-btn-submit" id="submitTemplate" type="submit">
+        <i class="mdi mdi-send-outline"></i>
+        <span id="buttonText">Submit for review</span>
+        <span id="loadingSpinner" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true" style="display: none;"></span>
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+<style>
+:root {
+    --tpl-green: #51B56D;
+    --tpl-green-dark: #3f9457;
+    --tpl-green-light: #e0f2e5;
+    --tpl-ink: #1f2937;
+    --tpl-muted: #6b7280;
+    --tpl-border: #eef1f6;
+}
+
+.tpl-page { max-width: 1100px; margin: 0 auto; padding: 24px 4px 60px; }
+
+.tpl-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--tpl-muted); font-size: 13.5px; text-decoration: none; margin-bottom: 12px;
+}
+.tpl-back:hover { color: var(--tpl-green-dark); }
+
+.tpl-title { font-weight: 800; font-size: 30px; color: var(--tpl-ink); margin-bottom: 6px; }
+.tpl-subtitle { color: var(--tpl-muted); font-size: 15px; max-width: 640px; margin-bottom: 24px; }
+
+.tpl-card {
+    background: #fff; border-radius: 16px; padding: 26px 28px;
+    margin-bottom: 22px; box-shadow: 0 2px 10px rgba(15, 23, 42, .05);
+}
+.tpl-card__head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 22px; }
+.tpl-step-num {
+    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+    background: var(--tpl-green-light); color: var(--tpl-green-dark);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 15px;
+}
+.tpl-card__title { font-size: 19px; font-weight: 700; color: var(--tpl-ink); margin: 0 0 4px; }
+.tpl-card__desc { font-size: 13.5px; color: var(--tpl-muted); margin: 0; }
+
+.tpl-label { display: block; font-size: 13.5px; font-weight: 600; color: var(--tpl-ink); margin-bottom: 6px; }
+.tpl-counter { text-align: right; font-size: 11.5px; color: var(--tpl-muted); margin-top: 4px; }
+
+.tpl-input-icon { position: relative; }
+.tpl-input-icon > i {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--tpl-muted); font-size: 16px; pointer-events: none;
+}
+.tpl-input-icon .form-control,
+.tpl-input-icon .form-select { padding-left: 36px; }
+
+.tpl-subcard {
+    background: #f8faf9; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;
+}
+
+/* Buttons step */
+.tpl-btn-add {
+    background: var(--tpl-green); color: #fff; border: none;
+    border-radius: 10px; padding: 10px 18px; font-weight: 600; font-size: 14px;
+}
+.tpl-btn-add:hover { background: var(--tpl-green-dark); color: #fff; }
+
+.tpl-callout {
+    display: flex; gap: 12px; background: #f4fbf6; border: 1px solid var(--tpl-green-light);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; font-size: 13.5px; color: var(--tpl-ink);
+}
+.tpl-callout i { color: var(--tpl-green-dark); font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.tpl-callout p { color: var(--tpl-muted); }
+
+.tpl-add-another {
+    display: block; width: 100%; text-align: center;
+    border: 1.5px dashed #d5dae2; background: transparent; color: var(--tpl-green-dark);
+    border-radius: 12px; padding: 12px; font-weight: 600; font-size: 14px; margin-top: 8px;
+}
+.tpl-add-another:hover { background: #f8faf9; }
+
+/* JS-generated button sections (create_template.js builds .option-section) */
+#sections { counter-reset: tpl-btn; }
+#sections .option-section {
+    counter-increment: tpl-btn;
+    background: #fff; border: 1px solid var(--tpl-border); border-radius: 12px;
+    padding: 18px 20px !important; position: relative;
+}
+#sections .option-section::before {
+    content: "Button " counter(tpl-btn);
+    display: block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--tpl-green-dark); margin-bottom: 6px;
+}
+#sections .option-section h5 { font-size: 15px; font-weight: 700; color: var(--tpl-ink); }
+#sections .remove-section {
+    position: absolute; top: 14px; right: 14px;
+    background: #fdecec !important; color: #ff5a5f !important; border: none !important;
+    border-radius: 8px; padding: 4px 12px !important; font-size: 12px !important; font-weight: 600;
+}
+
+/* Live preview */
+.tpl-preview-panel {
+    background: var(--tpl-green-light); border-radius: 16px; padding: 20px;
+    position: sticky; top: 16px;
+}
+.tpl-preview-panel__eyebrow {
+    display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--tpl-green-dark);
+    font-size: 14px; margin-bottom: 2px;
+}
+.tpl-preview-panel__desc { font-size: 12.5px; color: var(--tpl-muted); margin-bottom: 14px; }
+
+.tpl-phone {
+    background: #fff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, .12);
+}
+.tpl-phone__header {
+    background: var(--tpl-green-dark); color: #fff; padding: 12px 14px;
+    display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px;
+}
+.tpl-phone__body { background: #e9dfce; background: #efe6da; padding: 20px 14px; min-height: 220px; }
+.tpl-phone__bubble {
+    background: #fff; border-radius: 4px 12px 12px 12px; padding: 10px 12px;
+    max-width: 92%; box-shadow: 0 2px 6px rgba(15,23,42,.08); font-size: 13.5px; color: var(--tpl-ink);
+    position: relative;
+}
+.tpl-phone__header-media {
+    background: #eef1f6; border-radius: 8px; padding: 18px; text-align: center;
+    color: var(--tpl-muted); font-size: 12px; margin-bottom: 8px;
+}
+.tpl-phone__text { white-space: pre-wrap; word-break: break-word; line-height: 1.5; }
+.tpl-phone__footer { color: var(--tpl-muted); font-size: 11.5px; margin-top: 6px; }
+.tpl-phone__buttons { margin-top: 10px; border-top: 1px solid var(--tpl-border); padding-top: 8px; }
+.tpl-phone__buttons .tpl-phone__button-row {
+    text-align: center; color: #3b82f6; font-size: 13px; font-weight: 600; padding: 6px 0;
+}
+.tpl-phone__time { display: block; text-align: right; font-size: 10.5px; color: var(--tpl-muted); margin-top: 6px; }
+.tpl-phone__time i { font-size: 12px; color: #53bdeb; margin-left: 2px; }
+
+/* Actions */
+.tpl-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #fff; border-radius: 16px; padding: 18px 22px; box-shadow: 0 2px 10px rgba(15, 23, 42, .05);
+    flex-wrap: wrap; gap: 12px;
+}
+.tpl-btn-discard {
+    border: 1.5px solid #d5dae2; color: var(--tpl-ink); background: #fff;
+    border-radius: 10px; padding: 10px 22px; font-weight: 600;
+}
+.tpl-btn-discard:hover { background: #f8faf9; color: var(--tpl-ink); }
+.tpl-btn-submit {
+    background: var(--tpl-green); color: #fff; border: none;
+    border-radius: 10px; padding: 10px 24px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 8px;
+}
+.tpl-btn-submit:hover { background: var(--tpl-green-dark); color: #fff; }
+
+@media (max-width: 767.98px) {
+    .tpl-card { padding: 20px; }
+    .tpl-preview-panel { position: static; margin-top: 16px; }
+    .tpl-actions { flex-direction: column-reverse; align-items: stretch; }
+    .tpl-actions .btn { width: 100%; text-align: center; }
+}
+</style>
+
+
+<!-- Bootstrap JS and Popper.js -->
+<script>
+  const ACCESS_TOKEN = "{{ ACCESS_TOKEN }}";
+  const APP_ID = "{{ APP_ID }}";
+  document.addEventListener("DOMContentLoaded", function () {
+const form = document.getElementById("createTemplateForm"); // Ensure form has this ID
+const submitButton = document.getElementById("submitTemplate");
+const messageBox = document.getElementById("messageBox"); // Element for showing messages
+
+form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    submitButton.disabled = true; // Disable button to prevent multiple clicks
+    document.getElementById("buttonText").textContent = "Submitting...";
+    document.getElementById("loadingSpinner").style.display = "inline-block";
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRFToken": getCsrfToken() // Ensure CSRF token is sent
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        submitButton.disabled = false; // Re-enable submit button
+        document.getElementById("buttonText").textContent = "Submit for review";
+        document.getElementById("loadingSpinner").style.display = "none";
+
+        if (data.status === "success") {
+            messageBox.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+
+            // Redirect to template list after 2 seconds
+            setTimeout(() => {
+                window.location.href = "{% url 'template_list' %}";
+            }, 2000);
+        } else {
+            messageBox.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+        }
+    })
+    .catch(error => {
+        submitButton.disabled = false;
+        messageBox.innerHTML = `<div class="alert alert-danger">An error occurred. Please try again.</div>`;
+    });
+});
+
+function getCsrfToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]')?.value || "";
+}
+});
+
+</script>
+
+<script>
+  // Toggle Marketing vs Authentication field sections based on category,
+  // and keep `required` in sync so hidden fields never block submission.
+  document.addEventListener("DOMContentLoaded", function () {
+    const categorySelect = document.getElementById("categorySelect");
+    const marketingFields = document.getElementById("marketingFields");
+    const authenticationFields = document.getElementById("authenticationFields");
+    const bodyTextarea = document.getElementById("exampleFormControlTextarea1");
+    const buttonsCard = document.getElementById("marketingButtonsCard");
+
+    function applyCategoryVisibility() {
+      const isAuth = categorySelect.value === "AUTHENTICATION";
+
+      marketingFields.style.display = isAuth ? "none" : "";
+      authenticationFields.style.display = isAuth ? "" : "none";
+      if (buttonsCard) buttonsCard.style.display = isAuth ? "none" : "";
+
+      if (bodyTextarea) bodyTextarea.required = !isAuth;
+    }
+
+    categorySelect.addEventListener("change", applyCategoryVisibility);
+    applyCategoryVisibility();
+  });
+</script>
+<script src="{% static 'js/create_template.js' %}"></script>
+
+<!-- Additive UI-only enhancements: character counters, the live WhatsApp-
+     style preview, and a second entry point for "Add Button". None of this
+     touches create_template.js or any form field's name/id — it only reads
+     the same fields that script already manages. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // ---- Character counters ----
+    function wireCounter(inputId, counterId) {
+        const el = document.getElementById(inputId);
+        const counter = document.getElementById(counterId);
+        if (!el || !counter) return;
+        const max = el.getAttribute("maxlength") || "";
+        const update = () => { counter.textContent = `${el.value.length}${max ? "/" + max : ""}`; };
+        el.addEventListener("input", update);
+        update();
+    }
+    wireCounter("templateNameInput", "templateNameCounter");
+    wireCounter("exampleFormControlTextarea1", "bodyCounter");
+    wireCounter("exampleFormControlTextarea2", "footerCounter");
+
+    // ---- "Add Another Button" -> reuses the real Add Button dropdown ----
+    const addAnotherBtn = document.getElementById("addAnotherButtonBtn");
+    const dropdownToggle = document.getElementById("dropdownMenuButton");
+    if (addAnotherBtn && dropdownToggle && window.bootstrap) {
+        addAnotherBtn.addEventListener("click", function () {
+            bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).toggle();
+        });
+    }
+
+    // ---- Live Template Preview ----
+    const categorySelect = document.getElementById("categorySelect");
+    const headerSelect = document.getElementById("headerSelect");
+    const bodyTextarea = document.getElementById("exampleFormControlTextarea1");
+    const footerInput = document.getElementById("exampleFormControlTextarea2");
+    const addSecurityCheckbox = document.getElementById("addSecurityRecommendation");
+    const codeExpirationInput = document.getElementById("codeExpirationInput");
+    const otpButtonTextInput = document.getElementById("otpButtonTextInput");
+    const sections = document.getElementById("sections");
+
+    const previewHeader = document.getElementById("previewHeader");
+    const previewBody = document.getElementById("previewBody");
+    const previewFooter = document.getElementById("previewFooter");
+    const previewButtons = document.getElementById("previewButtons");
+
+    const HEADER_ICONS = {
+        image: "mdi-image", video: "mdi-video", document: "mdi-file-document-outline", location: "mdi-map-marker",
+    };
+
+    function renderPreview() {
+        const isAuth = categorySelect.value === "AUTHENTICATION";
+
+        if (isAuth) {
+            previewHeader.hidden = true;
+
+            const otp = "123456";
+            let body = `*${otp}* is your verification code.`;
+            if (addSecurityCheckbox && addSecurityCheckbox.checked) {
+                body += " For your security, do not share this code.";
+            }
+            previewBody.textContent = body;
+
+            const minutes = codeExpirationInput ? codeExpirationInput.value.trim() : "";
+            if (minutes) {
+                previewFooter.hidden = false;
+                previewFooter.textContent = `Expires in ${minutes} minutes.`;
+            } else {
+                previewFooter.hidden = true;
+            }
+
+            previewButtons.hidden = false;
+            const otpLabel = (otpButtonTextInput && otpButtonTextInput.value.trim()) || "Copy Code";
+            previewButtons.innerHTML = `<div class="tpl-phone__button-row"><i class="mdi mdi-content-copy me-1"></i>${escapeHtml(otpLabel)}</div>`;
+            return;
+        }
+
+        // Header
+        const headerType = headerSelect ? headerSelect.value : "none";
+        if (headerType === "none" || !headerType) {
+            previewHeader.hidden = true;
+        } else if (headerType === "text") {
+            const headerTextInput = document.getElementById("headerTextInput");
+            const text = headerTextInput ? headerTextInput.value.trim() : "";
+            previewHeader.hidden = false;
+            previewHeader.className = "tpl-phone__text fw-bold mb-1";
+            previewHeader.textContent = text || "{{header}}";
+        } else {
+            previewHeader.hidden = false;
+            previewHeader.className = "tpl-phone__header-media";
+            const icon = HEADER_ICONS[headerType] || "mdi-paperclip";
+            previewHeader.innerHTML = `<i class="mdi ${icon}"></i> ${headerType.charAt(0).toUpperCase() + headerType.slice(1)} attached`;
+        }
+
+        // Body
+        const bodyText = bodyTextarea ? bodyTextarea.value : "";
+        previewBody.textContent = bodyText.trim() ? bodyText : "Your message will appear here…";
+
+        // Footer
+        const footerText = footerInput ? footerInput.value.trim() : "";
+        if (footerText) {
+            previewFooter.hidden = false;
+            previewFooter.textContent = footerText;
+        } else {
+            previewFooter.hidden = true;
+        }
+
+        // Buttons (reads whatever create_template.js has rendered into #sections)
+        if (sections && sections.children.length) {
+            const rows = Array.from(sections.children).map(section => {
+                const textInput = section.querySelector("input[name='button_text[]']");
+                const label = textInput ? textInput.value.trim() : "";
+                const option = section.getAttribute("data-option");
+                let icon = "mdi-reply-outline";
+                if (option === "visit") icon = "mdi-open-in-new";
+                else if (option === "call") icon = "mdi-phone-outline";
+                else if (option === "copy") icon = "mdi-content-copy";
+                return `<div class="tpl-phone__button-row"><i class="mdi ${icon} me-1"></i>${escapeHtml(label || "Button")}</div>`;
+            });
+            previewButtons.hidden = false;
+            previewButtons.innerHTML = rows.join("");
+        } else {
+            previewButtons.hidden = true;
+            previewButtons.innerHTML = "";
+        }
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str || "";
+        return div.innerHTML;
+    }
+
+    // Re-render on any relevant change. Header text / button fields are
+    // created dynamically by create_template.js, so listen at the document
+    // level (event delegation) rather than binding to elements that may
+    // not exist yet.
+    ["change", "input"].forEach(evt => document.addEventListener(evt, renderPreview));
+    if (sections) new MutationObserver(renderPreview).observe(sections, { childList: true, subtree: true });
+
+    renderPreview();
+});
+</script>
+
+{% endblock %}

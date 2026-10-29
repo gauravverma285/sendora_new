@@ -1,0 +1,667 @@
+{
+    "data": [
+        {
+            "granularity": "DAILY",
+            "product_type": "cloud_api",
+            "data_points": [
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1737936000,
+                    "end": 1738022400,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738022400,
+                    "end": 1738108800,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738108800,
+                    "end": 1738195200,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738195200,
+                    "end": 1738281600,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738281600,
+                    "end": 1738368000,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738368000,
+                    "end": 1738454400,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738454400,
+                    "end": 1738540800,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738540800,
+                    "end": 1738627200,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738627200,
+                    "end": 1738713600,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738713600,
+                    "end": 1738800000,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738800000,
+                    "end": 1738886400,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738886400,
+                    "end": 1738972800,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1738972800,
+                    "end": 1739059200,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739059200,
+                    "end": 1739145600,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739145600,
+                    "end": 1739232000,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739232000,
+                    "end": 1739318400,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739318400,
+                    "end": 1739404800,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739404800,
+                    "end": 1739491200,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739491200,
+                    "end": 1739577600,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739577600,
+                    "end": 1739664000,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739664000,
+                    "end": 1739750400,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739750400,
+                    "end": 1739836800,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739836800,
+                    "end": 1739923200,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1739923200,
+                    "end": 1740009600,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                },
+                {
+                    "template_id": "1378638236640826",
+                    "start": 1740009600,
+                    "end": 1740096000,
+                    "sent": 0,
+                    "delivered": 0,
+                    "read": 0,
+                    "clicked": [
+                        {
+                            "type": "quick_reply_button",
+                            "button_content": "Stop promotions",
+                            "count": 0
+                        }
+                    ],
+                    "cost": [
+                        {
+                            "type": "amount_spent"
+                        },
+                        {
+                            "type": "cost_per_delivered"
+                        },
+                        {
+                            "type": "cost_per_url_button_click"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "paging": {
+        "cursors": {
+            "before": "MAZDZD",
+            "after": "MjQZD"
+        },
+        "next": "https://graph.facebook.com/v22.0/559199633943013/template_analytics?start=1737824006&end=1742835206&granularity=daily&metric_types=cost%2Cclicked%2Cdelivered%2Cread%2Csent&template_ids=[1378638236640826]&limit=25&after=MjQZD"
+    }
+}

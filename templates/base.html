@@ -1,0 +1,296 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+    <title>Dovix AI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Add MDB CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.10.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-iFYnumxmAfPWEvBBHVgQ1pcH7Bj9XLrhznQ6DpVFtF3dGwlEAqe4cmd4NY4cJALM" crossorigin="anonymous">
+    <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+	  <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> -->
+
+    	<!-- # Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+
+  <!-- The following CSS library files are loaded for use in this example to provide the styling of the table: -->
+  <!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+
+
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <!-- # CSS Plugins -->
+  <!-- PLUGINS CSS STYLE -->
+  <link href="{% static 'assets/plugins/simplebar/simplebar.css' %}" >
+  <link href="{% static 'assets/plugins/nprogress/nprogress.css' %}" >
+
+  <!-- No Extra plugin used -->
+  
+  <link href="{% static 'assets/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- SLEEK CSS -->
+
+  <link id="sleek-css" rel="stylesheet" href="{% static 'assets/css/sleek.css' %}">
+	<link rel="stylesheet" href="{% static 'plugins/slick/slick.css' %}">
+	<link rel="stylesheet" href="{% static 'plugins/font-awesome/fontawesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'plugins/font-awesome/brands.css' %}">
+	<link rel="stylesheet" href="{% static 'plugins/font-awesome/solid.css' %}">
+
+	<!-- # Main Style Sheet -->
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app-ui.css' %}?v={% now 'U' %}">
+  </head>
+<body>
+<!-- navigation -->
+<header class="navigation bg-tertiary{% if request.user.is_authenticated %} app-header{% endif %}">
+	<nav class="navbar navbar-expand-xl navbar-light text-center">
+		<div class="container">
+			{% if not request.user.is_authenticated %}
+			<a class="navbar-brand" href="/">
+				<img loading="prelaod" decoding="async" class="img-fluid" width="160" src="{% static 'images/logo.svg' %}" alt="Dovix AI">
+			</a>
+			{% else %}
+			<a class="navbar-brand app-brand" href="/services/">
+				{% comment %} <span class="app-sidebar__brand-icon"><i class="mdi mdi-wallet-outline"></i></span>
+				<span class="app-sidebar__brand-text">Sendora<span class="dot">.</span></span> {% endcomment %}
+				<img loading="prelaod" decoding="async" class="img-fluid" width="160" src="{% static 'images/logo.svg' %}" alt="Dovix AI">
+			</a>
+			{% endif %}
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+			</button>
+
+			{% if request.user.is_authenticated %}
+			<div class="app-topbar d-none d-xl-flex">
+				<div class="app-search">
+					<i class="mdi mdi-magnify"></i>
+					<input type="text" id="appSearchInput" placeholder="Search anything..." autocomplete="off">
+					<span class="app-search__kbd">Ctrl + K</span>
+					<div class="app-search__results" id="appSearchResults" hidden></div>
+				</div>
+			</div>
+			<script id="appSearchData" type="application/json">
+				[
+					{"label": "Dashboard", "url": "{% url 'services' %}", "icon": "mdi-view-grid-outline"},
+					{"label": "Campaigns", "url": "{% url 'campaign_list' %}", "icon": "mdi-bullhorn-outline"},
+					{"label": "Create Campaign", "url": "{% url 'create_campaign' %}", "icon": "mdi-send-outline"},
+					{"label": "Templates", "url": "{% url 'template_list' %}", "icon": "mdi-file-document-outline"},
+					{"label": "Create Template", "url": "{% url 'create_template' %}", "icon": "mdi-file-plus-outline"},
+					{"label": "Messages", "url": "{% url 'chat' %}", "icon": "mdi-message-text-outline"},
+					{"label": "Contacts", "url": "{% url 'contacts_list' %}", "icon": "mdi-book-account-outline"},
+					{"label": "Add Contact", "url": "{% url 'add_contact' %}", "icon": "mdi-account-plus-outline"},
+					{"label": "Tags", "url": "{% url 'tag_list' %}", "icon": "mdi-tag-outline"},
+					{"label": "My Profile", "url": "/accounts/user-detail", "icon": "mdi-account-outline"},
+					{"label": "How It Works", "url": "{% url 'how_it_works' %}", "icon": "mdi-help-circle-outline"},
+					{"label": "Contact Us", "url": "{% url 'contact' %}", "icon": "mdi-email-outline"}
+				]
+			</script>
+			{% endif %}
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav {% if request.user.is_authenticated %}ms-auto{% else %}mx-auto{% endif %} mb-2 mb-lg-0">
+
+          {% if not request.user.is_authenticated %}
+          <li class="nav-item"> <a class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}" href="/">Home</a>
+					</li>
+					<li class="nav-item"> <a class="nav-link" href="/#features">Features</a>
+					</li>
+					<li class="nav-item"> <a class="nav-link" href="/how_it_works">How It Works</a>
+					</li>
+					<li class="nav-item"> <a class="nav-link" href="/pricing">Pricing</a>
+					</li>
+					<li class="nav-item"> <a class="nav-link" href="/faqs">FAQs</a>
+					</li>
+          {% else %}
+					<li class="nav-item "> <a class="nav-link" href="/services/">Dashboard</a>
+					</li>
+					<li class="nav-item "> <a class="nav-link" href="/how_it_works">How It Works</a>
+					</li>
+					<li class="nav-item "> <a class="nav-link" href="/contact">Contact</a>
+					</li>
+          {% endif %}
+				</ul>
+        {% if request.user.is_authenticated %}
+				<div class="d-flex align-items-center justify-content-center justify-content-xl-start gap-2 ms-lg-3 mt-3 mt-xl-0">
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle d-flex align-items-center gap-1" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="mdi mdi-account-circle-outline"></i> Profile
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+							<li><a class="dropdown-item" href="/accounts/user-detail"><i class="mdi mdi-account-outline me-2"></i>My Profile</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="mdi mdi-logout me-2"></i>Logout</a></li>
+						</ul>
+					</div>
+				</div>
+
+        {% else %}
+
+				<!-- account btn --> <a href="/accounts/login" class="btn btn-outline-primary">Log In</a>
+				<!-- account btn --> <a href="/accounts/signup" class="btn btn-primary ms-2 ms-lg-3">Start Free Trial</a>
+        {% endif %}
+
+			</div>
+		</div>
+	</nav>
+</header>
+<!-- /navigation -->
+      
+      {% block body %}
+      {% endblock body %}
+
+
+      
+        
+<!-- # FOOTER -->
+
+{% if not request.user.is_authenticated %}
+<footer class="bg-tertiary" style="padding: 5% 0;">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-lg-3 col-md-4 col-6 mb-4">
+        <!-- <div class="footer-widget"> -->
+          <div class="row" style="margin-bottom: 35px;">
+             <ul class="list-unstyled list-inline mb-0 social-icons">
+                <li class="list-inline-item me-3"><a title="Explorer Facebook Profile" class="text-black" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                </li>
+                <li class="list-inline-item me-3"><a title="Explorer Twitter Profile" class="text-black" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+                </li>
+                <li class="list-inline-item me-3"><a title="Explorer Instagram Profile" class="text-black" href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
+                </li>
+              </ul>
+          </div>
+          <div class="row" style="margin-bottom: 35px;">
+              <ul class="list-unstyled list-inline mb-0 text-lg-center">
+                <li class="list-inline-item me-4"><a class="text-black" href="{% url 'privacy_policy' %}">Privacy Policy</a>
+                </li>
+                <li class="list-inline-item me-4"><a class="text-black" href="{% url 'terms_of_service' %}">Terms &amp; Conditions</a>
+                </li>
+              </ul>
+          </div>
+          <div class="row">
+            <a href="/">
+              <img loading="prelaod" decoding="async" class="img-fluid" width="160" src="{% static 'images/logo.svg' %}" alt="Dovix AI">
+            </a>
+          </div>
+
+        <!-- </div> -->
+      </div>
+      <div class="col-lg-2 col-md-4 col-6 mb-4">
+        <div class="footer-widget">
+          <h5 class="mb-4 text-primary font-secondary">Product</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="/#features">Features</a>
+            </li>
+            <li class="mb-2"><a href="/pricing">Pricing</a>
+            </li>
+            <li class="mb-2"><a href="{% url 'swagger-ui' %}">API Docs</a>
+            </li>
+            <li class="mb-2"><a href="/how_it_works">How It Works</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-6 mb-4">
+        <div class="footer-widget">
+          <h5 class="mb-4 text-primary font-secondary">Company</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="/about">About</a>
+            </li>
+            <li class="mb-2"><a href="/contact">Contact</a>
+            </li>
+            <li class="mb-2"><a href="{% url 'privacy_policy' %}">Privacy Policy</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-6 mb-4">
+        <div class="footer-widget">
+          <h5 class="mb-4 text-primary font-secondary">Legal</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="{% url 'terms_of_service' %}">Terms of Service</a>
+            </li>
+            <li class="mb-2"><a href="{% url 'privacy_policy' %}">Privacy Policy</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <div class="col-lg-4 col-md-12 newsletter-form">
+        <div style="background-color: #F4F4F4; padding: 35px;">
+          <h5 class="mb-4 text-primary font-secondary">Subscribe</h5>
+          <div class="pe-0 pe-xl-5">
+            <form action="#!" method="post" name="mc-embedded-subscribe-form" target="_blank">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control shadow-none bg-white border-end-0" placeholder="Email address"> <span class="input-group-text border-0 p-0">
+                    <button class="input-group-text border-0 bg-primary" type="submit" name="subscribe"
+                      aria-label="Subscribe for Newsletter"><i class="fas fa-arrow-right"></i></button>
+                  </span>
+              </div>
+              <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                <input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
+              </div>
+            </form>
+          </div>
+          <p class="mb-0">Lorem ipsum dolor sit amet, rdghds consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat</p>
+        </div>
+      </div> -->
+    </div>
+    
+  </div>
+</footer>
+{% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.10.0/dist/js/coreui.min.js" integrity="sha384-humjD9K3JKNs28Z7E9JA0aCMIPJswRs7wfgY8y3Us4sxTzEFt6Dkjjw43GoY/B2x" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<!-- # JS Plugins -->
+<!-- <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script> -->
+<!-- <script src="{% static 'plugins/bootstrap/bootstrap.min.js' }"></script> -->
+<!-- <script src="{% static 'plugins/slick/slick.min.js' %}"></script> -->
+<script src="{% static 'plugins/scrollmenu/scrollmenu.min.js' %}"></script>
+
+<!-- Main Script -->
+<script src="{% static 'js/script.js' %}?v={% now 'U' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Daterangepicker styles and scripts -->
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
+
+  
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
+
+
+
+
+
+</body>
+</html>

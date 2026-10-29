@@ -1,0 +1,60 @@
+{
+    "name": "new_testing_template",
+    "parameter_format": "POSITIONAL",
+    "components": [
+      {
+        "type": "BODY",
+        "text": "Hello"
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "type": "QUICK_REPLY",
+            "text": "Quick Reply"
+          },
+          {
+            "type": "QUICK_REPLY",
+            "text": "Quick Reply once"
+          },
+          {
+            "type": "QUICK_REPLY",
+            "text": "Stop promotions"
+          },
+          {
+            "type": "URL",
+            "text": "Visit website",
+            "url": "https://www.wikipedia.org/%7B%7B1%7D%7D{{1}}",
+            "example": [
+              "https://www.wikipedia.org/wiki"
+            ]
+          },
+          {
+            "type": "COPY_CODE",
+            "text": "Copy offer code",
+            "example": [
+              "promo123"
+            ]
+          },
+          {
+            "type": "PHONE_NUMBER",
+            "text": "Call phone number",
+            "phone_number": "+918770001958"
+          },
+          {
+            "type": "URL",
+            "text": "Visit website once",
+            "url": "https://www.wwe.com/%7B%7B1%7D%7D{{1}}",
+            "example": [
+              "https://www.wwe.com/shows"
+            ]
+          }
+        ]
+      }
+    ],
+    "language": "en",
+    "status": "PENDING",
+    "category": "MARKETING",
+    "sub_category": "CUSTOM",
+    "id": "3921906868119855"
+  }

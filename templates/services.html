@@ -1,0 +1,412 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block body %}
+
+<style>
+  @media (min-width: 992px) {
+    /* !important is required here — Bootstrap's own responsive offcanvas
+       CSS resets position to static at this same breakpoint (that's how
+       .offcanvas-lg turns "off" the overlay behavior above lg), which was
+       silently cancelling the sticky positioning below and letting the
+       sidebar scroll away with the page instead of staying put. */
+    #offcanvasExample.offcanvas-lg {
+      position: sticky !important;
+      top: var(--app-header-height) !important;
+      height: calc(100vh - var(--app-header-height)) !important;
+    }
+  }
+</style>
+
+      <div class="app-shell d-flex align-items-stretch" style="min-height: calc(100vh - var(--app-header-height));">
+
+        <div class="app-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasExample"
+          aria-labelledby="offcanvasExampleLabel">
+          <h2 id="offcanvasExampleLabel" class="visually-hidden">Menu</h2>
+          <button type="button" class="btn-close text-reset d-lg-none align-self-end mb-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+          <nav class="app-nav">
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'services' %}active{% endif %}" href="/services/">
+              <i class="mdi mdi-view-grid-outline"></i> Dashboard
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'campaign_list' %}active{% endif %}" href="/services/campaign_list">
+              <i class="mdi mdi-bullhorn-outline"></i> Campaign
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'template_list' %}active{% endif %}" href="/services/template_list">
+              <i class="mdi mdi-file-document-outline"></i> Template
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'contacts_list' %}active{% endif %}" href="/services/contacts_list">
+              <i class="mdi mdi-book-account-outline"></i> Contacts
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}" href="{% url 'chat' %}">
+              <i class="mdi mdi-message-text-outline"></i> Messages
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'flow_list' or request.resolver_match.url_name == 'flow_builder' %}active{% endif %}" href="{% url 'flow_list' %}">
+              <i class="mdi mdi-sitemap-outline"></i> Flows
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'tag_list' %}active{% endif %}" href="/services/tags">
+              <i class="mdi mdi-tag-outline"></i> Tags
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.app_name == 'billing' %}active{% endif %}" href="{% url 'billing:plan_list' %}">
+              <i class="mdi mdi-crown-outline"></i> Plans
+            </a>
+            <a class="app-nav__item {% if request.resolver_match.url_name == 'user_detail' %}active{% endif %}" href="{% url 'user_detail' %}">
+              <i class="mdi mdi-account-circle-outline"></i> Profile
+            </a>
+            <a class="app-nav__item" href="{% url 'swagger-ui' %}" target="_blank" rel="noopener noreferrer">
+              <i class="mdi mdi-code-tags"></i> API Docs
+              <i class="mdi mdi-open-in-new app-nav__item-external"></i>
+            </a>
+          </nav>
+
+          <div class="app-sidebar__footer">
+            <div class="app-sidebar__user">
+              Logged in as <strong>{{ request.user.username }}</strong>
+            </div>
+            <a href="{% url 'account_logout' %}" class="app-sidebar__logout" title="Logout">
+              <i class="mdi mdi-power"></i>
+            </a>
+            <div class="app-sidebar__version">v1.2.5 | © 2025 Dovix AI</div>
+          </div>
+        </div>
+
+        <div class="flex-grow-1" style="min-width: 0;">
+          <button class="btn btn-au-primary d-lg-none m-3" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            &#9776; Menu
+          </button>
+
+          {% if messages %}
+          <div class="au-toast-stack" id="auToastStack">
+            {% for message in messages %}
+            <div class="au-toast au-toast--{{ message.tags|default:'info' }}">
+              <i class="mdi {% if message.tags == 'success' %}mdi-check-circle-outline{% elif message.tags == 'error' %}mdi-alert-circle-outline{% elif message.tags == 'warning' %}mdi-alert-outline{% else %}mdi-information-outline{% endif %}"></i>
+              <span>{{ message }}</span>
+              <button type="button" class="au-toast__close" onclick="this.closest('.au-toast').remove()" aria-label="Dismiss">&times;</button>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+      {% block design %}
+
+      <div class="app-page">
+
+        <div class="app-page__head">
+          <div class="app-page__greeting">
+            <span class="app-page__greeting-emoji">👋</span>
+            <div>
+              <h1 class="app-page__title">Good {{ greeting|default:"Morning" }}, {{ request.user.username }}!</h1>
+              <p class="app-page__subtitle">Here's what's happening with your WhatsApp marketing today.</p>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <input type="text" id="reportrange" class="btn-au-outline" style="width: 240px; cursor: pointer;" readonly />
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--green"><i class="mdi mdi-chat-processing-outline"></i></span>
+            <div class="stat-card__body">
+              <div class="stat-card__label">Total Conversations</div>
+              <div class="stat-card__value">{{ cost_conversation_data.total_conversations|default:0 }}</div>
+              <div class="stat-card__hint">{% if not cost_conversation_data.total_conversations %}No conversations yet{% else %}This month{% endif %}</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--blue"><i class="mdi mdi-currency-inr"></i></span>
+            <div class="stat-card__body">
+              <div class="stat-card__label">Total Cost</div>
+              <div class="stat-card__value">{{ cost_conversation_data.total_cost|default:0 }}</div>
+              <div class="stat-card__hint">{% if not cost_conversation_data.total_cost %}No cost yet{% else %}This month{% endif %}</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--purple"><i class="mdi mdi-send-outline"></i></span>
+            <div class="stat-card__body">
+              <div class="stat-card__label">Messages Sent</div>
+              <div class="stat-card__value">{{ messages_sent|default:0 }}</div>
+              <div class="stat-card__hint">{% if not messages_sent %}No messages yet{% else %}Across all campaigns{% endif %}</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--warning"><i class="mdi mdi-account-group-outline"></i></span>
+            <div class="stat-card__body">
+              <div class="stat-card__label">Active Contacts</div>
+              <div class="stat-card__value">{{ active_contacts|default:0 }}</div>
+              <div class="stat-card__hint">{% if not active_contacts %}No contacts added{% else %}In your contact list{% endif %}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="au-panel h-100">
+              <div class="au-panel__header">
+                <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-chart-bar"></i></span> This Month Data</h2>
+              </div>
+              <div style="height: 25em;">
+                <canvas id="costConversationChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="au-panel h-100">
+              <div class="au-panel__header">
+                <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-lightning-bolt-outline"></i></span> Quick Actions</h2>
+              </div>
+              <div class="quick-actions">
+                <a class="quick-action" href="{% url 'create_campaign' %}">
+                  <span class="quick-action__icon" style="background: var(--au-green-light); color: var(--au-green-dark);"><i class="mdi mdi-send-outline"></i></span>
+                  <span class="quick-action__body">
+                    <span class="quick-action__title d-block">Create Campaign</span>
+                    <span class="quick-action__desc">Send WhatsApp messages to your contacts</span>
+                  </span>
+                  <i class="mdi mdi-chevron-right quick-action__chevron"></i>
+                </a>
+
+                <a class="quick-action" href="{% url 'template_list' %}">
+                  <span class="quick-action__icon" style="background: var(--au-info-light); color: var(--au-info);"><i class="mdi mdi-file-document-outline"></i></span>
+                  <span class="quick-action__body">
+                    <span class="quick-action__title d-block">Manage Templates</span>
+                    <span class="quick-action__desc">Create and edit message templates</span>
+                  </span>
+                  <i class="mdi mdi-chevron-right quick-action__chevron"></i>
+                </a>
+
+                <a class="quick-action" href="{% url 'add_contact' %}">
+                  <span class="quick-action__icon" style="background: var(--au-purple-light); color: var(--au-purple);"><i class="mdi mdi-account-plus-outline"></i></span>
+                  <span class="quick-action__body">
+                    <span class="quick-action__title d-block">Upload Contacts</span>
+                    <span class="quick-action__desc">Add or import your contact list</span>
+                  </span>
+                  <i class="mdi mdi-chevron-right quick-action__chevron"></i>
+                </a>
+
+                <a class="quick-action" href="{% url 'tag_list' %}">
+                  <span class="quick-action__icon" style="background: var(--au-green-light); color: var(--au-green-dark);"><i class="mdi mdi-tag-outline"></i></span>
+                  <span class="quick-action__body">
+                    <span class="quick-action__title d-block">Manage Tags</span>
+                    <span class="quick-action__desc">Organize your contacts with tags</span>
+                  </span>
+                  <i class="mdi mdi-chevron-right quick-action__chevron"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const ctx = document.getElementById("costConversationChart").getContext("2d");
+    let costConversationChart;
+
+    function fetchAndRenderData(period, startDate = null, endDate = null) {
+      let url = `/services/fetch_analytics?period=${period}`;
+      if (startDate && endDate) {
+        url += `&start_date=${startDate}&end_date=${endDate}`;
+      }
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (costConversationChart) costConversationChart.destroy();
+
+          const hasData = data.dates.length > 0;
+
+          const chartData = hasData
+            ? {
+              labels: data.dates,
+              datasets: [
+                {
+                  label: "Total Conversations",
+                  data: data.total_conversations,
+                  borderColor: "#7da7ff",
+                  backgroundColor: "transparent",
+                  lineTension: 0,
+                  pointRadius: 5,
+                  pointBackgroundColor: "rgba(255,255,255,1)",
+                  pointHoverBackgroundColor: "rgba(255,255,255,1)",
+                  pointBorderWidth: 2,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 1,
+                  fill: false
+                },
+                {
+                  label: "Total Cost",
+                  data: data.total_cost,
+                  borderColor: "#74d680",
+                  backgroundColor: "transparent",
+                  lineTension: 0,
+                  pointRadius: 5,
+                  pointBackgroundColor: "rgba(255,255,255,1)",
+                  pointHoverBackgroundColor: "rgba(255,255,255,1)",
+                  pointBorderWidth: 2,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 1,
+                  fill: false
+                }
+              ]
+            }
+            : {
+              labels: ["Date"], // Keeps the X-axis visible
+              datasets: [
+                {
+                  label: "",
+                  data: [0], // Keeps Y-axis visible
+                  borderColor: "transparent",
+                  backgroundColor: "transparent",
+                  pointRadius: 0
+                }
+              ]
+
+            };
+
+          costConversationChart = new Chart(ctx, {
+            type: "line",
+            data: chartData,
+
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              resizeDelay: 2,
+              interaction: {
+                mode: 'index',  // Shows all datasets for the hovered X-axis value
+                intersect: false  // Ensures it works even if points are not exactly on top of each other
+              },
+
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'bottom',
+                  labels: {
+                    // usePointStyle: true,
+                    padding: 20
+                  },
+                  onHover: function (event, legendItem) {
+                    const canvas = event.chart.canvas;
+                    canvas.style.cursor = 'pointer';  // Show pointer only when hovering over legend
+                  },
+                  onLeave: function (event, legendItem) {
+                    const canvas = event.chart.canvas;
+                    canvas.style.cursor = 'default';  // Restore default cursor when leaving legend
+                  }
+                },
+
+
+              },
+              scales: {
+                x: {
+                  type: 'category',
+                  title: {
+                    display: true,
+                    // text: "Date"
+                  },
+                  grid: { display: false }
+                },
+                y: {
+                  title: { display: true, text: "Count / Cost" },
+                  beginAtZero: true,
+                  grid: { display: hasData }
+                }
+              }
+            },
+            plugins: [{
+              id: "noDataMessage",
+              afterDraw(chart) {
+                const ctx = chart.ctx;
+                const { width, height } = chart;
+
+                // Check if there is data
+                const hasNoData = chart.data.datasets.some(dataset => dataset.data.length > 1);
+
+                console.log("hasdata-->", chart.data.datasets);
+
+
+                if (!hasData) {
+                  // Display text only if no data
+                  ctx.save();
+                  ctx.textAlign = "center";
+                  ctx.textBaseline = "middle";
+
+                  // No Data Icon (Optional)
+                  ctx.font = "20px Arial";
+                  ctx.fillStyle = "#777";
+                    ctx.fillText("📈", width / 2, height / 2 - 60);
+
+                  // Main Message
+                  ctx.font = "16px Arial";
+                  ctx.fillStyle = "#555";
+                  ctx.fillText("No insights available", width / 2, height / 2 - 30);
+
+                  // Subtext
+                  ctx.font = "12px Arial";
+                  ctx.fillStyle = "#777";
+                  ctx.fillText("Make sure the selected dates include sent messages to see data.", width / 2, height / 2 - 10);
+
+                  ctx.restore();
+                }
+              }
+
+            }]
+          });
+        })
+        .catch(error => console.error("Error fetching data:", error));
+    }
+    // Initial Load
+    fetchAndRenderData("30d");
+    fetchAndRenderData("30d");  // Initial load
+
+    function cb(start, end, label) {
+      $('#reportrange').val(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+
+      if (label === "Custom Range") {
+        fetchAndRenderData("custom", start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+      } else {
+        const map = {
+          "Last 7 Days": "7d",
+          "Last 30 Days": "30d",
+          "Last 60 Days": "60d",
+          "Last 90 Days": "90d",
+        };
+        const mappedPeriod = map[label] || "30d";
+        fetchAndRenderData(mappedPeriod);
+      }
+    }
+
+    $('#reportrange').daterangepicker({
+      startDate: moment().subtract(29, 'days'),
+      endDate: moment(),
+      maxSpan: { days: 90 },
+      ranges: {
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'Last 60 Days': [moment().subtract(59, 'days'), moment()],
+        'Last 90 Days': [moment().subtract(89, 'days'), moment()],
+      },
+      alwaysShowCalendars: true,
+      autoApply: true,
+      opens: 'left'
+    }, cb);
+
+    cb(moment().subtract(29, 'days'), moment(), "Last 30 Days");
+
+
+  });
+</script>
+
+
+{% endblock design %}
+
+        </div><!-- /.flex-grow-1 -->
+      </div><!-- /.d-flex sidebar+content -->
+
+{% endblock body %}

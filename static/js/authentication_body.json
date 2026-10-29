@@ -1,0 +1,13 @@
+{
+  "to": "+917745968882",
+  "template_name": "authentication_template",
+  "language": "en",
+  "body_params": ["482913"],
+  "button_params": [
+    {
+      "index": 0,
+      "sub_type": "url",
+      "value": "482913"
+    }
+  ]
+}

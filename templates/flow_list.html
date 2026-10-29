@@ -1,0 +1,130 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+<div class="app-page">
+
+    <div class="app-page__head">
+        <div>
+            <h1 class="app-page__title"><i class="mdi mdi-sitemap-outline" style="color: var(--au-green);"></i> Flows</h1>
+            <p class="app-page__subtitle">Build automated WhatsApp conversations that reply to your customers on their own.</p>
+        </div>
+        <form method="post" action="{% url 'flow_create' %}" class="d-flex gap-2">
+            {% csrf_token %}
+            <input type="text" name="name" class="form-control" placeholder="New flow name..." style="max-width:220px;" required>
+            <button type="submit" class="btn-au-primary text-nowrap"><i class="mdi mdi-plus-circle-outline"></i> Create Flow</button>
+        </form>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--green"><i class="mdi mdi-sitemap-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Total Flows</div>
+                <div class="stat-card__value">{{ total_flows }}</div>
+                <div class="stat-card__hint">All automations</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--blue"><i class="mdi mdi-play-circle-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Active</div>
+                <div class="stat-card__value">{{ active_flows }}</div>
+                <div class="stat-card__hint">Currently replying to users</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--gray"><i class="mdi mdi-pause-circle-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Inactive</div>
+                <div class="stat-card__value">{{ inactive_flows }}</div>
+                <div class="stat-card__hint">Paused</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="au-panel">
+        <div class="au-table-wrap">
+            <table class="au-table">
+                <thead>
+                    <tr>
+                        <th>Flow Name</th>
+                        <th>Trigger</th>
+                        <th>Messages</th>
+                        <th>Status</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flow in flows %}
+                    <tr class="flow-row" style="cursor:pointer;" data-flow-url="{% url 'flow_builder' flow.id %}">
+                        <td class="au-cell-title">{{ flow.name }}</td>
+                        <td>
+                            {% if flow.trigger_any_message %}
+                                <span class="au-pill au-pill--blue">Any message</span>
+                            {% elif flow.trigger_keywords %}
+                                {% for kw in flow.trigger_keywords|slice:":3" %}<span class="au-pill au-pill--green">{{ kw }}</span> {% endfor %}
+                            {% else %}
+                                <span class="au-cell-sub">Not set</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ flow.nodes.count }}</td>
+                        <td>
+                            {% if flow.is_active %}
+                                <span class="au-pill au-pill--green">Active</span>
+                            {% else %}
+                                <span class="au-pill au-pill--gray">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="au-cell-sub">{{ flow.updated_at|date:"M d, Y H:i" }}</td>
+                        <td onclick="event.stopPropagation();">
+                            <button type="button" class="au-pill flow-toggle-btn {% if flow.is_active %}au-pill--gray{% else %}au-pill--green{% endif %}" style="border:none; cursor:pointer;" data-flow-id="{{ flow.id }}" data-toggle-url="{% url 'flow_toggle_active' flow.id %}">
+                                {% if flow.is_active %}Pause{% else %}Activate{% endif %}
+                            </button>
+                            <form method="post" action="{% url 'flow_delete' flow.id %}" class="d-inline-block" onsubmit="return confirm('Delete this flow? This cannot be undone.');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link p-0 ms-2" title="Delete Flow">
+                                    <img src="{% static 'icons/delete_icon.svg' %}" alt="Delete">
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">
+                            <div class="au-empty">
+                                <i class="mdi mdi-sitemap-outline"></i>
+                                No flows yet.<br>Create your first automated conversation above.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.flow-row').forEach(function (row) {
+        row.addEventListener('click', function () {
+            window.location.href = this.dataset.flowUrl;
+        });
+    });
+
+    document.querySelectorAll('.flow-toggle-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            window.AppLoading.start(this, '...');
+            fetch(this.dataset.toggleUrl, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+            })
+                .then(r => r.json())
+                .then(() => window.location.reload())
+                .catch(() => window.AppLoading.stop(btn));
+        });
+    });
+</script>
+{% endblock design %}

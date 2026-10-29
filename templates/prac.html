@@ -1,0 +1,421 @@
+{% extends 'services.html' %}
+
+{% block design %}
+
+<h2>Create WhatsApp Message Template</h2>
+<form>
+    <div class="row g-3">
+        <h5>Template name and language</h5>
+        <div class="col">
+            <label for="inputEmail4" class="form-label">Name your template</label>
+            <input type="text" class="form-control" placeholder="Enter A template name" aria-label="First name">
+        </div>
+        <div class="col">
+            <label for="inputLanguage" class="form-label">Select language</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected value="en">English</option>
+                <option value="af">Afrikaans</option>
+                <option value="sq">Albanian - shqip</option>
+                <option value="am">Amharic - አማርኛ</option>
+                <option value="ar">Arabic - العربية</option>
+                <option value="an">Aragonese - aragonés</option>
+                <option value="hy">Armenian - հայերեն</option>
+                <option value="ast">Asturian - asturianu</option>
+                <option value="az">Azerbaijani - azərbaycan dili</option>
+                <option value="eu">Basque - euskara</option>
+                <option value="be">Belarusian - беларуская</option>
+                <option value="bn">Bengali - বাংলা</option>
+                <option value="bs">Bosnian - bosanski</option>
+                <option value="br">Breton - brezhoneg</option>
+                <option value="bg">Bulgarian - български</option>
+                <option value="ca">Catalan - català</option>
+                <option value="ckb">Central Kurdish - کوردی (دەستنوسی عەرەبی)</option>
+                <option value="zh">Chinese - 中文</option>
+                <option value="zh-HK">Chinese (Hong Kong) - 中文（香港）</option>
+                <option value="zh-CN">Chinese (Simplified) - 中文（简体）</option>
+                <option value="zh-TW">Chinese (Traditional) - 中文（繁體）</option>
+                <option value="co">Corsican</option>
+                <option value="hr">Croatian - hrvatski</option>
+                <option value="cs">Czech - čeština</option>
+                <option value="da">Danish - dansk</option>
+                <option value="nl">Dutch - Nederlands</option>
+                <option value="en">English</option>
+                <option value="en-AU">English (Australia)</option>
+                <option value="en-CA">English (Canada)</option>
+                <option value="en-IN">English (India)</option>
+                <option value="en-NZ">English (New Zealand)</option>
+                <option value="en-ZA">English (South Africa)</option>
+                <option value="en-GB">English (United Kingdom)</option>
+                <option value="en-US">English (United States)</option>
+                <option value="eo">Esperanto - esperanto</option>
+                <option value="et">Estonian - eesti</option>
+                <option value="fo">Faroese - føroyskt</option>
+                <option value="fil">Filipino</option>
+                <option value="fi">Finnish - suomi</option>
+                <option value="fr">French - français</option>
+                <option value="fr-CA">French (Canada) - français (Canada)</option>
+                <option value="fr-FR">French (France) - français (France)</option>
+                <option value="fr-CH">French (Switzerland) - français (Suisse)</option>
+                <option value="gl">Galician - galego</option>
+                <option value="ka">Georgian - ქართული</option>
+                <option value="de">German - Deutsch</option>
+                <option value="de-AT">German (Austria) - Deutsch (Österreich)</option>
+                <option value="de-DE">German (Germany) - Deutsch (Deutschland)</option>
+                <option value="de-LI">German (Liechtenstein) - Deutsch (Liechtenstein)</option>
+                <option value="de-CH">German (Switzerland) - Deutsch (Schweiz)</option>
+                <option value="el">Greek - Ελληνικά</option>
+                <option value="gn">Guarani</option>
+                <option value="gu">Gujarati - ગુજરાતી</option>
+                <option value="ha">Hausa</option>
+                <option value="haw">Hawaiian - ʻŌlelo Hawaiʻi</option>
+                <option value="he">Hebrew - עברית</option>
+                <option value="hi">Hindi - हिन्दी</option>
+                <option value="hu">Hungarian - magyar</option>
+                <option value="is">Icelandic - íslenska</option>
+                <option value="id">Indonesian - Indonesia</option>
+                <option value="ia">Interlingua</option>
+                <option value="ga">Irish - Gaeilge</option>
+                <option value="it">Italian - italiano</option>
+                <option value="it-IT">Italian (Italy) - italiano (Italia)</option>
+                <option value="it-CH">Italian (Switzerland) - italiano (Svizzera)</option>
+                <option value="ja">Japanese - 日本語</option>
+                <option value="kn">Kannada - ಕನ್ನಡ</option>
+                <option value="kk">Kazakh - қазақ тілі</option>
+                <option value="km">Khmer - ខ្មែរ</option>
+                <option value="ko">Korean - 한국어</option>
+                <option value="ku">Kurdish - Kurdî</option>
+                <option value="ky">Kyrgyz - кыргызча</option>
+                <option value="lo">Lao - ລາວ</option>
+                <option value="la">Latin</option>
+                <option value="lv">Latvian - latviešu</option>
+                <option value="ln">Lingala - lingála</option>
+                <option value="lt">Lithuanian - lietuvių</option>
+                <option value="mk">Macedonian - македонски</option>
+                <option value="ms">Malay - Bahasa Melayu</option>
+                <option value="ml">Malayalam - മലയാളം</option>
+                <option value="mt">Maltese - Malti</option>
+                <option value="mr">Marathi - मराठी</option>
+                <option value="mn">Mongolian - монгол</option>
+                <option value="ne">Nepali - नेपाली</option>
+                <option value="no">Norwegian - norsk</option>
+                <option value="nb">Norwegian Bokmål - norsk bokmål</option>
+                <option value="nn">Norwegian Nynorsk - nynorsk</option>
+                <option value="oc">Occitan</option>
+                <option value="or">Oriya - ଓଡ଼ିଆ</option>
+                <option value="om">Oromo - Oromoo</option>
+                <option value="ps">Pashto - پښتو</option>
+                <option value="fa">Persian - فارسی</option>
+                <option value="pl">Polish - polski</option>
+                <option value="pt">Portuguese - português</option>
+                <option value="pt-BR">Portuguese (Brazil) - português (Brasil)</option>
+                <option value="pt-PT">Portuguese (Portugal) - português (Portugal)</option>
+                <option value="pa">Punjabi - ਪੰਜਾਬੀ</option>
+                <option value="qu">Quechua</option>
+                <option value="ro">Romanian - română</option>
+                <option value="mo">Romanian (Moldova) - română (Moldova)</option>
+                <option value="rm">Romansh - rumantsch</option>
+                <option value="ru">Russian - русский</option>
+                <option value="gd">Scottish Gaelic</option>
+                <option value="sr">Serbian - српски</option>
+                <option value="sh">Serbo-Croatian - Srpskohrvatski</option>
+                <option value="sn">Shona - chiShona</option>
+                <option value="sd">Sindhi</option>
+                <option value="si">Sinhala - සිංහල</option>
+                <option value="sk">Slovak - slovenčina</option>
+                <option value="sl">Slovenian - slovenščina</option>
+                <option value="so">Somali - Soomaali</option>
+                <option value="st">Southern Sotho</option>
+                <option value="es">Spanish - español</option>
+                <option value="es-AR">Spanish (Argentina) - español (Argentina)</option>
+                <option value="es-419">Spanish (Latin America) - español (Latinoamérica)</option>
+                <option value="es-MX">Spanish (Mexico) - español (México)</option>
+                <option value="es-ES">Spanish (Spain) - español (España)</option>
+                <option value="es-US">Spanish (United States) - español (Estados Unidos)</option>
+                <option value="su">Sundanese</option>
+                <option value="sw">Swahili - Kiswahili</option>
+                <option value="sv">Swedish - svenska</option>
+                <option value="tg">Tajik - тоҷикӣ</option>
+                <option value="ta">Tamil - தமிழ்</option>
+                <option value="tt">Tatar</option>
+                <option value="te">Telugu - తెలుగు</option>
+                <option value="th">Thai - ไทย</option>
+                <option value="ti">Tigrinya - ትግርኛ</option>
+                <option value="to">Tongan - lea fakatonga</option>
+                <option value="tr">Turkish - Türkçe</option>
+                <option value="tk">Turkmen</option>
+                <option value="tw">Twi</option>
+                <option value="uk">Ukrainian - українська</option>
+                <option value="ur">Urdu - اردو</option>
+                <option value="ug">Uyghur</option>
+                <option value="uz">Uzbek - o‘zbek</option>
+                <option value="vi">Vietnamese - Tiếng Việt</option>
+                <option value="wa">Walloon - wa</option>
+                <option value="cy">Welsh - Cymraeg</option>
+                <option value="fy">Western Frisian</option>
+                <option value="xh">Xhosa</option>
+                <option value="yi">Yiddish</option>
+                <option value="yo">Yoruba - Èdè Yorùbá</option>
+                <option value="zu">Zulu - isiZulu</option>
+            </select>
+        </div>
+    </div>
+    <div class="row g-3">
+        <h5>Content</h5>
+        <h6>Fill out the header, body and footer sections of your template.</h6>
+
+        <div class="mb-3">
+            <label for="inputVariable" class="form-label">Variable</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Number</option>
+                <option value="Name">Name</option>
+              </select>
+        </div>
+        <div class="mb-3">
+            <label for="inputHeader" class="form-label">Header</label>
+            <select class="form-select" id="headerSelect" aria-label="Default select example">
+                <option value="none" selected>None</option>
+                <option value="text">Text</option>
+                <option value="image">Image</option>
+                <option value="video">Video</option>
+                <option value="document">Document</option>
+                <option value="location">Location</option>
+              </select>
+                <!-- Placeholder for dynamically added header input -->
+            </div>
+            <div id="headerInputContainer"></div>
+        
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Body</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Footer</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="dropdown mb-3">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Add button
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a class="dropdown-item" href="#" data-option="marketing">Marketing opt-out <span class="max-limit">(1 max)</span></a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-option="custom">Custom</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" href="#" data-option="visit">Visit website <span class="max-limit">(2 remaining)</span></a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-option="call">Call phone number <span class="max-limit">(1 max)</span></a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-option="copy">Copy offer code <span class="max-limit">(1 max)</span></a>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Placeholder for dynamically added sections -->
+        <div id="sections"></div>
+      </div>
+    
+</form>
+
+
+  <!-- Bootstrap JS and Popper.js -->
+  
+  
+  <script>
+    // for header
+
+    const headerSelect = document.getElementById('headerSelect');
+    const headerInputContainer = document.getElementById('headerInputContainer');
+
+    // Function to render the appropriate input based on the selected header option
+    function renderHeaderInput(option) {
+      headerInputContainer.innerHTML = ''; // Clear any existing input
+
+      let inputHtml = '';
+
+      if (option === 'text') {
+        inputHtml = `
+          <div class="mb-3">
+            <label for="headerTextInput" class="form-label">Header Text</label>
+            <input type="text" class="form-control" id="headerTextInput" placeholder="Enter header text">
+          </div>`;
+      } else if (option === 'image') {
+        inputHtml = `
+          <div class="mb-3">
+            <h6>Samples for header content</h6>
+            <p>To help us review your content, provide examples of the variables or media in the header. Do not include any customer information. Cloud API hosted by Meta reviews templates and variable parameters to protect the security and integrity of our services.</p>
+            <label for="headerImageInput" class="form-label">Choose an Image</label>
+            <input type="file" class="form-control" id="headerImageInput" accept=".png, .jpg, .jpeg">
+            </div>`;
+          } else if (option === 'video') {
+            inputHtml = `
+            <div class="mb-3">
+              <h6>Samples for header content</h6>
+              <p>To help us review your content, provide examples of the variables or media in the header. Do not include any customer information. Cloud API hosted by Meta reviews templates and variable parameters to protect the security and integrity of our services.</p>
+            <label for="headerVideoInput" class="form-label">Choose a Video</label>
+            <input type="file" class="form-control" id="headerVideoInput" accept="video/*">
+          </div>`;
+      } else if (option === 'document') {
+        inputHtml = `
+          <div class="mb-3">
+            <h6>Samples for header content</h6>
+              <p>To help us review your content, provide examples of the variables or media in the header. Do not include any customer information. Cloud API hosted by Meta reviews templates and variable parameters to protect the security and integrity of our services.</p>
+            <label for="headerDocInput" class="form-label">Choose a Document</label>
+            <input type="file" class="form-control" id="headerDocInput" accept=".pdf, .doc, .docx">
+          </div>`;
+      }
+
+      headerInputContainer.innerHTML = inputHtml; // Append the selected input field
+    }
+
+    // Event listener for the dropdown
+    headerSelect.addEventListener('change', (e) => {
+      renderHeaderInput(e.target.value);
+    });
+
+    // for buttons
+    const limits = {
+      marketing: 1,
+      custom: Infinity,
+      visit: 2,
+      call: 1,
+      copy: 1,
+    };
+
+    const counts = {
+      marketing: 0,
+      custom: 0,
+      visit: 0,
+      call: 0,
+      copy: 0,
+    };
+
+    const sections = document.getElementById('sections');
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+    // Function to update dropdown availability
+    function updateDropdown() {
+      dropdownItems.forEach(item => {
+        const option = item.getAttribute('data-option');
+        const remaining = limits[option] - counts[option];
+
+        if (remaining <= 0) {
+          item.classList.add('disabled');
+          item.style.pointerEvents = 'none';
+        } else {
+          item.classList.remove('disabled');
+          item.style.pointerEvents = '';
+        }
+
+        // Update text for remaining count
+        const maxLimitSpan = item.querySelector('.max-limit');
+        if (maxLimitSpan) {
+          maxLimitSpan.textContent = limits[option] === Infinity
+            ? ""
+            : `(${remaining} remaining)`;
+        }
+      });
+    }
+
+    // Function to create a section
+    function createSection(option) {
+      const section = document.createElement('div');
+      section.className = 'option-section border p-3 rounded mb-3';
+      section.setAttribute('data-option', option);
+
+      // Content based on option
+      let content = `<h5>${option.charAt(0).toUpperCase() + option.slice(1)}</h5>`;
+
+      // Default inputs based on the option
+      if (option === 'marketing') {
+        content += `
+          <div class="mb-3">
+            <label class="form-label">Button Text</label>
+            <input type="text" class="form-control" value="Stop promotions" disabled>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Footer Text</label>
+            <input type="text" class="form-control" value="Not interested? Tap Stop promotions" disabled>
+          </div>`;
+      } else if (option === 'visit') {
+        content += `
+          <div class="mb-3">
+            <label class="form-label">Button Text</label>
+            <input type="text" class="form-control" value="Visit website">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Website URL</label>
+            <input type="url" class="form-control" placeholder="https://example.com">
+          </div>`;
+      } else if (option === 'call') {
+        content += `
+          <div class="mb-3">
+            <label class="form-label">Button Text</label>
+            <input type="text" class="form-control" value="Call phone number">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" placeholder="+1234567890">
+          </div>`;
+      } else if (option === 'copy') {
+        content += `
+          <div class="mb-3">
+            <label class="form-label">Button Text</label>
+            <input type="text" class="form-control" value="Copy offer code" disabled>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Offer Code</label>
+            <input type="text" class="form-control" placeholder="PROMO123">
+          </div>`;
+      } else {
+        content += `
+          <div class="mb-3">
+            <label class="form-label">Button Text</label>
+            <input type="text" class="form-control" placeholder="Enter button text">
+          </div>`;
+      }
+
+      content += `<button class="btn btn-danger btn-sm mt-2 remove-section">Cancel</button>`;
+      section.innerHTML = content;
+
+      return section;
+    }
+
+    // Event listener for dropdown items
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const option = item.getAttribute('data-option');
+
+        if (counts[option] < limits[option]) {
+          counts[option]++;
+          sections.appendChild(createSection(option));
+          updateDropdown();
+        }
+      });
+    });
+
+    // Event listener for removing sections
+    sections.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove-section')) {
+        const section = e.target.closest('.option-section');
+        const option = section.getAttribute('data-option');
+
+        counts[option]--;
+        section.remove();
+        updateDropdown();
+      }
+    });
+
+    // Initial update for dropdown
+    updateDropdown();
+  </script>
+{% endblock %}

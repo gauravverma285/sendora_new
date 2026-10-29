@@ -1,0 +1,204 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+{% csrf_token %}
+<div class="app-page flow-page">
+
+    <div class="app-page__head">
+        <div>
+            <a href="{% url 'flow_list' %}" class="au-back-link"><i class="mdi mdi-arrow-left"></i> All Flows</a>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <input type="text" id="flowNameInput" class="flow-name-input" value="{{ flow.name }}" maxlength="255">
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span id="flowSaveStatus" class="au-cell-sub"></span>
+            <button type="button" id="addNodeBtn" class="btn-au-outline"><i class="mdi mdi-plus"></i> Add Message</button>
+            <button type="button" id="saveFlowBtn" class="btn-au-primary"><i class="mdi mdi-content-save-outline"></i> Save Flow</button>
+        </div>
+    </div>
+
+    <div class="au-panel flow-settings-panel">
+        <div class="flow-settings-row">
+            <div class="flow-settings-field">
+                <label class="au-field-label">Trigger keywords <span class="au-cell-sub">(comma separated — e.g. hi, hello, start)</span></label>
+                <input type="text" id="flowTriggerKeywords" class="form-control" placeholder="hi, hello, menu" value="{{ flow.trigger_keywords|join:', ' }}">
+            </div>
+            <div class="flow-settings-field flow-settings-field--checks">
+                <label class="au-check">
+                    <input type="checkbox" id="flowTriggerAny" {% if flow.trigger_any_message %}checked{% endif %}>
+                    Also trigger on any message that doesn't match another flow
+                </label>
+                <label class="au-check">
+                    <input type="checkbox" id="flowIsActive" {% if flow.is_active %}checked{% endif %}>
+                    Flow is active
+                </label>
+            </div>
+        </div>
+        <p class="au-cell-sub mb-0"><i class="mdi mdi-information-outline"></i> Mark one message as the <strong>Start</strong> message — that's what gets sent when the trigger matches. Add up to 3 reply buttons on a message, then connect each button to the next message.</p>
+    </div>
+
+    <div class="flow-canvas-outer">
+        <div class="flow-canvas-wrap">
+            <div class="flow-canvas" id="flowCanvas">
+                <svg id="flowConnectors" class="flow-connectors"></svg>
+                <div id="flowNodesLayer" class="flow-nodes-layer"></div>
+            </div>
+        </div>
+        <div class="flow-zoom-controls">
+            <button type="button" id="zoomOutBtn" class="au-icon-btn" title="Zoom out"><i class="mdi mdi-minus"></i></button>
+            <span id="zoomLevelLabel" class="flow-zoom-level">100%</span>
+            <button type="button" id="zoomInBtn" class="au-icon-btn" title="Zoom in"><i class="mdi mdi-plus"></i></button>
+            <span class="flow-zoom-sep"></span>
+            <button type="button" id="zoomResetBtn" class="au-icon-btn" title="Reset zoom"><i class="mdi mdi-fit-to-page-outline"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Node editor side panel -->
+<div id="nodeEditorOverlay" class="node-editor-overlay" hidden></div>
+<div id="nodeEditorPanel" class="node-editor-panel" hidden>
+    <div class="node-editor-panel__head">
+        <h3>Edit Message</h3>
+        <button type="button" id="closeNodeEditorBtn" class="au-icon-btn"><i class="mdi mdi-close"></i></button>
+    </div>
+    <div class="node-editor-panel__body">
+        <div class="au-field">
+            <label class="au-field-label">Message title <span class="au-cell-sub">(internal label, not sent)</span></label>
+            <input type="text" id="nodeTitleInput" class="form-control" maxlength="255" placeholder="e.g. Welcome message">
+        </div>
+
+        <div class="au-check-row">
+            <label class="au-check">
+                <input type="checkbox" id="nodeIsStartInput"> This is the Start message
+            </label>
+            <label class="au-check">
+                <input type="checkbox" id="nodeIsEndInput"> End conversation here
+            </label>
+        </div>
+
+        <div class="au-field">
+            <label class="au-field-label">Message type</label>
+            <div class="msg-type-tabs" id="nodeTypeTabs">
+                <button type="button" class="msg-type-tab is-active" data-type="text"><i class="mdi mdi-message-text-outline"></i> Text</button>
+                <button type="button" class="msg-type-tab" data-type="image"><i class="mdi mdi-image-outline"></i> Image</button>
+                <button type="button" class="msg-type-tab" data-type="video"><i class="mdi mdi-video-outline"></i> Video</button>
+                <button type="button" class="msg-type-tab" data-type="document"><i class="mdi mdi-file-document-outline"></i> Document</button>
+                <button type="button" class="msg-type-tab" data-type="capture"><i class="mdi mdi-comment-question-outline"></i> Ask &amp; Save</button>
+                <button type="button" class="msg-type-tab" data-type="api_call"><i class="mdi mdi-api"></i> API Call</button>
+            </div>
+        </div>
+
+        <div class="au-field" id="nodeMediaField" hidden>
+            <label class="au-field-label">Upload media</label>
+            <label class="au-file-input">
+                <input type="file" id="nodeMediaFile" hidden>
+                <span class="au-file-input__button">Choose File</span>
+                <span class="au-file-input__name" id="nodeMediaFileLabel">No file chosen</span>
+            </label>
+            <div id="nodeMediaStatus" class="au-cell-sub mt-1"></div>
+
+            {% verbatim %}
+            <label class="au-field-label mt-2">Or use a saved variable <span class="au-cell-sub">(e.g. a file an API Call node uploaded via "file" mapping)</span></label>
+            <input type="text" id="nodeMediaVariableInput" class="form-control" placeholder="e.g. {{slip_media_id}}">
+
+            <label class="au-field-label mt-2">Filename <span class="au-cell-sub">(shown to the customer for documents)</span></label>
+            <input type="text" id="nodeMediaFilenameInput" class="form-control" placeholder="e.g. salary-slip.pdf or {{slip_filename}}">
+            {% endverbatim %}
+        </div>
+
+        <div class="au-field" id="nodeBodyField">
+            <label class="au-field-label" id="nodeBodyLabel">Message text</label>
+            <textarea id="nodeBodyInput" class="form-control" rows="4" maxlength="1024" placeholder="Type the message body..."></textarea>
+        </div>
+
+        <div class="au-field" id="nodeButtonsField">
+            <label class="au-field-label">Reply buttons <span class="au-cell-sub">(up to 3 — WhatsApp limit)</span></label>
+            <div id="nodeButtonsList" class="node-buttons-list"></div>
+            <button type="button" id="addNodeButtonBtn" class="btn-au-outline btn-sm mt-2"><i class="mdi mdi-plus"></i> Add Button</button>
+        </div>
+
+        <!-- "Ask & Save" fields -->
+        <div id="nodeCaptureFields" hidden>
+            <div class="au-field">
+                <label class="au-field-label">Save the reply as <span class="au-cell-sub">(a name to reuse it later, e.g. email)</span></label>
+                <input type="text" id="nodeCaptureVariableInput" class="form-control" maxlength="100" placeholder="e.g. email">
+            </div>
+            <div class="au-field">
+                <label class="au-check">
+                    <input type="checkbox" id="nodeCaptureSensitiveInput">
+                    Sensitive — discard this value right after the next API Call uses it (e.g. a password)
+                </label>
+            </div>
+            <p class="au-cell-sub node-connector-hint"><i class="mdi mdi-information-outline"></i> This message has one outgoing connector ("Next") on the canvas — drag from its dot to whatever should be asked or sent after the customer replies.</p>
+        </div>
+
+        <!-- "API Call" fields -->
+        <div id="nodeApiFields" hidden>
+            <div class="au-field">
+                <label class="au-field-label">Request</label>
+                <div class="node-api-request-row">
+                    <select id="nodeApiMethodInput" class="form-control node-api-method">
+                        <option value="GET">GET</option>
+                        <option value="POST" selected>POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="PATCH">PATCH</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                    <input type="text" id="nodeApiUrlInput" class="form-control" placeholder="https://client-ams.example.com/api/login">
+                </div>
+                {% verbatim %}
+                <p class="au-cell-sub mb-0 mt-1">Use <code>{{variable}}</code> anywhere below to insert a saved value (e.g. <code>{{email}}</code>, <code>{{access_token}}</code>).</p>
+                {% endverbatim %}
+            </div>
+
+            <div class="au-field">
+                <label class="au-field-label">Headers</label>
+                <div id="nodeApiHeadersList" class="node-kv-list"></div>
+                <button type="button" id="addApiHeaderBtn" class="btn-au-outline btn-sm mt-2"><i class="mdi mdi-plus"></i> Add Header</button>
+            </div>
+
+            <div class="au-field">
+                <label class="au-field-label">Body fields</label>
+                <div class="msg-type-tabs" id="nodeApiBodyTypeTabs">
+                    <button type="button" class="msg-type-tab is-active" data-body-type="json">JSON</button>
+                    <button type="button" class="msg-type-tab" data-body-type="form">Form (x-www-form-urlencoded)</button>
+                </div>
+                <p class="au-cell-sub mb-0 mt-1">Match whatever the API actually expects — a JSON API needs JSON; a classic HTML-form endpoint (e.g. Django's <code>request.POST</code>) needs Form instead, or it won't see these fields at all.</p>
+                <div id="nodeApiBodyList" class="node-kv-list mt-2"></div>
+                <button type="button" id="addApiBodyBtn" class="btn-au-outline btn-sm mt-2"><i class="mdi mdi-plus"></i> Add Field</button>
+            </div>
+
+            <div class="au-field">
+                <label class="au-field-label">Save from response <span class="au-cell-sub">(field name in the JSON response, or a cookie)</span></label>
+                <div id="nodeApiResponseList" class="node-kv-list node-kv-list--response"></div>
+                <button type="button" id="addApiResponseBtn" class="btn-au-outline btn-sm mt-2"><i class="mdi mdi-plus"></i> Add Field</button>
+                {% verbatim %}
+                <p class="au-cell-sub mb-0 mt-1">
+                    <strong>A number on a webpage (easiest, no tech knowledge needed):</strong> <code>label:Payable Salary</code> — type the exact label text you see on the page, this finds it and grabs the number right after it.<br>
+                    <strong>JSON API:</strong> <code>data.token</code> style path.<br>
+                    <strong>Cookie:</strong> <code>cookie.csrftoken</code> — saves a cookie the API set; carries forward automatically to the next API Call.<br>
+                    <strong>File response</strong> (PDF, image, etc.): the exact word <code>file</code> — uploads it to WhatsApp; a Document/Image/Video message can then use the saved variable as its media.<br>
+                    <strong>Advanced — plain HTML page:</strong> <code>css:.some-class</code> (right-click the value on the real page → Inspect → read off its class/id) or <code>regex:Payable Salary.*?₹([\d,.]+)</code> for full control when the label repeats on the page.
+                </p>
+                {% endverbatim %}
+            </div>
+
+            <p class="au-cell-sub node-connector-hint"><i class="mdi mdi-information-outline"></i> This message has two outgoing connectors on the canvas — "✓ Success" and "✗ Failure" — drag from each dot to whatever should happen next.</p>
+        </div>
+
+        <button type="button" id="deleteNodeBtn" class="btn-au-outline btn-danger-outline mt-3"><i class="mdi mdi-trash-can-outline"></i> Delete Message</button>
+    </div>
+</div>
+
+<script>
+    window.FLOW_DATA = {{ flow_json|safe }};
+    window.FLOW_CONFIG = {
+        flowId: {{ flow.id }},
+        saveUrl: "{% url 'flow_save' flow.id %}",
+        uploadMediaUrl: "{% url 'upload_media' %}",
+    };
+</script>
+<script src="{% static 'js/flow_builder.js' %}?v={% now 'U' %}"></script>
+{% endblock design %}

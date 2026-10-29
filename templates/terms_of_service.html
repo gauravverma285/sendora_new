@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/landing-theme.css' %}">
+
+<div class="lp">
+
+    <!-- Page header -->
+    <section class="lp-page-header">
+        <div class="container">
+            <p class="lp-eyebrow">Legal</p>
+            <h1 class="lp-heading" style="font-size:36px;">Terms of Service</h1>
+        </div>
+    </section>
+
+    <section class="lp-section lp-section--white">
+        <div class="container" style="max-width: 840px;">
+            <div class="lp-legal">
+                <p class="lp-legal__updated">Last updated: {% now "F j, Y" %}</p>
+
+                <p>
+                    These Terms of Service ("Terms") govern your use of Dovix AI
+                    ("we", "us", "our"), a WhatsApp Business messaging platform that lets
+                    you connect your own WhatsApp Business Account (WABA) and send
+                    campaigns, manage contacts, build templates, and automate conversations
+                    through the Meta WhatsApp Business Platform. By creating an account or
+                    using Dovix AI, you agree to these Terms.
+                </p>
+
+                <h2>1. Your Account</h2>
+                <p>
+                    You're responsible for keeping your login credentials and API token
+                    secure, and for all activity that happens under your account. You must
+                    provide accurate information when registering and connecting your
+                    WhatsApp Business Account.
+                </p>
+
+                <h2>2. Acceptable Use</h2>
+                <ul>
+                    <li>You will only message contacts who have given you permission to be contacted, and you will honor opt-out requests.</li>
+                    <li>You will not use Dovix AI to send spam, unsolicited bulk messages, or content prohibited by Meta's WhatsApp Business Messaging Policy and Commerce Policy.</li>
+                    <li>You will not use the platform for anything illegal, fraudulent, or deceptive, including phishing or impersonation.</li>
+                    <li>You will not attempt to interfere with, disrupt, or gain unauthorized access to Dovix AI's systems or other accounts.</li>
+                </ul>
+                <p>
+                    Your use of WhatsApp through Dovix AI is also governed by Meta's own
+                    WhatsApp Business Policy. We may suspend or terminate your access if
+                    Meta flags your account or number for policy violations.
+                </p>
+
+                <h2>3. Subscription Plans &amp; Billing</h2>
+                <ul>
+                    <li>Dovix AI is offered through subscription plans that define limits such as the number of contacts, campaigns, and flows you can create, and which features (like API access) are included.</li>
+                    <li>You can view, change, or upgrade your plan at any time from the Plans page in your dashboard.</li>
+                    <li>Paid plans are billed for the duration shown at checkout. Changing plans takes effect immediately and starts a new billing period for the new plan.</li>
+                    <li>Fees are non-refundable except where required by law.</li>
+                </ul>
+
+                <h2>4. Third-Party Services</h2>
+                <p>
+                    Dovix AI connects to Meta's WhatsApp Business Platform to send and
+                    receive messages on your behalf. We are not responsible for outages,
+                    policy changes, or message delivery issues caused by Meta or WhatsApp.
+                    Your WhatsApp Business Account remains yours &mdash; you can disconnect it
+                    from Dovix AI at any time.
+                </p>
+
+                <h2>5. Intellectual Property</h2>
+                <p>
+                    Dovix AI and its software, design, and branding are owned by us. The
+                    content you create or upload &mdash; templates, contacts, campaign
+                    content &mdash; remains yours; you grant us only the right to process it
+                    in order to provide the service to you.
+                </p>
+
+                <h2>6. Disclaimer &amp; Limitation of Liability</h2>
+                <p>
+                    Dovix AI is provided "as is" without warranties of any kind. We do not
+                    guarantee uninterrupted service or that every message will be delivered,
+                    since delivery ultimately depends on the WhatsApp Business Platform and
+                    the recipient's device/network. To the maximum extent permitted by law,
+                    Dovix AI is not liable for indirect, incidental, or consequential
+                    damages arising from your use of the platform.
+                </p>
+
+                <h2>7. Termination</h2>
+                <p>
+                    You may stop using Dovix AI and delete your account at any time. We may
+                    suspend or terminate accounts that violate these Terms, misuse the
+                    platform, or are flagged by Meta for policy violations.
+                </p>
+
+                <h2>8. Changes to These Terms</h2>
+                <p>
+                    We may update these Terms from time to time. Continuing to use Dovix AI
+                    after an update means you accept the revised Terms.
+                </p>
+
+                <h2>9. Governing Law</h2>
+                <p>
+                    These Terms are governed by the laws of India, and any disputes will be
+                    subject to the exclusive jurisdiction of the courts of Jaipur, Rajasthan.
+                </p>
+
+                <h2>10. Contact Us</h2>
+                <p>
+                    Questions about these Terms? Contact us at
+                    <a href="mailto:info@dovix.ai">info@dovix.ai</a> or write to us at
+                    B-18, 2nd Floor, Shiv Marg, Bani Park, Jaipur, Rajasthan 302015, India.
+                </p>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock body %}

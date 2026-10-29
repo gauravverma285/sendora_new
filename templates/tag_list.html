@@ -1,0 +1,114 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+{% if user.is_authenticated %}
+
+<div class="app-page">
+
+    <div class="app-page__head">
+        <div>
+            <h1 class="app-page__title"><i class="mdi mdi-tag-outline" style="color: var(--au-green);"></i> Tags</h1>
+            <p class="app-page__subtitle">Create and manage tags to organize your contacts better.</p>
+        </div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--green"><i class="mdi mdi-tag-multiple-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Total Tags</div>
+                <div class="stat-card__value">{{ total_tags }}</div>
+                <div class="stat-card__hint">Active tags</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--blue"><i class="mdi mdi-account-check-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Contacts Tagged</div>
+                <div class="stat-card__value">{{ contacts_tagged }}</div>
+                <div class="stat-card__hint">Have at least one tag</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--purple"><i class="mdi mdi-account-question-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Untagged Contacts</div>
+                <div class="stat-card__value">{{ contacts_untagged }}</div>
+                <div class="stat-card__hint">No tags yet</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="au-panel mb-4">
+        <div class="au-panel__header">
+            <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-plus"></i></span> Create a New Tag</h2>
+        </div>
+        <form id="tagForm" class="d-flex flex-wrap gap-2">
+            {% csrf_token %}
+            <input type="text" id="tagInput" placeholder="Enter a new tag" class="form-control" style="max-width: 320px;">
+            <button type="submit" class="btn-au-primary"><i class="mdi mdi-plus-circle-outline"></i> Add Tag</button>
+        </form>
+    </div>
+
+    <div class="au-panel">
+        <div class="au-panel__header">
+            <h2 class="au-panel__title"><span class="au-panel__title-icon"><i class="mdi mdi-tag-outline"></i></span> All Tags</h2>
+        </div>
+
+        <div class="au-table-wrap">
+            <table class="au-table">
+                <thead>
+                    <tr>
+                        <th>Tag Name</th>
+                        <th>Type</th>
+                        <th>Contacts</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tag in user_tags %}
+                    {% cycle '#51b56d' '#3161d1' '#7c5cff' '#c9770a' '#e5484d' '#0ea5e9' as tagcolor silent %}
+                    <tr>
+                        <td class="au-cell-title"><span class="au-tag-dot" style="background: {{ tagcolor }};"></span><span class="tag-name-text">{{ tag.name }}</span></td>
+                        <td><span class="au-pill au-pill--green">Custom</span></td>
+                        <td>{{ tag.contact_count }}</td>
+                        <td>
+                            <button type="button" class="btn-au-outline btn-sm tag-edit-btn" data-id="{{ tag.id }}">Edit</button>
+                            <button type="button" class="au-pill au-pill--red tag-delete-btn" style="border: none; cursor: pointer;" data-id="{{ tag.id }}">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% for tag in prebuilt_tags %}
+                    {% cycle '#51b56d' '#3161d1' '#7c5cff' '#c9770a' '#e5484d' '#0ea5e9' as tagcolor silent %}
+                    <tr>
+                        <td class="au-cell-title"><span class="au-tag-dot" style="background: {{ tagcolor }};"></span><span class="tag-name-text">{{ tag.name }}</span></td>
+                        <td><span class="au-pill au-pill--gray">Prebuilt</span></td>
+                        <td>{{ tag.contact_count }}</td>
+                        <td><span class="au-cell-sub">—</span></td>
+                    </tr>
+                    {% endfor %}
+                    {% if not user_tags and not prebuilt_tags %}
+                    <tr>
+                        <td colspan="4">
+                            <div class="au-empty">
+                                <i class="mdi mdi-tag-off-outline"></i>
+                                No tags yet. Create your first tag above.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endif %}
+
+<script src="{% static 'js/tags.js' %}?v={% now 'U' %}"></script>
+
+{% endblock %}

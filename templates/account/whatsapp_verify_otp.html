@@ -1,0 +1,29 @@
+{% extends 'account/_auth_layout.html' %}
+{% block title %}Verify OTP - Dovix AI{% endblock %}
+
+{% block auth_content %}
+<div class="auth-icon-badge"><i class="mdi mdi-message-text-lock-outline"></i></div>
+<h2 class="auth-card__title">Verify OTP</h2>
+<p class="auth-card__sub">Enter the one-time code we sent to your WhatsApp number.</p>
+
+<form method="post" action="{% url 'verify_otp' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="auth-field">
+        <label class="auth-label" for="otp">One-Time Code</label>
+        <div class="auth-input">
+            <i class="mdi mdi-numeric"></i>
+            <input type="text" name="otp" id="otp" class="form-control" placeholder="Enter the 6-digit code" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn auth-btn-primary w-100">Verify &amp; Login</button>
+</form>
+
+<p class="auth-foot"><a href="{% url 'send_otp' %}">Resend code</a></p>
+{% endblock %}

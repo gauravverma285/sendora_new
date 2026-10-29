@@ -1,0 +1,57 @@
+{% extends 'account/_auth_layout.html' %}
+{% load socialaccount %}
+{% block title %}Sign In - Dovix AI{% endblock %}
+
+{% block auth_content %}
+<h2 class="auth-card__title">Welcome Back</h2>
+<p class="auth-card__sub">Sign in to your account to continue to Dovix AI.</p>
+
+<form method="post" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="auth-field">
+        <label class="auth-label" for="id_login">Email or Username</label>
+        <div class="auth-input">
+            <i class="mdi mdi-email-outline"></i>
+            <input type="text" name="login" id="id_login" class="form-control" placeholder="Enter your email or username" autocomplete="email" required>
+        </div>
+        {% if form.login.errors %}<div class="text-danger small mt-1">{{ form.login.errors }}</div>{% endif %}
+    </div>
+
+    <div class="auth-field">
+        <label class="auth-label" for="id_password">Password</label>
+        <div class="auth-input auth-input--pw">
+            <i class="mdi mdi-lock-outline"></i>
+            <input type="password" name="password" id="id_password" class="form-control" placeholder="Enter your password" autocomplete="current-password" required aria-describedby="id_password_helptext">
+            <button type="button" class="auth-eye" data-target="id_password" aria-label="Show password"><i class="mdi mdi-eye-outline"></i></button>
+        </div>
+        {% if form.password.errors %}<div class="text-danger small mt-1">{{ form.password.errors }}</div>{% endif %}
+    </div>
+
+    <div class="auth-row">
+        <label class="auth-check"><input type="checkbox" name="remember" id="id_remember"> Remember Me</label>
+        <a href="{% url 'account_reset_password' %}" class="auth-link" id="id_password_helptext">Forgot password?</a>
+    </div>
+
+    <button type="submit" class="btn auth-btn-primary w-100">Sign In</button>
+</form>
+
+<div class="auth-divider"><span>OR</span></div>
+
+<a href="{% provider_login_url 'google' %}" class="btn auth-btn-google w-100">
+    <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.9c1.7-1.56 2.7-3.87 2.7-6.62z"/>
+        <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.96v2.33A9 9 0 0 0 9 18z"/>
+        <path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.67 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.03l2.99-2.33z"/>
+        <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.97l2.99 2.33C4.66 5.17 6.65 3.58 9 3.58z"/>
+    </svg>
+    Continue With Google
+</a>
+
+<p class="auth-foot">Don't have an account? <a href="{% url 'account_signup' %}">Sign Up</a></p>
+{% endblock %}

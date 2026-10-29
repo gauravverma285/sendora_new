@@ -1,0 +1,14 @@
+{% extends 'account/_auth_layout.html' %}
+{% block title %}Sign Out - Dovix AI{% endblock %}
+
+{% block auth_content %}
+<div class="auth-icon-badge"><i class="mdi mdi-logout"></i></div>
+<h2 class="auth-card__title">Sign Out</h2>
+<p class="auth-card__sub">Are you sure you want to sign out of Dovix AI?</p>
+
+<form method="post" action="{% url 'account_logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn auth-btn-primary w-100 mb-2">Sign Out</button>
+</form>
+<a href="{% url 'services' %}" class="btn auth-btn-outline w-100">Cancel</a>
+{% endblock %}

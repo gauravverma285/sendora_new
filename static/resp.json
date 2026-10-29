@@ -1,0 +1,54 @@
+{
+    'name': 'seasonal_promotion_new_5', 
+    'language': 'en', 
+    'category': 'MARKETING', 
+    'components': [
+        {
+            'type': 'HEADER', 
+            'format': 'TEXT', 
+            'example': {
+                'header_text': [
+                    'Sale'
+                ]
+            }, 
+            'text': 'Our {{1}} is on!'
+        },
+
+        {
+            'type': 'BODY', 
+            'text': 'Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.', 
+            'example': {
+                'body_text': [
+                    'the end of August', '50OFF', '50%'
+                ]
+            }
+        },
+
+        {
+            'type': 'FOOTER', 
+            'text': 'Use the buttons below to manage your marketing subscriptions'
+        },
+
+        {
+            'type': 'BUTTONS', 
+            'buttons': [
+                {
+                    'type': 'QUICK_REPLY', 
+                    'text': 'Stop promotions'
+                },
+                {
+                    'type': 'URL', 
+                    'text': 'Visit website', 
+                    'url': 'https: //www.wwe.com/{{1}}', 
+                    'example': ['https://www.wwe.com/shows']
+                }, 
+                {'type': 'COPY_CODE', 'text': 
+                'Copy offer code', 
+                'example': [
+                    'promo124'
+                    ]
+                }
+            ]
+        }
+    ]
+}

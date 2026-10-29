@@ -1,0 +1,296 @@
+
+[12/Sep/2026 11:03:31] "GET /static/js/script.js?v=1789191211 HTTP/1.1" 200 6235
+Received Webhook Data: {
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "1571529851331973",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15556748313",
+              "phone_number_id": "1206455619226767"
+            },
+            "contacts": [
+              {
+                "wa_id": "917745968882",
+                "user_id": "IN.1382984163901092"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "wamid.HBgMOTE3NzQ1OTY4ODgyFQIAERgSNjRDOTUxMUFDN0UxMzQwM0VEAA==",
+                "status": "sent",
+                "timestamp": "1789191220",
+                "recipient_id": "917745968882",
+                "recipient_user_id": "IN.1382984163901092",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "marketing",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+[12/Sep/2026 11:03:41] "POST /services/webhook/ HTTP/1.1" 200 22
+Received Webhook Data: {
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "1571529851331973",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15556748313",
+              "phone_number_id": "1206455619226767"
+            },
+            "contacts": [
+              {
+                "wa_id": "917745968882",
+                "user_id": "IN.1382984163901092"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "wamid.HBgMOTE3NzQ1OTY4ODgyFQIAERgSNjRDOTUxMUFDN0UxMzQwM0VEAA==",
+                "status": "read",
+                "timestamp": "1789191221",
+                "recipient_id": "917745968882",
+                "recipient_user_id": "IN.1382984163901092",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "marketing",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+[12/Sep/2026 11:03:42] "POST /services/webhook/ HTTP/1.1" 200 22
+Received Webhook Data: {
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "1571529851331973",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15556748313",
+              "phone_number_id": "1206455619226767"
+            },
+            "contacts": [
+              {
+                "wa_id": "919982908095",
+                "user_id": "IN.1587062422802186"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "wamid.HBgMOTE5OTgyOTA4MDk1FQIAERgSNUEzRjY0ODA0OTk1ODc3ODU3AA==",
+                "status": "delivered",
+                "timestamp": "1789191223",
+                "recipient_id": "919982908095",
+                "recipient_user_id": "IN.1587062422802186",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "marketing",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+Received Webhook Data: {
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "1571529851331973",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15556748313",
+              "phone_number_id": "1206455619226767"
+            },
+            "contacts": [
+              {
+                "wa_id": "919982908095",
+                "user_id": "IN.1587062422802186"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "wamid.HBgMOTE5OTgyOTA4MDk1FQIAERgSNUEzRjY0ODA0OTk1ODc3ODU3AA==",
+                "status": "sent",
+                "timestamp": "1789191222",
+                "recipient_id": "919982908095",
+                "recipient_user_id": "IN.1587062422802186",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "marketing",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}Received Webhook Data: {
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "1571529851331973",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15556748313",
+              "phone_number_id": "1206455619226767"
+            },
+            "contacts": [
+              {
+                "wa_id": "917877383709",
+                "user_id": "IN.4091646267800423"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "wamid.HBgMOTE3ODc3MzgzNzA5FQIAERgSN0UzQ0NBRDQ3NUQ1N0YwRUE1AA==",
+                "status": "sent",
+                "timestamp": "1789191223",
+                "recipient_id": "917877383709",
+                "recipient_user_id": "IN.4091646267800423",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "marketing",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+[12/Sep/2026 11:03:44] "POST /services/webhook/ HTTP/1.1" 200 22
+
+[12/Sep/2026 11:03:44] "POST /services/webhook/ HTTP/1.1" 200 22
+[12/Sep/2026 11:03:44] "POST /services/webhook/ HTTP/1.1" 200 22
+Received Webhook Data: {
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "1571529851331973",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15556748313",
+              "phone_number_id": "1206455619226767"
+            },
+            "contacts": [
+              {
+                "wa_id": "917877383709",
+                "user_id": "IN.4091646267800423"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "wamid.HBgMOTE3ODc3MzgzNzA5FQIAERgSN0UzQ0NBRDQ3NUQ1N0YwRUE1AA==",
+                "status": "delivered",
+                "timestamp": "1789191225",
+                "recipient_id": "917877383709",
+                "recipient_user_id": "IN.4091646267800423",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "marketing",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+[12/Sep/2026 11:03:47] "POST /services/webhook/ HTTP/1.1" 200 22
+Received Webhook Data: {
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "1571529851331973",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15556748313",
+              "phone_number_id": "1206455619226767"
+            },
+            "contacts": [
+              {
+                "wa_id": "919982908095",
+                "user_id": "IN.1587062422802186"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "wamid.HBgMOTE5OTgyOTA4MDk1FQIAERgSNUEzRjY0ODA0OTk1ODc3ODU3AA==",
+                "status": "read",
+                "timestamp": "1789191371",
+                "recipient_id": "919982908095",
+                "recipient_user_id": "IN.1587062422802186",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "marketing",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+[12/Sep/2026 11:06:11] "POST /services/webhook/ HTTP/1.1" 200 22

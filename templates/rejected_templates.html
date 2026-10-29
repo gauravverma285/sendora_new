@@ -1,0 +1,57 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+
+<section class="page-header bg-tertiary" style="z-index: 0;">
+  <div class="container">
+    <div class="row">
+      <div class="col-8 mx-auto text-center">
+        <h2 class="mb-3 text-capitalize">Common Rejection Reasons</h2>
+        <div><span class="description-title">Submissions are commonly rejected for the following reasons, so make sure you avoid these mistakes.</span></div>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="content">
+          <h3 id="the-use-of-the-information">Parameter Formatting</h3>
+          <ul>
+            <li>Variable parameters are missing or have mismatched curly braces. The correct format is <code style="color: #42b72a;">&#123;&#123;1&#125;&#125;</code>.</li>
+            <li>Variable parameters contain special characters such as a <code style="color: #42b72a;">#</code>, <code style="color: #42b72a;">$</code>, or <code style="color: #42b72a;">%</code>.</li>
+            <li>Variable parameters are not sequential. For example, <code style="color: #42b72a;">&#123;&#123;1&#125;&#125;</code>, <code style="color: #42b72a;">&#123;&#123;2&#125;&#125;</code>, <code style="color: #42b72a;">&#123;&#123;4&#125;&#125;</code>, <code style="color: #42b72a;">&#123;&#123;5&#125;&#125;</code> are defined but <code style="color: #42b72a;">&#123;&#123;3&#125;&#125;</code> does not exist.</li>
+            <li>Template contains too many variable parameters relative to the message length. You need to decrease the number of variable parameters or increase the message length.</li>
+            <li>The message template cannot end with a parameter.</li>
+          </ul>
+
+          <h3 id="application-processing">Content and Policy Violations</h3>
+          <ul>
+            <li>The message template contains content that violates WhatsApp’s Commerce Policy: When you offer goods or services for sale, we consider all messages and media related to your goods or services, including any descriptions, prices, fees, taxes and/or any required legal disclosures, to constitute transactions. Transactions must comply with the WhatsApp Commerce Policy.</li>
+            <li>The message template contains content that violates the WhatsApps Business Policy: Do not request sensitive identifiers from users. For example, do not ask people to share full length individual payment card numbers, financial account numbers, National Identification numbers, or other sensitive identifiers. This also includes not requesting documents from users that might contain sensitive identifiers. Requesting partial identifiers (ex: last 4 digits of their Social Security number) is OK.</li>
+            <li>The content contains potentially abusive or threatening content, such as threatening a customer with legal action or threatening to publicly shame them.</li>
+          </ul>
+
+          <h3 id="what-services-we-render">Character Limits and Text Format</h3>
+          <ul>
+            <li>The body component will have different character limits depending on the format and tag of the template. The number of emojis allowed in the body component may also be limited.</li>
+          </ul>
+          <h3 id="intellectual-property-rights">Duplication</h3>
+          <ul>
+            <li>The message template is a duplicate of an existing template. If a template is submitted with the same wording in the body and footer of an existing template, the duplicate template will be rejected.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock design %}
+
+    

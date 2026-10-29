@@ -1,0 +1,120 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+
+<style>
+#template_list th,
+#template_list td {
+    text-align: left;
+    vertical-align: middle;
+}
+</style>
+
+<div class="app-page">
+
+    <div class="app-page__head">
+        <div>
+            <h1 class="app-page__title"><i class="mdi mdi-file-document-outline" style="color: var(--au-green);"></i> Templates</h1>
+            <p class="app-page__subtitle">Create and manage your WhatsApp message templates.</p>
+        </div>
+        <a href="/services/create_template" class="btn-au-primary">
+            <i class="mdi mdi-plus-circle-outline"></i> Create Template
+        </a>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--green"><i class="mdi mdi-file-document-multiple-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Total Templates</div>
+                <div class="stat-card__value">{{ total_templates }}</div>
+                <div class="stat-card__hint">All templates</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--blue"><i class="mdi mdi-check-decagram-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Approved</div>
+                <div class="stat-card__value">{{ approved_count }}</div>
+                <div class="stat-card__hint">Ready to use</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--warning"><i class="mdi mdi-clock-alert-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Pending</div>
+                <div class="stat-card__value">{{ pending_count }}</div>
+                <div class="stat-card__hint">Awaiting review</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--danger"><i class="mdi mdi-close-circle-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Rejected</div>
+                <div class="stat-card__value">{{ rejected_count }}</div>
+                <div class="stat-card__hint">Needs changes</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="au-panel">
+        <div class="d-flex flex-wrap gap-2 justify-content-end mb-3">
+            <a href="/services/rejected_templates" class="btn-au-outline" style="color: var(--au-danger);">
+                <i class="mdi mdi-alert-circle-outline"></i> Why templates get rejected
+            </a>
+            <a href="/services/edit_templates_rules" class="btn-au-outline" style="color: var(--au-info);">
+                <i class="mdi mdi-book-open-page-variant-outline"></i> Template edit rules
+            </a>
+        </div>
+
+        <div class="au-table-wrap">
+            <table id="template_list" class="au-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Template Name</th>
+                        <th>Category</th>
+                        <th>Language</th>
+                        <th>Status</th>
+                        <th>Template ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for template in templates %}
+                    <tr>
+                            <td class="au-cell-title">{{template.name}}</td>
+                            <td><span class="au-pill au-pill--gray">{{template.category}}</span></td>
+                            <td>{{template.language}}</td>
+                            <td>
+                                {% if template.status == "APPROVED" %}
+                                <span class="au-pill au-pill--green">{{template.status}}</span>
+                                {% elif template.status == "REJECTED" %}
+                                <span class="au-pill au-pill--red">{{template.status}}</span>
+                                {% else %}
+                                <span class="au-pill au-pill--orange">{{template.status}}</span>
+                                {% endif %}
+                            </td>
+                            <td class="au-cell-sub">{{template.id}}</td>
+                            <td>
+                                <a href="{% url 'view_template' template.id %}" title="View">
+                                    <img src="{% static 'icons/visibility_icon.png' %}" title="open" style="cursor: pointer;">
+                                </a>
+                                <img onclick="deleteTemplate('{{ template.name }}', this)" src="{% static 'icons/delete_icon.svg' %}" title="delete" style="cursor: pointer; padding-left: 10px;">
+                            </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'js/template_list.js' %}?v={% now 'U' %}"></script>
+{% endblock design %}

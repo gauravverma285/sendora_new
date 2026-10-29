@@ -1,0 +1,76 @@
+{% extends 'services.html' %}
+
+{% block design %}
+
+
+
+<div class="container mt-4">
+    <h2>Add Contact</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" name="name" class="form-control">
+            {% if errors.name %}
+        <div class="text-danger">{{ errors.name }}</div>
+    {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mobile Number:</label>
+            <input type="number" name="mobile_number" class="form-control" value="{{ form_data.mobile_number|default:'' }}" required>
+            {% if errors.mobile_number %}
+        <div class="text-danger">{{ errors.mobile_number }}</div>
+    {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email:</label>
+            <input type="email" name="email" class="form-control" value="{{ form_data.email|default:'' }}">
+            {% if errors.email %}
+        <div class="text-danger">{{ errors.email }}</div>
+    {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Age:</label>
+            <input type="number"  min="0" name="age" class="form-control">
+            {% if errors.age %}
+        <div class="text-danger">{{ errors.age }}</div>
+    {% endif %}
+        </div>
+
+        <!-- Multi-Select Tag Field -->
+        <div class="mb-3">
+            <label class="form-label">Tags:</label>
+            {% if tags %}
+            <select name="tags" class="mb-3 form-multi-select" id="multiple-select-tag" multiple data-coreui-selection-type="tags" data-coreui-search="true">
+                {% for tag in tags %}
+                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+            <small class="text-muted">Use search to find and select multiple tags.</small>
+            {% else %}
+            <div class="au-empty" style="padding: 20px 0;">
+                <i class="mdi mdi-tag-off-outline"></i>
+                No tags available. <a href="{% url 'tag_list' %}">Create a tag first</a>.
+            </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-success">Save Contact</button>
+        <a href="{% url 'contacts_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<!-- 
+<script>
+    // Initialize the MDB Select Dropdown
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectElement = document.querySelector('#tag-select');
+        new mdb.Select(selectElement);
+    });
+</script> -->
+
+<!-- Add MDB JS -->
+<!--  
+<script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js" integrity="sha384-8QmUFX1sl4cMveCP2+H1tyZlShMi1LeZCJJxTZeXDxOwQexlDdRLQ3O9L78gwBbe" crossorigin="anonymous"></script> -->
+
+
+{% endblock %}
+

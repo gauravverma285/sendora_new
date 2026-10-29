@@ -1,0 +1,112 @@
+[
+    {'name': 'seasonal_promotion_new', 'parameter_format': 'POSITIONAL', 'components': [
+            {'type': 'HEADER', 'format': 'TEXT', 'text': 'Our {{1}} is on!', 
+            'example': {'header_text': ['Summer Sale']}
+            },
+            {'type': 'BODY', 'text': 'Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.', 
+            'example': {'body_text': [['the end of August', '25OFF', '25%']]}
+            },
+            {'type': 'FOOTER', 'text': 'Use the buttons below to manage your marketing subscriptions'
+            },
+            {'type': 'BUTTONS', 'buttons': [
+                    {'type': 'QUICK_REPLY', 'text': 'Stop promotions'
+                    },
+                    {'type': 'COPY_CODE', 'text': 'Copy offer code', 'example': ['25dya']
+                    }
+                ]
+            }
+        ], 'language': 'en', 'status': 'APPROVED', 'category': 'MARKETING', 'sub_category': 'CUSTOM', 'id': '3935204696713092'
+    },
+    {'name': 'seasonal_promotion', 'parameter_format': 'POSITIONAL', 'components': [
+            {'type': 'HEADER', 'format': 'TEXT', 'text': 'Our {
+                    {
+                        1
+                    }
+                } is on!', 'example': {'header_text': ['Summer Sale'
+                    ]
+                }
+            },
+            {'type': 'BODY', 'text': 'Shop now through {
+                    {
+                        1
+                    }
+                } and 
+use code {
+                    {
+                        2
+                    }
+                } to get {
+                    {
+                        3
+                    }
+                } off of all merchandise.', 'example': {'body_text': [
+                        ['the end of August', '25OFF', '25%'
+                        ]
+                    ]
+                }
+            },
+            {'type': 'FOOTER', 'text': 'Use the buttons below to manage your marketing subscriptions'
+            },
+            {'type': 'BUTTONS', 'buttons': [
+                    {'type': 'QUICK_REPLY', 'text': 'Unsubscribe from Promos'
+                    },
+                    {'type': 'QUICK_REPLY', 'text': 'Unsubscribe from All'
+                    }
+                ]
+            }
+        ], 'language': 'en_US', 'status': 'APPROVED', 'category': 'MARKETING', 'id': '611014574879534'
+    },
+    {'name': 'abcd', 'parameter_format': 'POSITIONAL', 'components': [
+            {'type': 'BODY', 'text': 'Hi {
+                    {name of user
+                    }
+                },\r\n\r\nThis is my body'
+            },
+            {'type': 'FOOTER', 'text': 'This is my footer'
+            },
+            {'type': 'BUTTONS', 'buttons': [
+                    {'type': 'QUICK_REPLY', 'text': '12345'
+                    }
+                ]
+            }
+        ], 'language': 'en_US', 'status': 'REJECTED', 'category': 'MARKETING', 'id': '1671737133753574'
+    },
+    {'name': 'himanshu_template', 'parameter_format': 'POSITIONAL', 'components': [
+            {'type': 'HEADER', 'format': 'TEXT', 'text': 'Hello everyone'
+            },
+            {'type': 'BODY', 'text': 'this is my first template'
+            },
+            {'type': 'FOOTER', 'text': 'this is my footer'
+            },
+            {'type': 'BUTTONS', 'buttons': [
+                    {'type': 'QUICK_REPLY', 'text': 'Stop promotions'
+                    }
+                ]
+            }
+        ], 'language': 'en_IN', 'status': 'REJECTED', 'category': 'MARKETING', 'sub_category': 'CUSTOM', 'id': '913276447637992'
+    },
+    {'name': 'hello_world', 'parameter_format': 'POSITIONAL', 'components': [
+            {'type': 'HEADER', 'format': 'TEXT', 'text': 'Hello World'
+            },
+            {'type': 'BODY', 'text': 'Welcome and congratulations!! This message demonstrates your ability to send a WhatsApp message notification from the Cloud API, hosted by Meta. Thank you for taking the time to test with us.'
+            },
+            {'type': 'FOOTER', 'text': 'WhatsApp Business Platform sample message'
+            }
+        ], 'language': 'en_US', 'status': 'APPROVED', 'category': 'UTILITY', 'id': '1278206776606937'
+    }
+]
+[
+    31/Jan/2025 16: 43: 34
+] "GET /services/template_list/ HTTP/1.1"200 9577
+
+
+templates--> [{'name': 'seasonal_promotion_new_2', 'parameter_format': 'POSITIONAL', 'components': [{'type': 'HEADER', 'format': 'TEXT', 'text': 'Our {{1}} is on!', 'example': {'header_text': ['Sale']}}, {'type': 'BODY', 'text': 'Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.', 'example': {'body_text': [['the end of August', '50OFF', '50%']]}}, {'type': 'FOOTER', 'text': 'Use the buttons below to manage your marketing subscriptions'}, {'type': 'BUTTONS', 'buttons': [{'type': 'QUICK_REPLY', 'text': 'Stop promotions'}, {'type': 'URL', 'text': 'Visit website', 'url': 'https://www.wwe.com/%7B%7B1%7D%7D/%7B%7B5%7D%7D/{{1}}', 'example': ['https://www.wwe.com/shows/wwenxt/']}]}], 'language': 'en', 'status': 'APPROVED', 'category': 'MARKETING', 'sub_category': 'CUSTOM', 'id': '568677602832182'}, {'name': 'seasonal_promotion_new1', 'parameter_format': 'POSITIONAL', 'components': [{'type': 'HEADER', 'format': 'TEXT', 'text': 'Our {{1}} is on!'}, {'type': 'BODY', 'text': 'Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.'}, {'type': 'FOOTER', 'text': 'Use the buttons below to manage your marketing subscriptions'}], 'language': 'en', 'status': 'REJECTED', 'category': 'MARKETING', 'id': '1337220487320454'}, {'name': 'seasonal_promotion_new', 'parameter_format': 'POSITIONAL', 'components': [{'type': 'HEADER', 'format': 'TEXT', 'text': 'Our {{1}} is on!', 'example': {'header_text': ['Summer Sale']}}, {'type': 'BODY', 'text': 'Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.', 'example': {'body_text': [['the end of August', '25OFF', '25%']]}}, {'type': 'FOOTER', 'text': 'Use the buttons below to manage your marketing subscriptions'}, {'type': 'BUTTONS', 'buttons': [{'type': 'QUICK_REPLY', 'text': 'Stop promotions'}, {'type': 'COPY_CODE', 'text': 'Copy offer code', 'example': ['25dya']}]}], 'language': 'en', 'status': 'APPROVED', 'category': 'MARKETING', 'sub_category': 'CUSTOM', 'id': '3935204696713092'}, {'name': 'seasonal_promotion', 'parameter_format': 'POSITIONAL', 'components': [{'type': 'HEADER', 'format': 'TEXT', 'text': 'Our {{1}} is on!', 'example': {'header_text': ['Summer Sale']}}, {'type': 'BODY', 'text': 'Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.', 'example': {'body_text': [['the end of August', '25OFF', '25%']]}}, {'type': 'FOOTER', 'text': 'Use the buttons below to manage your marketing subscriptions'}, {'type': 'BUTTONS', 'buttons': [{'type': 'QUICK_REPLY', 'text': 'Unsubscribe from Promos'}, {'type': 'QUICK_REPLY', 'text': 'Unsubscribe from All'}]}], 
+'language': 'en_US', 'status': 'APPROVED', 'category': 'MARKETING', 'id': '611014574879534'}, {'name': 'abcd', 'parameter_format': 'POSITIONAL', 'components': [{'type': 'BODY', 'text': 'Hi {{name of user}},\r\n\r\nThis is my body'}, {'type': 'FOOTER', 'text': 'This is my footer'}, {'type': 'BUTTONS', 'buttons': [{'type': 'QUICK_REPLY', 'text': '12345'}]}], 'language': 'en_US', 'status': 'REJECTED', 'category': 'MARKETING', 'id': '1671737133753574'}, {'name': 'himanshu_template', 'parameter_format': 'POSITIONAL', 'components': [{'type': 'HEADER', 'format': 'TEXT', 'text': 'Hello everyone'}, {'type': 'BODY', 'text': 'this is my first template'}, {'type': 'FOOTER', 'text': 'this is my footer'}, {'type': 'BUTTONS', 'buttons': [{'type': 'QUICK_REPLY', 'text': 'Stop promotions'}]}], 'language': 'en_IN', 'status': 'REJECTED', 'category': 'MARKETING', 'sub_category': 'CUSTOM', 'id': '913276447637992'}, {'name': 'hello_world', 'parameter_format': 'POSITIONAL', 'components': [{'type': 'HEADER', 'format': 'TEXT', 'text': 'Hello World'}, {'type': 'BODY', 'text': 'Welcome and congratulations!! This message demonstrates your ability to send a WhatsApp message notification from the Cloud API, hosted by Meta. Thank you for taking the time to test with us.'}, {'type': 'FOOTER', 'text': 'WhatsApp Business Platform sample message'}], 'language': 'en_US', 'status': 'APPROVED', 'category': 'UTILITY', 'id': '1278206776606937'}]
+
+
+{'messaging_product': 'whatsapp', 'to': '', 'type': 'template', 'template': {'name': 'hello_world', 'language': {'code': 'en_US'}, 'components': [{'type': 'HEADER', 'parameters': []}, {'type': 'BODY', 'parameters': []}]}}
+
+{'messaging_product': 'whatsapp', 
+'to': '', 
+'type': 'template', 
+'template': {'name': 'seasonal_promotion_new_5', 'language': {'code': 'en'}, 'components': [{'type': 'HEADER', 'parameters': [{'type': 'text', 'text': 'h1'}]}, {'type': 'BODY', 'parameters': [{'type': 'text', 'text': 'name_tag'}, {'type': 'text', 'text': 'b2'}, {'type': 'text', 'text': 'phone_number_tag'}]}, {'type': 'BUTTON', 'sub_type': 'QUICK_REPLY', 'index': 0}, {'type': 'BUTTON', 'sub_type': 'URL', 'index': 1, 'parameters': [{'type': 'text', 'text': 'shows'}]}]}}

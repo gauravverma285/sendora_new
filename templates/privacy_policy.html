@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/landing-theme.css' %}">
+
+<div class="lp">
+
+    <!-- Page header -->
+    <section class="lp-page-header">
+        <div class="container">
+            <p class="lp-eyebrow">Legal</p>
+            <h1 class="lp-heading" style="font-size:36px;">Privacy Policy</h1>
+        </div>
+    </section>
+
+    <section class="lp-section lp-section--white">
+        <div class="container" style="max-width: 840px;">
+            <div class="lp-legal">
+                <p class="lp-legal__updated">Last updated: {% now "F j, Y" %}</p>
+
+                <p>
+                    Dovix AI ("we", "us", "our") provides a WhatsApp Business messaging
+                    platform that lets businesses connect their own WhatsApp Business
+                    Account (WABA), create message templates, manage contacts, and run
+                    messaging campaigns through the Meta WhatsApp Business Platform
+                    (Cloud API). This policy explains what information we collect,
+                    why we collect it, and how it is used.
+                </p>
+
+                <h2>1. Information We Collect</h2>
+                <ul>
+                    <li><strong>Account information:</strong> username, email address, and password when you register.</li>
+                    <li>
+                        <strong>WhatsApp Business connection data:</strong> when you connect your
+                        WhatsApp Business Account through Facebook Login / WhatsApp Embedded
+                        Signup, we receive and store your WhatsApp Business Account ID (WABA ID),
+                        phone number ID, phone number, Meta Business ID, and an access token that
+                        lets our platform send messages and manage templates on your behalf.
+                    </li>
+                    <li>
+                        <strong>Contacts you upload:</strong> names, phone numbers, and any tags
+                        or attributes you add for the audiences you message through our platform.
+                    </li>
+                    <li>
+                        <strong>Campaign and template data:</strong> message templates you create,
+                        campaign configurations, chat messages sent and received through our
+                        Messages inbox, and delivery/read/engagement metrics returned by the
+                        WhatsApp Business Platform.
+                    </li>
+                    <li>
+                        <strong>Billing information:</strong> the subscription plan you choose and
+                        your payment/subscription history. We do not store card details ourselves.
+                    </li>
+                    <li>
+                        <strong>Usage data:</strong> basic technical data such as IP address and
+                        browser type, collected for security and troubleshooting.
+                    </li>
+                </ul>
+
+                <h2>2. How We Use Information</h2>
+                <ul>
+                    <li>To operate your account and let you create templates, manage contacts, and run campaigns.</li>
+                    <li>To send WhatsApp messages on your behalf to the contacts you provide, using your own connected WhatsApp Business Account.</li>
+                    <li>To display delivery, read, click, and reply analytics for your campaigns.</li>
+                    <li>To enforce the limits and features included in your subscription plan.</li>
+                    <li>To communicate with you about your account or support requests.</li>
+                </ul>
+
+                <h2>3. Sharing With Meta / WhatsApp</h2>
+                <p>
+                    To provide our service, we send data to Meta's WhatsApp Business Platform
+                    (Graph API) on your behalf &mdash; for example, to create templates, register
+                    your phone number, and send messages. We do not sell your data or your
+                    contacts' data to third parties. Access tokens obtained through WhatsApp
+                    Embedded Signup are used solely to manage the WhatsApp Business Account
+                    you connected, and are stored securely and only accessible to your account.
+                </p>
+
+                <h2>4. Data Retention</h2>
+                <p>
+                    We retain account, contact, template, campaign, and message data for as long as
+                    your account is active. You may request deletion of your account and
+                    associated data at any time by contacting us.
+                </p>
+
+                <h2>5. Your Choices</h2>
+                <p>
+                    You can disconnect your WhatsApp Business Account, edit or delete your
+                    contacts, and delete your account at any time. Recipients of your
+                    campaigns can opt out of future messages, which we honor platform-wide
+                    for your account.
+                </p>
+
+                <h2>6. Contact Us</h2>
+                <p>
+                    If you have questions about this Privacy Policy or how your data is
+                    handled, contact us at
+                    <a href="mailto:info@dovix.ai">info@dovix.ai</a> or write to us at
+                    B-18, 2nd Floor, Shiv Marg, Bani Park, Jaipur, Rajasthan 302015, India.
+                </p>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock body %}

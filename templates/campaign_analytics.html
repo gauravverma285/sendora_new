@@ -1,0 +1,625 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+<div class="wrapper" style="background-color: #f5f6fa;">
+    <div class="page-wrapper">
+        <div class="content-wrapper">
+            <div class="content">
+                <div class="page-header-row">
+                    <div class="page-header-row__title">
+                        <span class="icon-badge"><i class="mdi mdi-chart-bar"></i></span>
+                        <div>
+                            <h2 class="mb-0">Campaign Analytics</h2>
+                            <p class="text-muted mb-0 small">Track performance and get detailed insights of your campaign.</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'campaign_list' %}" class="btn-pill-outline"><i class="mdi mdi-arrow-left"></i> Back To Campaigns</a>
+                </div>
+                {% if error %}
+                <div style="display: flex; justify-content: center;">
+                    <p style="color: red;">{{ error }}</p>
+                </div>
+
+                {% else %}
+
+                <!-- Campaign Insights: meta info, period-filtered KPI cards + trend chart -->
+                <div class="insights-section">
+                    <div class="insights-meta">
+                        <div class="insights-meta__item">
+                            <span class="insights-meta__icon"><i class="mdi mdi-bullhorn-outline"></i></span>
+                            <div>
+                                <span class="insights-meta__label">Campaign Name</span>
+                                <span class="insights-meta__value">{{ campaign_name }}</span>
+                            </div>
+                        </div>
+                        <div class="insights-meta__item">
+                            <span class="insights-meta__icon"><i class="mdi mdi-file-document-outline"></i></span>
+                            <div>
+                                <span class="insights-meta__label">Template</span>
+                                <span class="insights-meta__value">{{ template_name }}</span>
+                            </div>
+                        </div>
+                        <div class="insights-meta__item">
+                            <span class="insights-meta__icon"><i class="mdi mdi-calendar-blank-outline"></i></span>
+                            <div>
+                                <span class="insights-meta__label">Created</span>
+                                <span class="insights-meta__value">{{ start_time }}</span>
+                            </div>
+                        </div>
+                        {% if end_time %}
+                        <div class="insights-meta__item" id="completed-at">
+                            <span class="insights-meta__icon"><i class="mdi mdi-calendar-check-outline"></i></span>
+                            <div>
+                                <span class="insights-meta__label">Completed</span>
+                                <span class="insights-meta__value">{{ end_time }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="insights-meta__item">
+                            <span class="insights-meta__icon"><i class="mdi mdi-account-group-outline"></i></span>
+                            <div>
+                                <span class="insights-meta__label">Total Audience</span>
+                                <span class="insights-meta__value">{{ total_audience }}</span>
+                            </div>
+                        </div>
+                        {% comment %} <div class="insights-meta__item">
+                            <span class="insights-meta__label">Total Credit Usage</span>
+                            <span class="insights-meta__value">{{ total_credit_usage }}</span>
+                        </div> {% endcomment %}
+                        <div class="insights-meta__item">
+                            <span class="insights-meta__icon insights-meta__icon--status">
+                                <span class="status-dot {% if not end_time %}status-dot--live{% else %}status-dot--stop{% endif %}"></span>
+                            </span>
+                            <div>
+                                <span class="insights-meta__label">Status</span>
+                                <div class="dropdown">
+                                    <button type="button"
+                                            class="status-pill dropdown-toggle status-toggle"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                            data-status="{% if not end_time %}Live{% else %}Stop{% endif %}"
+                                            data-campaign="{{ campaign_name }}">
+                                        {% if not end_time %}Live{% else %}Stop{% endif %}
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item status-change" href="#" data-status="Live" data-campaign="{{ campaign_name }}">Live</a></li>
+                                        <li><a class="dropdown-item status-change" href="#" data-status="Stop" data-campaign="{{ campaign_name }}">Stop</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insights-toolbar">
+                        <div class="insights-toolbar__title">
+                            {% comment %} <span class="icon-badge icon-badge--sm"><i class="mdi mdi-chart-bar"></i></span>
+                            <div>
+                                <h4 class="mb-0">Campaign Insights</h4>
+                                <p class="text-muted mb-0 small">Sent, delivered, read and failed for the selected period.</p>
+                            </div> {% endcomment %}
+                        </div>
+                        <div class="insights-toolbar__controls">
+                            <div class="insights-range-group">
+                                <div class="select-with-icon">
+                                    <i class="mdi mdi-calendar-outline"></i>
+                                    <select id="insightsRange" class="form-select form-select-sm">
+                                        <option value="today" {% if insight_range == "today" %}selected{% endif %}>Today</option>
+                                        <option value="7d" {% if insight_range == "7d" %}selected{% endif %}>Last 7 Days</option>
+                                        <option value="30d" {% if insight_range == "30d" %}selected{% endif %}>Last 30 Days</option>
+                                        <option value="custom" {% if insight_range == "custom" %}selected{% endif %}>Custom Range</option>
+                                    </select>
+                                </div>
+                                <div id="customRangeInputs" class="insights-range-group__custom {% if insight_range != 'custom' %}d-none{% endif %}">
+                                    <input type="date" id="customStart" class="form-control form-control-sm" value="{{ period_start|date:'Y-m-d' }}">
+                                    <span class="text-muted small">to</span>
+                                    <input type="date" id="customEnd" class="form-control form-control-sm" value="{{ period_end|date:'Y-m-d' }}">
+                                    <button id="applyCustomRange" type="button" class="btn btn-sm btn-primary">Apply</button>
+                                </div>
+                            </div>
+                            <a id="exportReportBtn" href="{% url 'export_campaign_analytics' %}?campaign_name={{ campaign_name|urlencode }}&range={{ insight_range }}&start_date={{ period_start|date:'Y-m-d' }}&end_date={{ period_end|date:'Y-m-d' }}"
+                               class="btn btn-sm btn-outline-success">
+                                <i class="mdi mdi-tray-arrow-down"></i> Export Report
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        {% for card in kpi_cards %}
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="widget-block rounded bg-white p-3 h-100 kpi-card">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="kpi-icon kpi-icon--{{ card.color }}"><i class="mdi {{ card.icon }}"></i></div>
+                                    <canvas class="kpi-spark" id="spark-{{ card.key }}" width="70" height="30"></canvas>
+                                </div>
+                                <p class="text-muted small mb-1 mt-2">{{ card.label }}</p>
+                                <h3 class="mb-1">{{ card.value }}</h3>
+                                <p class="small mb-0 {% if card.change_direction == 'up' %}text-success{% elif card.change_direction == 'down' %}text-danger{% else %}text-muted{% endif %}">
+                                    <i class="mdi {% if card.change_direction == 'up' %}mdi-arrow-up{% elif card.change_direction == 'down' %}mdi-arrow-down{% else %}mdi-minus{% endif %}"></i>
+                                    {{ card.change_abs }}% vs previous period
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-default">
+                                <div class="card-header d-flex align-items-center gap-2">
+                                    <span class="icon-badge icon-badge--sm"><i class="mdi mdi-chart-bar"></i></span>
+                                    <h2 class="mb-0">Campaign Performance</h2>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="campaignPerformanceChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campaign Recipients: per-status contact list, selectable for Retargeting -->
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="card card-default">
+                                <div class="card-header d-flex align-items-center gap-2">
+                                    <span class="icon-badge icon-badge--sm"><i class="mdi mdi-account-multiple-outline"></i></span>
+                                    <h2 class="mb-0">Campaign Recipients</h2>
+                                    <span class="text-muted small">
+                                        &middot;
+                                        {% if insight_range == "today" %}Today
+                                        {% elif insight_range == "7d" %}Last 7 Days
+                                        {% elif insight_range == "30d" %}Last 30 Days
+                                        {% else %}{{ period_start|date:"d M" }} – {{ period_end|date:"d M" }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recipients-tabs" id="recipientsTabs">
+                                        <button type="button" class="recipients-tab active" data-status="read">
+                                            <i class="mdi mdi-eye-outline"></i> Read Contacts <span class="recipients-tab__count" id="count-read">0</span>
+                                        </button>
+                                        <button type="button" class="recipients-tab" data-status="delivered">
+                                            <i class="mdi mdi-check-circle-outline"></i> Delivered Contacts <span class="recipients-tab__count" id="count-delivered">0</span>
+                                        </button>
+                                        <button type="button" class="recipients-tab" data-status="clicked">
+                                            <i class="mdi mdi-cursor-default-click-outline"></i> Clicked Contacts <span class="recipients-tab__count" id="count-clicked">0</span>
+                                        </button>
+                                        <button type="button" class="recipients-tab" data-status="replied">
+                                            <i class="mdi mdi-reply-outline"></i> Replied Contacts <span class="recipients-tab__count" id="count-replied">0</span>
+                                        </button>
+                                        <button type="button" class="recipients-tab" data-status="failed">
+                                            <i class="mdi mdi-alert-circle-outline"></i> Failed Contacts <span class="recipients-tab__count" id="count-failed">0</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="recipients-toolbar">
+                                        <div class="recipients-search">
+                                            <i class="mdi mdi-magnify"></i>
+                                            <input type="text" id="recipientsSearch" class="form-control form-control-sm" placeholder="Search by name or phone number...">
+                                        </div>
+                                        <div class="recipients-toolbar__right">
+                                            <button type="button" id="retargetSelectedBtn" class="btn btn-sm btn-success d-none">
+                                                <i class="mdi mdi-radar"></i> Retarget Selected (<span id="retargetSelectedCount">0</span>)
+                                            </button>
+                                            <select id="recipientsPageSize" class="form-select form-select-sm">
+                                                <option value="25">25</option>
+                                                <option value="50" selected>50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                            <span class="recipients-pager-info" id="recipientsPagerInfo">0–0 of 0</span>
+                                            <button type="button" id="recipientsPrev" class="btn btn-sm btn-outline-secondary" disabled><i class="mdi mdi-chevron-left"></i></button>
+                                            <button type="button" id="recipientsNext" class="btn btn-sm btn-outline-secondary" disabled><i class="mdi mdi-chevron-right"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table recipients-table" id="recipientsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:36px;"><input type="checkbox" id="recipientsSelectAll"></th>
+                                                    <th>Name</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Message Preview</th>
+                                                    <th id="recipientsTimestampHeader">Read At</th>
+                                                    <th>Status</th>
+                                                    <th class="text-end">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recipientsTableBody">
+                                                <tr><td colspan="7" class="text-center text-muted py-4">Loading…</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Details drawer -->
+                <div class="contact-drawer-backdrop" id="contactDrawerBackdrop"></div>
+                <div class="contact-drawer" id="contactDrawer">
+                    <div class="contact-drawer__header">
+                        <button type="button" class="contact-drawer__back" id="contactDrawerClose"><i class="mdi mdi-arrow-left"></i></button>
+                        <h3 class="mb-0">Contact Details</h3>
+                        <span class="status-pill" id="contactDrawerStatus">Read</span>
+                    </div>
+                    <div class="contact-drawer__body">
+                        <div class="contact-drawer__profile">
+                            <span class="contact-avatar" id="contactDrawerAvatar">--</span>
+                            <div>
+                                <div class="contact-drawer__name" id="contactDrawerName">—</div>
+                                <div class="contact-drawer__phone" id="contactDrawerPhone">—</div>
+                            </div>
+                        </div>
+                        <div class="contact-drawer__section">
+                            <div class="contact-drawer__label">Message Content</div>
+                            <div class="wa-bubble-preview" id="contactDrawerMessage">—</div>
+                        </div>
+                        <div class="contact-drawer__section" id="contactDrawerErrorSection" style="display:none;">
+                            <div class="contact-drawer__label">Failure Reason</div>
+                            <div class="text-danger small fw-semibold" id="contactDrawerError"></div>
+                            <div class="text-muted small mt-1" id="contactDrawerErrorDetails"></div>
+                        </div>
+                    </div>
+                    <div class="contact-drawer__footer">
+                        <button type="button" class="btn btn-success w-100" id="contactDrawerRetargetBtn">
+                            <i class="mdi mdi-radar"></i> Retarget This Contact
+                        </button>
+                    </div>
+                </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-header-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .page-header-row__title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .icon-badge {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #e6f8ec;
+        color: #2ecc71;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+    .icon-badge--sm { width: 32px; height: 32px; font-size: 16px; }
+
+    .btn-pill-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1.5px solid #16a34a;
+        color: #16a34a;
+        background: #fff;
+        border-radius: 999px;
+        padding: 6px 18px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        transition: background .15s ease;
+    }
+    .btn-pill-outline:hover { background: #f0fdf4; color: #16a34a; }
+
+    .insights-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px 32px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+    }
+    .insights-meta__item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        flex: 1 1 150px;
+    }
+    .insights-meta__icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: #eef1f6;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+    .insights-meta__icon--status { background: #eafaf0; }
+    .insights-meta__label {
+        display: block;
+        font-size: 12px;
+        color: #8a94a6;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+        margin-bottom: 2px;
+    }
+    .insights-meta__value {
+        display: block;
+        font-weight: 600;
+        color: #1f2937;
+        font-size: 14px;
+    }
+    .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .status-dot--live { background: #2ecc71; }
+    .status-dot--stop { background: #9aa2b1; }
+    .status-pill {
+        border: 1px solid #dfe3ea;
+        border-radius: 20px;
+        padding: 3px 14px;
+        font-weight: 600;
+        font-size: 13px;
+        background: #fff;
+        color: #1f2937;
+        line-height: 1.6;
+    }
+
+    .select-with-icon {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+    .select-with-icon i {
+        position: absolute;
+        left: 10px;
+        font-size: 14px;
+        color: #6b7280;
+        pointer-events: none;
+    }
+    .select-with-icon select {
+        padding-left: 30px;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 320px;
+    }
+    @media (max-width: 575.98px) {
+        .chart-container { height: 260px; }
+    }
+
+    .insights-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+    }
+    .insights-toolbar__controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+    }
+    .insights-range-group,
+    .insights-range-group__custom {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
+    /* Bootstrap's .form-select / .form-control default to width:100%, which
+       — inside a flex row — makes each control claim its own full-width
+       line instead of sitting inline next to the others. Pin them back to
+       their content width so the range select, date pickers and Apply
+       button stay on one row (wrapping as a whole group, not element by
+       element) at any viewport width. */
+    .insights-toolbar select.form-select,
+    .insights-toolbar input.form-control,
+    .insights-toolbar .btn {
+        width: auto;
+        flex: 0 0 auto;
+    }
+    .insights-toolbar input[type="date"] {
+        min-width: 150px;
+    }
+
+    .kpi-card { position: relative; }
+    .kpi-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+    .kpi-icon--blue { background: #e8f0ff; color: #3b7dfb; }
+    .kpi-icon--green { background: #e6f8ec; color: #2ecc71; }
+    .kpi-icon--purple { background: #f1e9fd; color: #9b6bf0; }
+    .kpi-icon--teal { background: #e3f7f6; color: #17a2a4; }
+    .kpi-icon--orange { background: #fff2e2; color: #f39c12; }
+    .kpi-icon--red { background: #fdecec; color: #ff5a5f; }
+    .kpi-spark { max-width: 80px; }
+
+    /* Campaign Recipients table */
+    .recipients-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        border-bottom: 1px solid #eef1f6;
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+    }
+    .recipients-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        background: transparent;
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #6b7280;
+        cursor: pointer;
+    }
+    .recipients-tab:hover { background: #f5f6fa; }
+    .recipients-tab.active { color: #16a34a; background: #eafaf0; }
+    .recipients-tab__count {
+        background: #eef1f6;
+        color: #4b5563;
+        border-radius: 999px;
+        padding: 1px 8px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .recipients-tab.active .recipients-tab__count { background: #d6f5e1; color: #16a34a; }
+
+    .recipients-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    .recipients-search { position: relative; flex: 1 1 260px; max-width: 360px; }
+    .recipients-search i {
+        position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+        color: #9aa2b1; font-size: 14px;
+    }
+    .recipients-search input { padding-left: 30px; width: 100%; }
+    .recipients-toolbar__right { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .recipients-toolbar__right .form-select { width: auto; }
+    .recipients-pager-info { font-size: 13px; color: #6b7280; white-space: nowrap; }
+
+    .recipients-table { font-size: 13px; margin-bottom: 0; }
+    .recipients-table th {
+        color: #8a94a6; text-transform: uppercase; font-size: 11px;
+        letter-spacing: .03em; border-bottom: 1px solid #eef1f6; white-space: nowrap;
+    }
+    .recipients-table td { vertical-align: middle; }
+    .recipients-table .contact-cell { display: flex; align-items: center; gap: 8px; }
+    .contact-avatar {
+        width: 30px; height: 30px; border-radius: 50%;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+        background: #7c8cf8;
+    }
+    .status-chip { border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600; display: inline-block; }
+    .status-chip--read { background: #f1e9fd; color: #9b6bf0; }
+    .status-chip--delivered { background: #e6f8ec; color: #2ecc71; }
+    .status-chip--clicked { background: #e3f7f6; color: #17a2a4; }
+    .status-chip--replied { background: #fff2e2; color: #f39c12; }
+    .status-chip--failed { background: #fdecec; color: #ff5a5f; }
+    .status-chip--queued, .status-chip--sent { background: #eef1f6; color: #6b7280; }
+    .retry-badge { font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; }
+    .retry-badge--yes { background: #eafaf0; color: #16a34a; }
+    .retry-badge--no { background: #fdecec; color: #ff5a5f; }
+    .message-preview-cell { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Contact Details drawer */
+    .contact-drawer-backdrop {
+        position: fixed; inset: 0; background: rgba(15,23,42,.35);
+        opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 1040;
+    }
+    .contact-drawer-backdrop.show { opacity: 1; pointer-events: auto; }
+    .contact-drawer {
+        position: fixed; top: 0; right: 0; height: 100%; width: 380px; max-width: 92vw;
+        background: #fff; box-shadow: -8px 0 24px rgba(15,23,42,.12);
+        transform: translateX(100%); transition: transform .25s ease;
+        z-index: 1050; display: flex; flex-direction: column;
+    }
+    .contact-drawer.show { transform: translateX(0); }
+    .contact-drawer__header {
+        display: flex; align-items: center; gap: 10px; padding: 16px 20px;
+        border-bottom: 1px solid #eef1f6;
+    }
+    .contact-drawer__back {
+        border: none; background: #f5f6fa; width: 32px; height: 32px; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center; color: #1f2937; flex-shrink: 0;
+    }
+    .contact-drawer__header h3 { flex: 1; font-size: 16px; }
+    .contact-drawer__body { padding: 20px; overflow-y: auto; flex: 1; }
+    .contact-drawer__profile { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .contact-drawer__profile .contact-avatar { width: 46px; height: 46px; font-size: 16px; }
+    .contact-drawer__name { font-weight: 700; font-size: 15px; }
+    .contact-drawer__phone { color: #6b7280; font-size: 13px; }
+    .contact-drawer__label { font-size: 12px; color: #8a94a6; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 8px; }
+    .contact-drawer__section { margin-bottom: 20px; }
+    .contact-drawer__footer { padding: 16px 20px; border-top: 1px solid #eef1f6; }
+    .wa-bubble-preview {
+        background: #eafaf0; border-radius: 10px; padding: 12px 14px; font-size: 13px;
+        color: #1f2937; white-space: pre-wrap; word-break: break-word;
+    }
+
+    @media (max-width: 575.98px) {
+        .page-header-row { flex-direction: column; align-items: stretch; }
+        .page-header-row .btn { width: 100%; text-align: center; }
+
+        .insights-meta { padding: 14px; gap: 16px; }
+        .insights-meta__item { flex: 1 1 45%; }
+
+        .insights-toolbar { flex-direction: column; align-items: stretch; }
+        .insights-toolbar__controls { flex-direction: column; align-items: stretch; }
+        .insights-range-group, .insights-range-group__custom { width: 100%; }
+        .insights-toolbar select.form-select,
+        .insights-toolbar input.form-control,
+        .insights-toolbar .btn {
+            flex: 1 1 auto;
+        }
+        .select-with-icon { width: 100%; }
+        .select-with-icon select { width: 100% !important; }
+        .insights-toolbar #exportReportBtn { width: 100%; }
+
+        .recipients-toolbar { flex-direction: column; align-items: stretch; }
+        .recipients-search { max-width: none; }
+        .recipients-toolbar__right { justify-content: space-between; }
+        .contact-drawer { width: 100%; max-width: 100%; }
+    }
+</style>
+
+<!-- Javascript -->
+
+
+<script>
+    window.CAMPAIGN_CONFIG = {
+        startUrl: "{% url 'start_campaign' %}",
+        stopUrl: "{% url 'stop_campaign' %}",
+        csrfToken: "{{ csrf_token }}",
+        graphData: "{{ graph_data|escapejs }}",
+        analyticsUrl: "{% url 'campaign_analytics' %}",
+        exportUrl: "{% url 'export_campaign_analytics' %}",
+        recipientsUrl: "{% url 'campaign_recipients' %}",
+        retargetUrl: "{% url 'campaign_retarget' %}",
+        campaignName: "{{ campaign_name|escapejs }}",
+        insightRange: "{{ insight_range|default:'today' }}",
+        periodStart: "{{ period_start|date:'Y-m-d' }}",
+        periodEnd: "{{ period_end|date:'Y-m-d' }}"
+    };
+</script>
+
+<script src="{% static 'js/campaign_analytics.js' %}"></script>
+
+{% endblock %}

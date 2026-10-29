@@ -1,0 +1,23 @@
+{% extends 'account/_auth_layout.html' %}
+{% block title %}Confirm Email - Dovix AI{% endblock %}
+
+{% block auth_content %}
+<h2 class="auth-card__title">Confirm Email Address</h2>
+
+{% if confirmation %}
+    {% if can_confirm %}
+        <p class="auth-card__sub">Please confirm that <strong>{{ confirmation.email_address.email }}</strong> is an email address for user <strong>{{ confirmation.email_address.user }}</strong>.</p>
+        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+            {% csrf_token %}
+            <button type="submit" class="btn auth-btn-primary w-100">Confirm</button>
+        </form>
+    {% else %}
+        <div class="auth-icon-badge auth-icon-badge--danger"><i class="mdi mdi-alert-circle-outline"></i></div>
+        <p class="auth-card__sub">Unable to confirm <strong style="color: var(--lp-green-dark);">{{ confirmation.email_address.email }}</strong> because it is already confirmed by a different account.</p>
+    {% endif %}
+{% else %}
+    <div class="auth-icon-badge auth-icon-badge--danger"><i class="mdi mdi-alert-circle-outline"></i></div>
+    <p class="auth-card__sub">This email confirmation link has expired or is invalid.</p>
+    <a href="{% url 'account_email' %}" class="btn auth-btn-primary w-100">Request a New Confirmation</a>
+{% endif %}
+{% endblock %}

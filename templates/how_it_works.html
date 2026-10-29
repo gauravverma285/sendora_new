@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/landing-theme.css' %}">
+
+<div class="lp">
+
+    <!-- Page header -->
+    <section class="lp-page-header">
+        <div class="container">
+            <p class="lp-eyebrow">How It Works</p>
+            <h1 class="lp-heading" style="font-size:36px;">From Zero to Your First WhatsApp Campaign</h1>
+            <p class="lp-body-text" style="max-width:640px; margin:0 auto;">No developer, no API docs to read. Here's everything that happens between signing up and your first message going out.</p>
+        </div>
+    </section>
+
+    <!-- Step 1: Connect -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="lp-step__circle" style="margin-bottom:18px;"><i class="mdi mdi-link-variant"></i></span>
+                    <p class="lp-eyebrow">Step 1</p>
+                    <h2 class="lp-heading">Connect your WhatsApp Business Account</h2>
+                    <p class="lp-body-text">Click "Connect WhatsApp" on your profile and Meta's official Embedded Signup pops up &mdash; log in with the Facebook account that manages your WhatsApp Business number, pick your business, and you're connected. No API keys, no app review, no waiting on Meta's support queue.</p>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="lp-phone">
+                        <div class="lp-phone__frame">
+                            <div class="lp-phone__header"><i class="mdi mdi-whatsapp"></i> WhatsApp Business</div>
+                            <div class="lp-phone__body">
+                                <div class="lp-phone__bubble">Connecting your WhatsApp Business Account&hellip;</div>
+                                <div class="lp-phone__bubble lp-phone__bubble--reply">Connected ✅</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 2: Build your audience -->
+    <section class="lp-section lp-section--mint">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 order-lg-2">
+                    <span class="lp-step__circle" style="margin-bottom:18px;"><i class="mdi mdi-account-group-outline"></i></span>
+                    <p class="lp-eyebrow">Step 2</p>
+                    <h2 class="lp-heading">Bring in your contacts</h2>
+                    <p class="lp-body-text">Upload your contact list as a spreadsheet, or add people one at a time. Organize them with tags &mdash; by city, customer type, or whatever makes sense for your business &mdash; so you can target exactly who should get a given campaign. Anyone who opts out is automatically excluded from every future send.</p>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="lp-mock">
+                        <div class="lp-mock__topbar">
+                            <span class="lp-mock__dot lp-mock__dot--red"></span>
+                            <span class="lp-mock__dot lp-mock__dot--yellow"></span>
+                            <span class="lp-mock__dot lp-mock__dot--green"></span>
+                            <span class="lp-mock__title">Contacts</span>
+                        </div>
+                        <div class="lp-mock__body">
+                            <div class="lp-retarget-row"><span><span class="lp-status-dot lp-status-dot--teal"></span>Priya Sharma &mdash; VIP</span><strong>+91 98xxxxx210</strong></div>
+                            <div class="lp-retarget-row"><span><span class="lp-status-dot lp-status-dot--purple"></span>Amit Verma &mdash; Lead</span><strong>+91 98xxxxx432</strong></div>
+                            <div class="lp-retarget-row"><span><span class="lp-status-dot lp-status-dot--red"></span>Rohit Kaur &mdash; Opted Out</span><strong>+91 98xxxxx118</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 3: Create a template -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="lp-step__circle" style="margin-bottom:18px;"><i class="mdi mdi-file-document-edit-outline"></i></span>
+                    <p class="lp-eyebrow">Step 3</p>
+                    <h2 class="lp-heading">Create your message template</h2>
+                    <p class="lp-body-text">Write your message with text, an image, video, or document header, and buttons &mdash; then submit it for Meta's approval straight from the dashboard. Every template's status (approved, pending, rejected) stays in sync automatically, so you always know what's ready to send.</p>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="lp-phone">
+                        <div class="lp-phone__frame">
+                            <div class="lp-phone__header"><i class="mdi mdi-whatsapp"></i> Preview</div>
+                            <div class="lp-phone__body">
+                                <div class="lp-phone__bubble">Hi {% templatetag openvariable %}1{% templatetag closevariable %} 👋<br>Your {% templatetag openvariable %}2{% templatetag closevariable %}% discount is live today only!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 4: Send & track -->
+    <section class="lp-section lp-section--mint">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 order-lg-2">
+                    <span class="lp-step__circle" style="margin-bottom:18px;"><i class="mdi mdi-send-outline"></i></span>
+                    <p class="lp-eyebrow">Step 4</p>
+                    <h2 class="lp-heading">Launch your campaign and watch it in real time</h2>
+                    <p class="lp-body-text">Pick your audience &mdash; everyone, a tag, or a hand-picked list &mdash; send instantly or schedule for later, and watch delivered, read, clicked and replied counts update live. If something fails, you'll see exactly why (invalid number, opted out, outside the messaging window).</p>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    {% include "partials/_lp_dashboard_mock.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 5: Retarget & automate -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="lp-step__circle" style="margin-bottom:18px;"><i class="mdi mdi-radar"></i></span>
+                    <p class="lp-eyebrow">Step 5</p>
+                    <h2 class="lp-heading">Follow up and automate what comes next</h2>
+                    <p class="lp-body-text">Filter any campaign by status &mdash; delivered-but-unread, clicked-but-silent, failed &mdash; and relaunch a follow-up to just that group in a couple of clicks. Or build a Flow once: greet new contacts, answer common questions, and hand off to support automatically, with no code involved.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="lp-flow">
+                        <div class="lp-flow__node">
+                            <div class="lp-flow__node-title"><i class="mdi mdi-message-text-outline"></i> Welcome Message</div>
+                            <div class="lp-flow__node-body">Hi there! How can I help you today?</div>
+                            <div class="lp-flow__node-buttons">
+                                <span class="lp-flow__chip">Check Order</span>
+                                <span class="lp-flow__chip">Talk to Support</span>
+                            </div>
+                        </div>
+                        <div class="lp-flow__arrow"><i class="mdi mdi-arrow-right"></i></div>
+                        <div class="lp-flow__node">
+                            <div class="lp-flow__node-title"><i class="mdi mdi-reply-outline"></i> Reply Message</div>
+                            <div class="lp-flow__node-body">Your order is on the way!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="lp-cta">
+        <div class="container text-center">
+            <h2 class="lp-cta__title">That's it &mdash; five steps between you and your first campaign.</h2>
+            <a href="/accounts/signup" class="btn btn-light btn-lg lp-cta__btn">Start Your Free Trial &mdash; No Credit Card Required</a>
+        </div>
+    </section>
+
+</div>
+{% endblock body %}

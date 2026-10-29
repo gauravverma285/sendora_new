@@ -1,0 +1,200 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
+
+<style>
+    .dt-length{
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+</style>
+
+<div class="app-page">
+
+    <div class="app-page__head">
+        <div>
+            <h1 class="app-page__title"><i class="mdi mdi-book-account-outline" style="color: var(--au-green);"></i> Contacts</h1>
+            <p class="app-page__subtitle">Manage your WhatsApp contacts and organize them with tags.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="#import-contacts-panel" class="btn-au-outline" id="importContactsLink">
+                <i class="mdi mdi-file-upload-outline"></i> Import Contacts
+            </a>
+            <a href="{% url 'add_contact' %}" class="btn-au-primary">
+                <i class="mdi mdi-account-plus-outline"></i> Add Contact
+            </a>
+        </div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--green"><i class="mdi mdi-account-group-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Total Contacts</div>
+                <div class="stat-card__value">{{ total_contacts }}</div>
+                <div class="stat-card__hint">All imported contacts</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--blue"><i class="mdi mdi-tag-multiple-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">With Tags</div>
+                <div class="stat-card__value">{{ with_tags_count }}</div>
+                <div class="stat-card__hint">Tagged contacts</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--warning"><i class="mdi mdi-tag-off-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Without Tags</div>
+                <div class="stat-card__value">{{ without_tags_count }}</div>
+                <div class="stat-card__hint">Not tagged yet</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-card__icon stat-card__icon--danger"><i class="mdi mdi-account-cancel-outline"></i></span>
+            <div class="stat-card__body">
+                <div class="stat-card__label">Opted Out</div>
+                <div class="stat-card__value">{{ opted_out_count }}</div>
+                <div class="stat-card__hint">Have opted out</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="au-panel mb-4" id="import-contacts-panel">
+        <div class="row g-4 align-items-center">
+            <div class="col-md-6">
+                <label class="form-check form-switch d-flex align-items-center gap-2 mb-0">
+                    <input type="checkbox" class="form-check-input" id="opt-out-toggle" {% if global_opt_out_enabled %}checked{% endif %}>
+                    <span>Opt-Out Customers: <strong id="opt-out-status">{% if global_opt_out_enabled %}ON{% else %}OFF{% endif %}</strong></span>
+                </label>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex flex-column align-items-md-end gap-2">
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'add_contact' %}" class="d-flex flex-wrap gap-2 align-items-center" id="contactUploadForm">
+                        {% csrf_token %}
+                        <a href="{% static 'files/sample_contacts.xlsx' %}" download class="btn-au-outline" title="Download a sample file with the required columns filled in">
+                            <i class="mdi mdi-download-outline"></i> Download Sample
+                        </a>
+                        <label class="au-file-input" id="chooseFileLabel">
+                            <input type="file" name="file" id="contactFileInput" accept=".xlsx,.xls,.csv" required hidden>
+                            <span class="au-file-input__button">Choose File</span>
+                            <span class="au-file-input__name" id="contactFileName">No file chosen</span>
+                        </label>
+                        <button type="submit" class="btn-au-outline">
+                            <img src="{% static 'icons/upload_icon.svg' %}" style="width: 16px;">
+                            Upload
+                        </button>
+                    </form>
+
+                    <div class="au-upload-status" id="uploadStatus" hidden>
+                        <div class="au-upload-status__bar">
+                            <div class="au-upload-status__fill" id="uploadFill"></div>
+                        </div>
+                        <div class="au-upload-status__text" id="uploadStatusText">Uploading… 0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="au-panel">
+        <div class="au-toolbar">
+            <div class="au-toolbar__filters">
+                <div class="dropdown">
+                    <button class="btn-au-outline dropdown-toggle" type="button" id="filterDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-filter-variant"></i> Filter
+                    </button>
+                    <form method="GET" class="dropdown-menu au-filter-menu p-3" style="min-width: 300px;" aria-labelledby="filterDropdownButton">
+                        <div class="mb-3">
+                            <label for="tag" class="au-filter-menu__label">Filter by Tag</label>
+                            <select name="tag" id="tag" class="form-select">
+                                <option value="">All Tags</option>
+                                {% for tag in tags %}
+                                    <option value="{{ tag.name }}" {% if request.GET.tag == tag.name %}selected{% endif %}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="age_filter" class="au-filter-menu__label">Filter by Age</label>
+                            <select name="age_filter" id="age_filter" class="form-select">
+                                <option value="">Select</option>
+                                <option value="greater" {% if request.GET.age_filter == "greater" %}selected{% endif %}>Greater than</option>
+                                <option value="smaller" {% if request.GET.age_filter == "smaller" %}selected{% endif %}>Smaller than</option>
+                                <option value="between" {% if request.GET.age_filter == "between" %}selected{% endif %}>Between</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="age_value" class="au-filter-menu__label">Age</label>
+                            <input type="number" name="age_value" id="age_value" class="form-control" value="{{ request.GET.age_value }}">
+                        </div>
+
+                        <div class="mb-3" id="age_value_2_container" style="display: none;">
+                            <label for="age_value_2" class="au-filter-menu__label">To</label>
+                            <input type="number" name="age_value_2" id="age_value_2" class="form-control" value="{{ request.GET.age_value_2 }}">
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn-au-primary btn-sm flex-fill justify-content-center">Apply Filter</button>
+                            <a href="{% url 'contacts_list' %}" class="btn-au-outline btn-sm flex-fill justify-content-center">Clear Filter</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <button type="submit" form="delete-form" class="au-pill au-pill--red" style="border: none; cursor: pointer;" id="delete-btn" disabled>
+                <i class="mdi mdi-delete-outline"></i> Delete Selected
+            </button>
+        </div>
+
+        <form method="POST" action="{% url 'contacts_list' %}" id="delete-form">
+            {% csrf_token %}
+            <div class="au-table-wrap">
+                <table id="contact_list" class="au-table display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>Name</th>
+                            <th>Mobile Number</th>
+                            <th>Email</th>
+                            <th>Age</th>
+                            <th>Tags</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr id="row-{{ contact.id }}">
+                            <td><input type="checkbox" name="contact_ids" value="{{ contact.id }}" class="contact-checkbox"></td>
+                            <td class="editable au-cell-title" data-field="name">{{ contact.name }}</td>
+                            <td class="editable" data-field="mobile_number">{{ contact.mobile_number }}</td>
+                            <td class="editable" data-field="email">{{ contact.email|default:"-" }}</td>
+                            <td class="editable" data-field="age">{{ contact.age|default:"-" }}</td>
+                            <td class="editable-tags" data-field="tags" data-tag-ids="{% for tag in contact.tags.all %}{{ tag.id }}{% if not forloop.last %},{% endif %}{% endfor %}">{% for tag in contact.tags.all %}<span class="au-pill au-pill--green">{{ tag.name }}</span> {% empty %}<span class="au-cell-sub">No Tags</span>{% endfor %}</td>
+                            <td>
+                                <button type="button" class="btn-au-outline btn-sm edit-btn" data-id="{{ contact.id }}">Edit</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script id="allTagsData" type="application/json">
+    [{% for tag in tags %}{"id": {{ tag.id }}, "name": "{{ tag.name|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}]
+</script>
+
+<script src="{% static 'js/contacts_list.js' %}?v={% now 'U' %}"></script>
+
+{% endblock %}

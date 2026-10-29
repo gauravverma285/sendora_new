@@ -1,0 +1,42 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+
+<section class="page-header bg-tertiary" style="z-index: 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-8 mx-auto text-center">
+                <h2 class="mb-3 text-capitalize">Editing Templates</h2>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="section-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="content">
+                    <h3 id="the-use-of-the-information">Template Edit Rules</h3>
+                    <ul>
+                        <li>You can edit templates only if their status is <code
+                                style="color: #42b72a;">Approved</code>, <code style="color: #42b72a;">Rejected</code>,
+                            or <code style="color: #42b72a;">Paused</code>.</li>
+                        <li><code style="color: #42b72a;">Approved</code>templates:</li>
+                        <li style="margin-left: 20px;">Max <strong>1 edit every 24 hours</strong></li>
+                        <li style="margin-left: 20px;">Max <strong>10 edits in 30 days</strong></li>
+                        <li><code style="color: #42b72a;">Category</code>can't be changed after approval.</li>
+                        <li><code style="color: #42b72a;">Rejected</code>/<code
+                                style="color: #42b72a;">Paused</code>templates can be edited unlimited times.</li>
+                        <li>After editing, the template goes through review again automatically.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock design %}

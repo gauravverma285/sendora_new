@@ -1,0 +1,183 @@
+{
+    "messaging_product": "whatsapp",
+    "to": "917745968882",
+    "type": "template",
+    "template": {
+        "name": "seasonal_promotion_new_5",
+        "parameter_format": "POSITIONAL",
+        "components": [
+            {
+                "type": "HEADER",
+                "format": "TEXT",
+                "text": "Our {{1}} is on!",
+                "example": {
+                    "header_text": [
+                        "Summer Sale"
+                    ]
+                }
+            },
+            {
+                "type": "BODY",
+                "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
+                "example": {
+                    "body_text": [
+                        [
+                            "the end of August",
+                            "25off",
+                            "25%"
+                        ]
+                    ]
+                }
+            },
+            {
+                "type": "FOOTER",
+                "text": "Use the buttons below to manage your marketing subscriptions"
+            },
+            {
+                "type": "BUTTONS",
+                "buttons": [
+                    {
+                        "type": "QUICK_REPLY",
+                        "text": "Stop promotions"
+                    },
+                    {
+                        "type": "URL",
+                        "text": "Visit website",
+                        "url": "https://www.wwe.com/{{1}}",
+                        "example": {
+                            "url_text": [
+                                "https://www.wwe.com/shows"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "language": {
+            "code": "en"
+        }
+    }
+}
+{"messaging_product": "whatsapp", "to": ["7745968882", "7987326759"], "type": "template", "template": {"name": "seasonal_promotion_new_2", "parameter_format": "POSITIONAL", "components": [{"type": "HEADER", "format": "TEXT", "text": "Our {{1}} is on!", "example": {"header_text": ["Sale"]}}, {"type": "BODY", "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.", "example": {"body_text": [["the end of August", "50OFF", "50%"]]}}, {"type": "FOOTER", "text": "Use the buttons below to manage your marketing subscriptions"}, {"type": "BUTTONS", "buttons": [{"type": "QUICK_REPLY", "text": "Stop promotions"}, {"type": "URL", "text": "Visit website", "url": "https://www.wwe.com/%7B%7B1%7D%7D/%7B%7B5%7D%7D/{{1}}", "example": ["https://www.wwe.com/shows/wwenxt/"]}]}], "language": {"code": "en"}}}
+
+/*response of message send temp name "hello world"
+{
+    "messaging_product": "whatsapp",
+    "contacts": [
+        {
+            "input": "917745968882",
+            "wa_id": "917745968882"
+        }
+    ],
+    "messages": [
+        {
+            "id": "wamid.HBgMOTE3NzQ1OTY4ODgyFQIAERgSODAwQTQ5ODI5REY3OEU2RUE0AA==",
+            "message_status": "accepted"
+        }
+    ]
+}*/
+
+
+
+
+selected_tpl = [
+    {
+      "name": "seasonal_promotion_new_2",
+      "parameter_format": "POSITIONAL",
+      "components": [
+        {
+          "type": "HEADER",
+          "format": "TEXT",
+          "text": "Our {{1}} is on!",
+          "example": {
+            "header_text": [
+              "Sale"
+            ]
+          }
+        },
+        {
+          "type": "BODY",
+          "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
+          "example": {
+            "body_text": [
+              [
+                "the end of August",
+                "50OFF",
+                "50%"
+              ]
+            ]
+          }
+        },
+        {
+          "type": "FOOTER",
+          "text": "Use the buttons below to manage your marketing subscriptions"
+        },
+        {
+          "type": "BUTTONS",
+          "buttons": [
+            {
+              "type": "QUICK_REPLY",
+              "text": "Stop promotions"
+            },
+            {
+              "type": "URL",
+              "text": "Visit website",
+              "url": "https://www.wwe.com/%7B%7B1%7D%7D/%7B%7B5%7D%7D/{{1}}",
+              "example": [
+                "https://www.wwe.com/shows/wwenxt/"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+// {
+//     "error": {
+//         "message": "(#100) Invalid parameter",
+//         "type": "OAuthException",
+//         "code": 100,
+//         "error_data": {
+//             "messaging_product": "whatsapp",
+//             "details": "buttons: Button at index 0 must be of type QuickReply"
+//         },
+//         "fbtrace_id": "AnGYHB6Eu2W356gmzvU3MqR"
+//     }
+// }
+
+// correct body for sending message
+
+{
+    "messaging_product": "whatsapp",
+    "to": "917745968882",
+    "type": "template",
+    "template": {
+      "name": "seasonal_promotion_new_5",
+      "language": { "code": "en" },
+      "components": [
+        {
+          "type": "HEADER",
+          "parameters": [
+            { "type": "text", "text": "Summer Sale" }
+          ]
+        },
+        {
+          "type": "BODY",
+          "parameters": [
+            { "type": "text", "text": "the end of August" },
+            { "type": "text", "text": "25off" },
+            { "type": "text", "text": "25%" }
+          ]
+        },
+        {
+          "type": "BUTTON",
+          "sub_type": "URL",
+          "index": 1,
+          "parameters": [
+            { "type": "text", "text": "shows" }
+          ]
+        }
+      ]
+    }
+  }
+  

@@ -1,0 +1,29 @@
+{% extends 'account/_auth_layout.html' %}
+{% block title %}WhatsApp Login - Dovix AI{% endblock %}
+
+{% block auth_content %}
+<div class="auth-icon-badge"><i class="mdi mdi-whatsapp"></i></div>
+<h2 class="auth-card__title">WhatsApp Login</h2>
+<p class="auth-card__sub">Enter your WhatsApp number and we'll send you a one-time code.</p>
+
+<form method="post" action="{% url 'send_otp' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="auth-field">
+        <label class="auth-label" for="phone">WhatsApp Number</label>
+        <div class="auth-input">
+            <i class="mdi mdi-whatsapp"></i>
+            <input type="text" name="phone" id="phone" class="form-control" placeholder="+91XXXXXXXXXX" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn auth-btn-primary w-100">Send OTP</button>
+</form>
+
+<p class="auth-foot">Prefer a password? <a href="{% url 'account_login' %}">Sign In</a></p>
+{% endblock %}

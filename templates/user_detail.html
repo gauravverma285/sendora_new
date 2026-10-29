@@ -1,0 +1,476 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+<div class="app-page">
+
+    <div class="app-page__head">
+        <div class="app-page__greeting">
+            <span class="stat-card__icon stat-card__icon--green" style="width:44px;height:44px;"><i class="mdi mdi-account-outline"></i></span>
+            <div>
+                <h1 class="app-page__title">User Profile</h1>
+                <p class="app-page__subtitle">Manage your account information and API settings.</p>
+            </div>
+        </div>
+        <button type="button" id="editProfileBtn" class="btn-au-outline"><i class="mdi mdi-pencil-outline"></i> Edit Profile</button>
+    </div>
+
+    {% if user_form.errors or profile_form.errors %}
+    <div class="au-toast au-toast--error mb-4" style="display:flex;">
+        <i class="mdi mdi-alert-circle-outline"></i>
+        <div>
+            <strong>Please fix the following:</strong>
+            <ul class="mb-0 mt-1">
+                {% for field in user_form %}{% for error in field.errors %}<li>{{ field.label }}: {{ error }}</li>{% endfor %}{% endfor %}
+                {% for field in profile_form %}{% for error in field.errors %}<li>{{ field.label }}: {{ error }}</li>{% endfor %}{% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+        <!-- LEFT: hero card -->
+        <div class="col-lg-4">
+            <div class="au-panel profile-hero">
+                <div class="profile-avatar-wrap">
+                    <img id="avatarPreview" class="profile-avatar avatar-preview-img" alt="Avatar"
+                        style="{% if not profile_form.instance.avatar %}display:none;{% endif %}"
+                        src="{% if profile_form.instance.avatar %}{{ profile_form.instance.avatar.url }}{% endif %}">
+                    <span id="avatarFallback" class="profile-avatar avatar-fallback-icon" style="{% if profile_form.instance.avatar %}display:none;{% endif %}">
+                        <i class="mdi mdi-account-outline"></i>
+                    </span>
+                    <label class="profile-avatar-edit" title="Change photo">
+                        <i class="mdi mdi-pencil"></i>
+                        <input type="file" class="avatar-file-input" accept="image/png,image/jpeg" hidden>
+                    </label>
+                </div>
+                <h5 class="mb-0">{{ request.user.username }}</h5>
+                <div class="au-cell-sub">{{ request.user.email }}</div>
+                <span class="au-pill au-pill--green mt-2" style="display:inline-flex;"><i class="mdi mdi-circle" style="font-size:8px;"></i> Active</span>
+
+                <div class="text-start mt-3">
+                    {% if profile_form.instance.wba_id %}
+                        <div class="au-panel" style="background:#fff; box-shadow:none; border:1px solid #cdeedb; padding:14px;">
+                            <div class="d-flex align-items-start gap-2">
+                                <span class="stat-card__icon stat-card__icon--green" style="width:32px;height:32px;font-size:15px;"><i class="mdi mdi-whatsapp"></i></span>
+                                <div>
+                                    <div class="au-cell-title">Connected</div>
+                                    <div class="au-cell-sub">Your WhatsApp Business account is connected and ready to use.</div>
+                                </div>
+                            </div>
+                            <button type="button" id="fb-embedded-signup-btn" class="btn-au-outline btn-sm mt-2" style="width:100%; justify-content:center;">Reconnect</button>
+                        </div>
+                    {% else %}
+                        <button type="button" id="fb-embedded-signup-btn" class="btn-au-primary" style="width:100%; justify-content:center;">
+                            <i class="mdi mdi-whatsapp"></i> Connect WhatsApp
+                        </button>
+                    {% endif %}
+                    <div id="embedded-signup-status" class="small text-muted mt-1"></div>
+                    <label class="d-flex align-items-start gap-1 mt-2 text-muted" style="font-size:12px; cursor:pointer;">
+                        <input type="checkbox" id="wa-coexistence-checkbox" style="margin-top:3px;">
+                        Number already on the WhatsApp Business app? Connect without removing it
+                    </label>
+                </div>
+
+                <div class="profile-quickinfo">
+                    <div class="profile-quickinfo__row">
+                        <i class="mdi mdi-phone-outline"></i>
+                        <div>
+                            <div class="profile-quickinfo__label">Phone Number</div>
+                            <div class="profile-quickinfo__value">{{ profile_form.instance.phone_number|default:"—" }}</div>
+                        </div>
+                    </div>
+                    <div class="profile-quickinfo__row">
+                        <i class="mdi mdi-domain"></i>
+                        <div>
+                            <div class="profile-quickinfo__label">WhatsApp Business ID</div>
+                            <div class="profile-quickinfo__value">{{ profile_form.instance.wba_id|default:"—" }}</div>
+                        </div>
+                    </div>
+                    <div class="profile-quickinfo__row">
+                        <i class="mdi mdi-key-outline"></i>
+                        <div class="flex-fill">
+                            <div class="profile-quickinfo__label">API Key</div>
+                            <div class="d-flex align-items-center justify-content-between gap-2">
+                                <div class="profile-quickinfo__value text-truncate" style="max-width:150px;">
+                                    {% if profile_form.instance.api_key %}••••••••{{ profile_form.instance.api_key|slice:"-4:" }}{% else %}—{% endif %}
+                                </div>
+                                {% if profile_form.instance.api_key %}
+                                <button type="button" class="btn-au-outline btn-sm" onclick="copyToClipboard('id_api_key')" title="Copy"><i class="mdi mdi-content-copy"></i></button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col-lg-8">
+            <div class="profile-tabs">
+                <span class="profile-tabs__item"><i class="mdi mdi-account-outline"></i> Personal Info</span>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="au-panel h-100" id="personalInfoPanel">
+                        <div class="au-panel__header">
+                            <h2 class="au-panel__title">Personal Information</h2>
+                        </div>
+                        <p class="au-panel__desc">Your basic account details.</p>
+
+                        <form method="post" id="profile-form">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="au-field">
+                                        <label class="au-field-label" for="id_username"><i class="mdi mdi-account-outline"></i> Name</label>
+                                        <input type="text" name="username" class="form-control profile-editable-field" id="id_username" value="{{ user_form.username.value }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="au-field">
+                                        <label class="au-field-label" for="id_email"><i class="mdi mdi-email-outline"></i> Email</label>
+                                        <input type="email" name="email" class="form-control profile-editable-field" id="id_email" value="{{ user_form.email.value }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="au-field">
+                                        <label class="au-field-label" for="id_phone_number"><i class="mdi mdi-phone-outline"></i> Phone</label>
+                                        <input type="text" name="phone_number" class="form-control profile-editable-field" id="id_phone_number" value="{{ profile_form.phone_number.value|default_if_none:'' }}" placeholder="+91 98765 43210" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="au-field">
+                                        <label class="au-field-label" for="id_api_key"><i class="mdi mdi-key-outline"></i> API Key</label>
+                                        <div class="input-group">
+                                            <input type="text" name="api_key" class="form-control profile-editable-field" id="id_api_key" value="{{ profile_form.api_key.value|default_if_none:'' }}" placeholder="Meta access token" autocomplete="off" readonly>
+                                            <button class="btn-au-outline" type="button" onclick="copyToClipboard('id_api_key')" title="Copy"><i class="mdi mdi-content-copy"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="au-field">
+                                        <label class="au-field-label" for="id_wba_id"><i class="mdi mdi-whatsapp"></i> WhatsApp Business ID</label>
+                                        <input type="text" inputmode="numeric" name="wba_id" class="form-control profile-editable-field" id="id_wba_id" value="{{ profile_form.wba_id.value|default_if_none:'' }}" placeholder="456642462" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="au-field">
+                                        <label class="au-field-label" for="id_phone_number_id"><i class="mdi mdi-pound"></i> Phone Number ID</label>
+                                        <input type="text" inputmode="numeric" name="phone_number_id" class="form-control profile-editable-field" id="id_phone_number_id" value="{{ profile_form.phone_number_id.value|default_if_none:'' }}" placeholder="64868464" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="au-field">
+                                        <label class="au-field-label" for="id_app_id"><i class="mdi mdi-apps"></i> App ID</label>
+                                        <input type="text" inputmode="numeric" name="app_id" class="form-control profile-editable-field" id="id_app_id" value="{{ profile_form.app_id.value|default_if_none:'' }}" placeholder="9879864868464" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="profileFormActions" class="profile-form-actions">
+                                <button type="submit" id="save-button" class="btn-au-primary">Save Changes</button>
+                                <button type="button" id="cancelProfileEditBtn" class="btn-au-outline">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="au-panel h-100">
+                        <div class="au-panel__header">
+                            <h2 class="au-panel__title">Profile Photo</h2>
+                        </div>
+                        <p class="au-panel__desc">Update your profile picture.</p>
+                        <div class="text-center">
+                            <div class="profile-avatar-wrap" style="width:120px; height:120px; margin-bottom:16px;">
+                                <img id="avatarPreviewLarge" class="profile-avatar avatar-preview-img" alt="Avatar"
+                                    style="width:120px; height:120px; font-size:50px; {% if not profile_form.instance.avatar %}display:none;{% endif %}"
+                                    src="{% if profile_form.instance.avatar %}{{ profile_form.instance.avatar.url }}{% endif %}">
+                                <span id="avatarFallbackLarge" class="profile-avatar avatar-fallback-icon" style="width:120px; height:120px; font-size:50px; {% if profile_form.instance.avatar %}display:none;{% endif %}">
+                                    <i class="mdi mdi-account-outline"></i>
+                                </span>
+                            </div>
+                            <label class="btn-au-primary" style="width:100%; justify-content:center; cursor:pointer;">
+                                <i class="mdi mdi-tray-arrow-up"></i> Change Photo
+                                <input type="file" class="avatar-file-input" accept="image/png,image/jpeg" hidden>
+                            </label>
+                            <div class="au-cell-sub mt-2">JPG, PNG (Max 2MB)</div>
+                            <div id="avatarStatus" class="small mt-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="au-panel">
+                <div class="au-panel__header">
+                    <h2 class="au-panel__title">API Access Token</h2>
+                </div>
+                {% if has_api_access %}
+                <p class="au-panel__desc">
+                    Use this token to make authenticated API requests. Share it with other platforms/apps that
+                    need to send WhatsApp messages through your connected account, as an
+                    <code>Authorization: Token &lt;value&gt;</code> header. See the
+                    <a href="{% url 'swagger-ui' %}" target="_blank" rel="noopener">API docs</a>.
+                    {% if api_rate_limit %}Your plan allows up to <strong>{{ api_rate_limit }} requests/hour</strong>.
+                    {% else %}Your plan allows <strong>unlimited</strong> requests.{% endif %}
+                </p>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="apiTokenInput" value="{{ api_token }}" readonly>
+                    <button class="btn-au-outline" type="button" onclick="copyToClipboard('apiTokenInput')"><i class="mdi mdi-content-copy"></i> Copy</button>
+                </div>
+                <form method="post" action="{% url 'regenerate_api_token' %}" onsubmit="return confirm('Regenerating invalidates the current token immediately — anything using the old one will stop working. Continue?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-au-outline btn-sm" style="color:var(--au-danger);"><i class="mdi mdi-refresh"></i> Regenerate Token</button>
+                </form>
+
+                <div class="au-toast au-toast--warning mt-3" style="display:flex;">
+                    <i class="mdi mdi-shield-alert-outline"></i>
+                    <span><strong>Important:</strong> Keep your API token secure. Do not share it with anyone. Regenerate it if you suspect any unauthorized access.</span>
+                </div>
+                {% else %}
+                <p class="au-panel__desc">Send WhatsApp messages from your own platform/app through our REST API.</p>
+                <div class="au-toast" style="display:flex; background:#f3f5f7; align-items:flex-start;">
+                    <i class="mdi mdi-lock-outline" style="color:var(--au-green);"></i>
+                    <div>
+                        <strong>API access isn't included in your current plan.</strong>
+                        <div class="au-cell-sub mt-1">Upgrade to a plan with API access to get your token and start sending messages programmatically.</div>
+                        <a href="{% url 'billing:plan_list' %}" class="btn-au-primary btn-sm mt-2"><i class="mdi mdi-crown-outline"></i> Upgrade your plan</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(elementId) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        if (el.select) el.select();
+        navigator.clipboard.writeText(el.value);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusEl = document.getElementById('avatarStatus');
+
+        document.querySelectorAll('.avatar-file-input').forEach(function (input) {
+            input.addEventListener('change', function () {
+                if (!this.files.length) return;
+
+                const formData = new FormData();
+                formData.append('avatar', this.files[0]);
+                if (statusEl) { statusEl.textContent = 'Uploading…'; statusEl.className = 'small mt-1 text-muted'; }
+
+                fetch("{% url 'update_avatar' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-CSRFToken': document.querySelector('#profile-form [name=csrfmiddlewaretoken]').value },
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.querySelectorAll('.avatar-preview-img').forEach(img => {
+                                img.src = data.avatar_url;
+                                img.style.display = '';
+                            });
+                            document.querySelectorAll('.avatar-fallback-icon').forEach(el => { el.style.display = 'none'; });
+                            if (statusEl) { statusEl.textContent = 'Photo updated!'; statusEl.className = 'small mt-1 text-success'; }
+                        } else if (statusEl) {
+                            statusEl.textContent = data.error || 'Upload failed.';
+                            statusEl.className = 'small mt-1 text-danger';
+                        }
+                    })
+                    .catch(() => {
+                        if (statusEl) { statusEl.textContent = 'Upload failed.'; statusEl.className = 'small mt-1 text-danger'; }
+                    });
+            });
+        });
+
+        // Personal Information fields start readonly — Edit Profile reveals
+        // them for editing plus a Save/Cancel pair; Cancel restores exactly
+        // what was there before (no partial edits left behind).
+        const editBtn = document.getElementById('editProfileBtn');
+        const cancelBtn = document.getElementById('cancelProfileEditBtn');
+        const formActions = document.getElementById('profileFormActions');
+        const editableFields = document.querySelectorAll('.profile-editable-field');
+        let originalValues = [];
+
+        editBtn.addEventListener('click', function () {
+            originalValues = Array.from(editableFields).map(f => f.value);
+            editableFields.forEach(f => f.removeAttribute('readonly'));
+            editableFields[0].focus();
+            formActions.classList.add('is-visible');
+            editBtn.hidden = true;
+        });
+
+        cancelBtn.addEventListener('click', function () {
+            editableFields.forEach((f, i) => {
+                f.value = originalValues[i];
+                f.setAttribute('readonly', 'readonly');
+            });
+            formActions.classList.remove('is-visible');
+            editBtn.hidden = false;
+        });
+    });
+</script>
+
+<!-- WhatsApp Embedded Signup -->
+<!-- https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/implementation -->
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '{{ META_APP_ID }}',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v26.0'
+        });
+    };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<script>
+    let waSignupCode = null;
+    let waSignupData = null;
+    let waSignupEvent = null;
+    let waStallTimer = null;
+
+    function waSetStatus(text) {
+        console.log('[WA Embedded Signup]', text);
+        document.getElementById('embedded-signup-status').textContent = text;
+    }
+
+    function waTrySendToServer() {
+        if (waSignupCode && waSignupData) {
+            clearTimeout(waStallTimer);
+            waSendToServer(waSignupCode, waSignupData, waSignupEvent);
+        } else if (waSignupCode && !waSignupData) {
+            waSetStatus('Got Facebook authorization — waiting for the account details message...');
+        } else if (!waSignupCode && waSignupData) {
+            waSetStatus('Got account details — waiting for Facebook authorization...');
+        }
+    }
+
+    // Listens for the WA_EMBEDDED_SIGNUP postMessage event Meta sends
+    // from the embedded signup popup once the customer finishes onboarding.
+    window.addEventListener('message', (event) => {
+        if (!event.origin || !event.origin.endsWith('facebook.com')) return;
+        let payload;
+        try {
+            payload = JSON.parse(event.data);
+            console.log('[WA raw]', event.origin, payload);
+        } catch (e) {
+            return; // Not a JSON message we care about
+        }
+        console.log('[WA Embedded Signup] message event:', payload);
+        if (payload.type !== 'WA_EMBEDDED_SIGNUP') return;
+
+        if (payload.event === 'CANCEL') {
+            waSetStatus('Signup was cancelled at step: ' + (payload.data && payload.data.current_step));
+        } else if (payload.event === 'ERROR') {
+            waSetStatus('Signup error: ' + (payload.data && payload.data.error_message));
+        } else {
+            // FINISH / FINISH_ONLY_WABA / FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING
+            // (Coexistence) / FINISH_OBO_MIGRATION / FINISH_GRANT_ONLY_API_ACCESS
+            waSignupData = payload.data;
+            waSignupEvent = payload.event;
+            waTrySendToServer();
+        }
+    });
+
+    // mode: 'standard' (default, Meta's documented Embedded Signup) or
+    // 'coexistence' (number already on the WhatsApp Business phone app —
+    // https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-business-app-users/).
+    // Coexistence is optional and finishes with a different event
+    // (FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING); the backend already handles both.
+    function waLaunchEmbeddedSignup(mode) {
+        waSignupCode = null;
+        waSignupData = null;
+        waSignupEvent = null;
+        clearTimeout(waStallTimer);
+        waSetStatus('Opening Facebook...');
+
+        if (typeof FB === 'undefined') {
+            waSetStatus('Could not load the Facebook SDK. Please disable your ad blocker / privacy extension for this site and try again.');
+            return;
+        }
+
+        FB.login(function (response) {
+            console.log('[WA Embedded Signup] FB.login response:', response);
+            if (response.authResponse && response.authResponse.code) {
+                waSignupCode = response.authResponse.code;
+                waTrySendToServer();
+
+                // The code alone is useless without the account-details message
+                // (no phone_number_id/waba_id/business_id) and expires in ~30s.
+                // If that message never shows up, say so instead of going quiet.
+                waStallTimer = setTimeout(() => {
+                    if (!waSignupData) {
+                        waSetStatus('Got Facebook authorization, but never received the account details message from Facebook. Open the browser console (F12) and look for "[WA Embedded Signup] message event" logs, then try again.');
+                    }
+                }, 8000);
+            } else {
+                // Facebook's SDK reports {authResponse: null, status: 'unknown'}
+                // both for a real user cancel AND for a failed browser-side
+                // identity request (Chrome's FedCM rejecting Facebook's own
+                // response, then cooling down retries) — the page has no way
+                // to tell which one happened, since that detail only shows up
+                // as a browser-internal console message we can't read from
+                // here. Point at both possibilities instead of guessing.
+                waSetStatus(
+                    'Login was cancelled, or the browser blocked it before Facebook\'s dialog could load. ' +
+                    'Open the browser console (F12) — if you see a message mentioning "FedCM" or "exponential cool down", ' +
+                    'this is a browser/Facebook sign-in issue, not something wrong on our end: try a different browser, ' +
+                    'or clear facebook.com site data (chrome://settings/content/all) and wait a few minutes before retrying. ' +
+                    'Response: ' + JSON.stringify(response)
+                );
+            }
+        }, {
+            config_id: '{{ META_CONFIG_ID }}',
+            response_type: 'code',
+            override_default_response_type: true,
+            // Standard flow matches Meta's documented `extras: { setup: {} }`
+            // exactly; Coexistence only adds the two extras it requires.
+            extras: mode === 'coexistence'
+                ? { setup: {}, featureType: 'whatsapp_business_app_onboarding', sessionInfoVersion: '3' }
+                : { setup: {} }
+        });
+    }
+
+    function waSendToServer(code, data, eventType) {
+        waSetStatus('Connecting your WhatsApp Business Account...');
+        console.log('[WA Embedded Signup] sending to server:', { code: code, data: data, event: eventType });
+
+        const csrftoken = document.querySelector('#profile-form [name=csrfmiddlewaretoken]').value;
+
+        fetch("{% url 'whatsapp_embedded_signup_callback' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ code: code, data: data, event: eventType }),
+        })
+            .then((res) => res.json().then((result) => ({ ok: res.ok, result: result })))
+            .then(({ ok, result }) => {
+                console.log('[WA Embedded Signup] server response:', result);
+                if (ok && result.success) {
+                    waSetStatus('Connected! Reloading...');
+                    window.location.reload();
+                } else {
+                    waSetStatus('Error: ' + result.message + (result.details ? ' — ' + JSON.stringify(result.details) : ''));
+                }
+            })
+            .catch((err) => {
+                waSetStatus('Error connecting: ' + err);
+            });
+    }
+
+    document.getElementById('fb-embedded-signup-btn').addEventListener('click', () => {
+        const isCoexistence = document.getElementById('wa-coexistence-checkbox').checked;
+        waLaunchEmbeddedSignup(isCoexistence ? 'coexistence' : 'standard');
+    });
+</script>
+{% endblock design %}

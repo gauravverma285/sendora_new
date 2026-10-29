@@ -1,0 +1,54 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found - Dovix AI</title>
+<link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="nf-wrap">
+    <a href="/" class="nf-logo"><img src="{% static 'images/logo.svg' %}" width="150" alt="Dovix AI"></a>
+
+    <div class="nf-icon"><i class="mdi mdi-map-marker-question-outline"></i></div>
+    <div class="nf-code">404</div>
+    <h1 class="nf-title">Page Not Found</h1>
+    <p class="nf-sub">The page you're looking for doesn't exist, may have been moved, or the link might be broken.</p>
+
+    <div class="nf-actions">
+        <a href="/" class="btn-nf-primary"><i class="mdi mdi-home-outline"></i> Back to Home</a>
+        <a href="/services/" class="btn-nf-outline"><i class="mdi mdi-view-grid-outline"></i> Go to Dashboard</a>
+    </div>
+</div>
+
+<style>
+    :root { --nf-green: #51B56D; --nf-green-dark: #3f9457; --nf-ink: #1f2937; --nf-muted: #6b7280; }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+        font-family: 'Poppins', sans-serif; background: #eefaf1; color: var(--nf-ink); padding: 24px;
+    }
+    .nf-wrap { text-align: center; max-width: 460px; }
+    .nf-logo { display: inline-block; margin-bottom: 36px; }
+    .nf-icon {
+        width: 84px; height: 84px; border-radius: 50%; background: #fff; color: var(--nf-green);
+        display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 12px;
+        box-shadow: 0 10px 30px rgba(15,23,42,.08);
+    }
+    .nf-code { font-size: 72px; font-weight: 800; color: var(--nf-green-dark); line-height: 1; }
+    .nf-title { font-size: 24px; font-weight: 700; margin: 10px 0 8px; }
+    .nf-sub { color: var(--nf-muted); font-size: 15px; margin: 0 0 28px; }
+    .nf-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-nf-primary, .btn-nf-outline {
+        display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; padding: 11px 20px;
+        font-weight: 600; font-size: 14.5px; text-decoration: none;
+    }
+    .btn-nf-primary { background: var(--nf-green); color: #fff; }
+    .btn-nf-primary:hover { background: var(--nf-green-dark); color: #fff; }
+    .btn-nf-outline { background: #fff; color: var(--nf-green-dark); border: 1.5px solid var(--nf-green); }
+    .btn-nf-outline:hover { background: #e0f2e5; color: var(--nf-green-dark); }
+</style>
+</body>
+</html>

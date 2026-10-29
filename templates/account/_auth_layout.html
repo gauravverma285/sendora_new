@@ -1,0 +1,224 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Dovix AI{% endblock %}</title>
+<link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="auth-shell">
+
+    <!-- Left: marketing panel — same copy/visuals as the public landing page hero -->
+    <div class="auth-panel">
+        <a href="/" class="auth-logo"><img src="{% static 'images/logo.svg' %}" width="170" alt="Dovix AI"></a>
+
+        <h1 class="auth-panel__title">WhatsApp marketing, built for people who don't want to think about <span>WhatsApp's API.</span></h1>
+        <p class="auth-panel__sub">Send campaigns, automate responses, and track real results &mdash; all from one simple platform.</p>
+
+        <div class="auth-features">
+            <div class="auth-feature"><span class="auth-feature__icon"><i class="mdi mdi-send-outline"></i></span><small>Send<br>Campaigns</small></div>
+            <div class="auth-feature"><span class="auth-feature__icon"><i class="mdi mdi-account-group-outline"></i></span><small>Manage<br>Contacts</small></div>
+            <div class="auth-feature"><span class="auth-feature__icon"><i class="mdi mdi-chart-line"></i></span><small>Track<br>Performance</small></div>
+            <div class="auth-feature"><span class="auth-feature__icon"><i class="mdi mdi-lightning-bolt-outline"></i></span><small>Automate<br>Flows</small></div>
+        </div>
+
+        <div class="auth-mockups">
+            {% include "partials/_lp_dashboard_mock.html" %}
+            <div class="lp-phone auth-mockups__phone">
+                <div class="lp-phone__frame">
+                    <div class="lp-phone__header"><i class="mdi mdi-whatsapp"></i> Business Account</div>
+                    <div class="lp-phone__body">
+                        <div class="lp-phone__bubble">Hello! 👋<br>Here's your special offer...</div>
+                        <div class="lp-phone__bubble lp-phone__bubble--reply">Looks great! 👍</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-checklist">
+            <span><i class="mdi mdi-check-circle"></i> 14-day free trial</span>
+            <span><i class="mdi mdi-check-circle"></i> Connects directly to Meta</span>
+            <span><i class="mdi mdi-check-circle"></i> No developer needed</span>
+        </div>
+    </div>
+
+    <!-- Right: the form card -->
+    <div class="auth-formside">
+        <div class="auth-card{% block card_modifier %}{% endblock %}">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block auth_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+<style>
+:root {
+    --lp-green: #51B56D;
+    --lp-green-dark: #3f9457;
+    --lp-green-light: #e0f2e5;
+    --lp-mint-bg: #eefaf1;
+    --lp-ink: #1f2937;
+    --lp-muted: #6b7280;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0; font-family: 'Poppins', 'Rubik', sans-serif; color: var(--lp-ink);
+    background: var(--lp-mint-bg);
+}
+
+.auth-shell { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+
+/* ---- Left marketing panel (reuses the landing page's mockup CSS) ---- */
+.auth-panel { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+.auth-logo { display: inline-block; width: fit-content; }
+.auth-panel__title { font-size: 30px; font-weight: 800; line-height: 1.3; color: var(--lp-ink); margin: 0; }
+.auth-panel__title span { color: var(--lp-green-dark); }
+.auth-panel__sub { color: var(--lp-muted); font-size: 15px; margin: 0; max-width: 480px; }
+
+.auth-features { display: flex; gap: 28px; flex-wrap: wrap; }
+.auth-feature { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.auth-feature__icon {
+    width: 46px; height: 46px; border-radius: 50%; background: #fff; color: var(--lp-green-dark);
+    display: inline-flex; align-items: center; justify-content: center; font-size: 21px;
+    box-shadow: 0 2px 8px rgba(15,23,42,.06);
+}
+.auth-feature small { font-size: 12.5px; font-weight: 600; color: var(--lp-ink); line-height: 1.3; }
+
+.auth-mockups { position: relative; max-width: 480px; }
+.auth-mockups__phone { position: absolute; right: -30px; bottom: -30px; width: 190px; z-index: 2; }
+.auth-mockups__phone .lp-phone__body { min-height: 130px; padding: 14px 10px; }
+.auth-mockups__phone .lp-phone__bubble { font-size: 11px; padding: 8px 10px; }
+.auth-mockups__phone .lp-phone__header { font-size: 12px; padding: 9px 12px; }
+
+.auth-checklist { display: flex; flex-wrap: wrap; gap: 18px; color: var(--lp-muted); font-size: 13px; margin-top: 4px; }
+.auth-checklist i { color: var(--lp-green); margin-right: 4px; }
+
+/* landing-page mockup card, reused as-is */
+.lp-mock { background: #fff; border-radius: 16px; box-shadow: 0 20px 45px rgba(15, 23, 42, .10); overflow: hidden; }
+.lp-mock__topbar { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid #eef1f6; }
+.lp-mock__title { font-weight: 700; font-size: 13.5px; color: var(--lp-ink); }
+.lp-mock--dashboard .lp-mock__title { margin-left: 8px; }
+.lp-mock__dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.lp-mock__dot--red { background: #ff5f57; }
+.lp-mock__dot--yellow { background: #febc2e; }
+.lp-mock__dot--green { background: #28c840; }
+.lp-mock__body { padding: 18px; }
+.lp-mock__kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+.lp-mock__kpi { background: #f8faf9; border-radius: 10px; padding: 10px 8px; text-align: left; }
+.lp-mock__kpi-icon { width: 24px; height: 24px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; margin-bottom: 6px; }
+.lp-mock__kpi-icon--blue { background: #e8f0ff; color: #3b7dfb; }
+.lp-mock__kpi-icon--green { background: var(--lp-green-light); color: var(--lp-green-dark); }
+.lp-mock__kpi-icon--purple { background: #f1e9fd; color: #9b6bf0; }
+.lp-mock__kpi-icon--teal { background: #e3f7f6; color: #17a2a4; }
+.lp-mock__kpi strong { display: block; font-size: 16px; color: var(--lp-ink); }
+.lp-mock__kpi span { display: block; font-size: 10.5px; color: var(--lp-muted); }
+.lp-mock__chart-label { font-size: 12.5px; font-weight: 700; color: var(--lp-ink); margin-bottom: 8px; }
+.lp-mock__chart { width: 100%; height: 90px; display: block; }
+.lp-phone__frame { background: #fff; border-radius: 26px; padding: 10px; box-shadow: 0 20px 45px rgba(15, 23, 42, .12); }
+.lp-phone__header { background: var(--lp-green); color: #fff; border-radius: 18px 18px 0 0; padding: 12px 16px; font-weight: 700; font-size: 14px; }
+.lp-phone__header i { margin-right: 6px; }
+.lp-phone__body { background: #eafaf0; padding: 20px 14px; border-radius: 0 0 18px 18px; min-height: 180px; }
+.lp-phone__bubble { background: #fff; border-radius: 12px; padding: 10px 12px; font-size: 13px; color: var(--lp-ink); margin-bottom: 10px; max-width: 85%; box-shadow: 0 2px 6px rgba(15,23,42,.06); }
+.lp-phone__bubble--reply { background: var(--lp-green); color: #fff; margin-left: auto; }
+
+/* ---- Right: form card ---- */
+.auth-formside { display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: #fff; }
+.auth-card { width: 100%; max-width: 420px; }
+.auth-card--wide { max-width: 560px; }
+.auth-card__logo { text-align: center; margin-bottom: 18px; }
+.auth-card__logo img { width: 150px; }
+.auth-card__title { font-size: 26px; font-weight: 800; text-align: center; margin: 0 0 6px; color: var(--lp-ink); }
+.auth-card__sub { text-align: center; color: var(--lp-muted); font-size: 14px; margin: 0 0 28px; }
+
+.auth-label { display: block; font-size: 13.5px; font-weight: 600; color: var(--lp-ink); margin-bottom: 6px; }
+.auth-input { position: relative; margin-bottom: 4px; }
+.auth-input > i:first-child { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9aa2b1; font-size: 18px; pointer-events: none; }
+.auth-input .form-control { padding: 11px 14px 11px 42px; border-radius: 10px; border: 1px solid #e2e5ec; font-size: 14.5px; }
+.auth-input .form-control:focus { border-color: var(--lp-green); box-shadow: 0 0 0 .2rem rgba(81,181,109,.15); }
+.auth-input--pw .form-control { padding-right: 42px; }
+.auth-eye { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; color: #9aa2b1; font-size: 18px; padding: 4px; }
+.auth-field { margin-bottom: 18px; }
+
+.auth-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 8px; }
+.auth-check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--lp-ink); margin: 0; }
+.auth-check input { width: 16px; height: 16px; }
+.auth-link, .auth-card a { color: var(--lp-green-dark); font-weight: 600; text-decoration: none; }
+.auth-link:hover, .auth-card a:hover { text-decoration: underline; color: var(--lp-green-dark); }
+
+.auth-btn-primary {
+    background: var(--lp-green); color: #fff; border: none; border-radius: 10px;
+    padding: 12px; font-weight: 700; font-size: 15px;
+}
+.auth-btn-primary:hover { background: var(--lp-green-dark); color: #fff; }
+.auth-btn-outline {
+    background: #fff; color: var(--lp-green-dark); border: 1.5px solid var(--lp-green);
+    border-radius: 10px; padding: 12px; font-weight: 700; font-size: 15px;
+}
+.auth-btn-outline:hover { background: var(--lp-green-light); color: var(--lp-green-dark); }
+
+.auth-divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; color: #9aa2b1; font-size: 12.5px; font-weight: 700; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: #e5e8ee; }
+
+.auth-btn-google {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: #fff; border: 1px solid #e2e5ec; border-radius: 10px; padding: 11px; font-weight: 600; font-size: 14.5px; color: var(--lp-ink);
+}
+.auth-btn-google:hover { background: #f8faf9; color: var(--lp-ink); }
+
+.auth-foot { text-align: center; margin: 22px 0 0; font-size: 14px; color: var(--lp-muted); }
+
+.auth-icon-badge {
+    width: 64px; height: 64px; border-radius: 50%; background: var(--lp-green-light); color: var(--lp-green-dark);
+    display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 18px;
+}
+.auth-icon-badge--danger { background: #fdecec; color: #ff5a5f; }
+
+.auth-emails { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.auth-email-row { display: flex; align-items: center; gap: 10px; border: 1px solid #eef1f6; border-radius: 10px; padding: 10px 14px; font-size: 13.5px; }
+.auth-badge { font-size: 11px; font-weight: 700; border-radius: 999px; padding: 2px 9px; }
+.auth-badge--ok { background: var(--lp-green-light); color: var(--lp-green-dark); }
+.auth-badge--warn { background: #fff2e2; color: #b96b00; }
+.auth-badge--primary { background: #e8f0ff; color: #3b7dfb; }
+
+@media (max-width: 991.98px) {
+    .auth-shell { grid-template-columns: 1fr; }
+    .auth-panel { display: none; }
+    .auth-formside { min-height: 100vh; padding: 32px 20px; }
+}
+@media (max-width: 575.98px) {
+    .auth-card__title { font-size: 22px; }
+    .auth-row { flex-direction: column; align-items: flex-start; }
+}
+</style>
+
+<script>
+document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.auth-eye');
+    if (!btn) return;
+    var input = document.getElementById(btn.dataset.target);
+    if (!input) return;
+    var showing = input.type === 'text';
+    input.type = showing ? 'password' : 'text';
+    var icon = btn.querySelector('i');
+    icon.className = showing ? 'mdi mdi-eye-outline' : 'mdi mdi-eye-off-outline';
+});
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

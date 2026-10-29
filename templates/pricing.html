@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+.card-body .info p{
+margin-bottom:20px;
+color:#242526;
+}
+
+  .pricing-card {
+    width: 18rem;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .pricing-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+  }
+
+  .pricing-card .card-header {
+    width: 100%;
+    font-size: 28px;
+    font-weight: bold;
+    background-color: #51B56D;
+  }
+
+  .pricing-card .card-title b {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+
+  .pricing-card .card-title span {
+    font-size: 18px;
+  }
+
+  .pricing-card .btn a {
+    background-color: #51B56D;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  /* .pricing-card .btn:hover {
+    background-color: #3e9958;
+  } */
+
+  .toggle-button {
+    margin-bottom: 20px;
+  }
+
+  .btn-toggle {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-toggle.active {
+    background-color: #51B56D;
+    color: white;
+  }
+</style>
+
+<section class="my-5">
+    <div class="container" >
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="toggle-button text-center">
+                    <button class="btn-toggle active" id="monthlyBtn">Monthly</button>
+                    <button class="btn-toggle" id="yearlyBtn">Yearly</button>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5" style="gap: 50px; display: flex; justify-content: center;">
+            <div class="col-md-3">
+
+                <!-- free card  -->
+                <div class="card rounded pricing-card">
+                    <div class="card-header">
+                      14-Days Free Trial
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title mt-4">
+                        <b id="free-price">₹0.00</b><span id="free-duration"> / mo</span>
+                      </h5>
+                      <div class="card-text info">
+                        <p><img src="{% static 'icons/yes_icon.svg' %}" style="padding-right: 6px; width: 28px;">50 Contacts</p>
+                        <p><img src="{% static 'icons/yes_icon.svg' %}" style="padding-right: 6px; width: 28px;">1 Campaigns</p>
+                        <p><img src="{% static 'icons/yes_icon.svg' %}" style="padding-right: 6px; width: 28px;">5 Templates</p>
+                        <p><img src="{% static 'icons/no_icon.svg' %}" style="padding-right: 6px; width: 28px;">24/7 Support</p>
+                      </div>
+                    </div>
+                    <div class="btn mb-2">
+                      <a href="#">Buy Now</a>
+                    </div>
+                  </div>
+                  
+
+            </div>
+
+
+            <div class="col-md-3">
+                <!-- paid card  -->
+                <div class="card rounded pricing-card">
+                    <div class="card-header">
+                      Advanced Plan
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title mt-4">
+                        <b id="paid-price">₹5000</b><span id="paid-duration"> / mo</span>
+                      </h5>
+                      <div class="card-text info">
+                        <p><img src="{% static 'icons/yes_icon.svg' %}" style="padding-right: 6px; width: 28px;">Unlimited Contacts</p>
+                        <p><img src="{% static 'icons/yes_icon.svg' %}" style="padding-right: 6px; width: 28px;">Unlimited Campaigns</p>
+                        <p><img src="{% static 'icons/yes_icon.svg' %}" style="padding-right: 6px; width: 28px;">Unlimited Templates</p>
+                        <p><img src="{% static 'icons/yes_icon.svg' %}" style="padding-right: 6px; width: 28px;">24/7 Support</p>
+                      </div>
+                    </div>
+                    <div class="btn mb-2">
+                      <a href="#">Buy Now</a>
+                    </div>
+                  </div>
+                  
+            
+            </div>
+       
+        </div>
+    </div>
+</section>
+    
+<script>
+    const monthlyBtn = document.getElementById('monthlyBtn');
+    const yearlyBtn = document.getElementById('yearlyBtn');
+  
+    const freePrice = document.getElementById('free-price');
+    const freeDuration = document.getElementById('free-duration');
+  
+    const paidPrice = document.getElementById('paid-price');
+    const paidDuration = document.getElementById('paid-duration');
+  
+    monthlyBtn.addEventListener('click', () => {
+      // Prices for Monthly
+      freePrice.textContent = '₹0.00';
+      freeDuration.textContent = ' / mo';
+  
+      paidPrice.textContent = '₹5000';
+      paidDuration.textContent = ' / mo';
+  
+      monthlyBtn.classList.add('active');
+      yearlyBtn.classList.remove('active');
+    });
+  
+    yearlyBtn.addEventListener('click', () => {
+      // Prices for Yearly
+      freePrice.textContent = '₹0.00';
+      freeDuration.textContent = ' / year';
+  
+      paidPrice.textContent = '₹49999'; // Example discounted annual price
+      paidDuration.textContent = ' / year';
+  
+      yearlyBtn.classList.add('active');
+      monthlyBtn.classList.remove('active');
+    });
+  </script>
+  
+{% endblock body %}
+    

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/landing-theme.css' %}">
+
+<div class="lp">
+
+    <!-- Page header -->
+    <section class="lp-page-header">
+        <div class="container">
+            <p class="lp-eyebrow">About Us</p>
+            <h1 class="lp-heading" style="font-size:36px;">We're Making WhatsApp Marketing Simple</h1>
+            <p class="lp-body-text" style="max-width:640px; margin:0 auto;">Dovix AI helps businesses turn their WhatsApp Business Account into a real marketing and support channel &mdash; without writing a line of code or hiring a developer to wrangle Meta's API.</p>
+        </div>
+    </section>
+
+    <!-- Our story -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <p class="lp-eyebrow">Our Story</p>
+                    <h2 class="lp-heading">Built because setting up WhatsApp for business shouldn't take a dev team.</h2>
+                    <p class="lp-body-text">The official WhatsApp Business Platform (Cloud API) is powerful, but it's built for engineers &mdash; raw JSON payloads, template approval rules, 24-hour messaging windows, and webhook plumbing. Most businesses just want to message their customers and see what happened after. Dovix AI was built to close that gap: connect your WhatsApp Business Account in a few clicks through Meta's official Embedded Signup, and get a complete marketing tool on top of it &mdash; campaigns, templates, contacts, automation, and analytics, all in one dashboard.</p>
+                </div>
+                <div class="col-lg-6">
+                    {% include "partials/_lp_dashboard_mock.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What we believe -->
+    <section class="lp-section lp-section--mint">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="lp-eyebrow">What We Believe</p>
+                <h2 class="lp-heading">The Principles Behind How We Build</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--green"><i class="mdi mdi-feather"></i></span>
+                        <h5>Simplicity First</h5>
+                        <p>If a feature needs documentation to use, we haven't finished building it. Connecting WhatsApp, sending a campaign, or building a flow should feel obvious.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--blue"><i class="mdi mdi-shield-check-outline"></i></span>
+                        <h5>Built on Official APIs</h5>
+                        <p>We connect directly to Meta's WhatsApp Business Platform through the official Embedded Signup &mdash; no gray-market numbers, no unofficial workarounds.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--purple"><i class="mdi mdi-chart-box-outline"></i></span>
+                        <h5>Honest Analytics</h5>
+                        <p>Not just a "delivered %." We track every message individually so you know exactly who read, clicked, replied, or bounced &mdash; and why.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why businesses choose us -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 order-lg-2">
+                    <p class="lp-eyebrow">Why Dovix AI</p>
+                    <h2 class="lp-heading">Everything you need, nothing you have to configure yourself.</h2>
+                    <ul class="lp-check-list">
+                        <li><i class="mdi mdi-check-circle-outline"></i> One-click WhatsApp Business Account connection &mdash; no API keys to copy-paste</li>
+                        <li><i class="mdi mdi-check-circle-outline"></i> Templates, campaigns, contacts and automation flows in one dashboard</li>
+                        <li><i class="mdi mdi-check-circle-outline"></i> Per-message delivery, read, click and reply tracking</li>
+                        <li><i class="mdi mdi-check-circle-outline"></i> Built-in opt-out handling so you never message someone who said stop</li>
+                        <li><i class="mdi mdi-check-circle-outline"></i> A developer API for teams who want to go further</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 order-lg-1 d-flex justify-content-center">
+                    <div class="lp-phone">
+                        <div class="lp-phone__frame">
+                            <div class="lp-phone__header"><i class="mdi mdi-whatsapp"></i> WhatsApp</div>
+                            <div class="lp-phone__body">
+                                <div class="lp-phone__bubble">Hi 👋 Your order has shipped!</div>
+                                <div class="lp-phone__bubble lp-phone__bubble--reply">Awesome, thank you!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="lp-cta">
+        <div class="container text-center">
+            <h2 class="lp-cta__title">Ready to turn WhatsApp into your best sales channel?</h2>
+            <a href="/accounts/signup" class="btn btn-light btn-lg lp-cta__btn">Start Your Free Trial &mdash; No Credit Card Required</a>
+        </div>
+    </section>
+
+</div>
+{% endblock body %}

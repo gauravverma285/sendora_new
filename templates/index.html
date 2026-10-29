@@ -1,0 +1,593 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="lp">
+
+    <!-- Hero -->
+    <section class="lp-section lp-section--mint lp-hero">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h1 class="lp-hero__title">Turn WhatsApp Into Your Best Sales Channel</h1>
+                    <p class="lp-hero__subtitle">Connect your WhatsApp Business Account in minutes, send campaigns that actually get read, and watch every delivery, read, click, and reply in real time.</p>
+                    <div class="d-flex flex-wrap gap-3 mb-3">
+                        <a href="/accounts/signup" class="btn btn-primary btn-lg">Start Free Trial &mdash; No Credit Card Required</a>
+                        <a href="/how_it_works" class="btn btn-outline-primary btn-lg">See How It Works</a>
+                    </div>
+                    <div class="lp-trust-line">
+                        <span><i class="mdi mdi-check-circle-outline"></i> 14-day free trial</span>
+                        <span><i class="mdi mdi-check-circle-outline"></i> Connects directly to Meta</span>
+                        <span><i class="mdi mdi-check-circle-outline"></i> No developer needed</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    {% include "partials/_lp_dashboard_mock.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <p class="lp-eyebrow">The Channel Nobody's Ignoring</p>
+                    <h2 class="lp-heading">Email gets ignored.<br>SMS gets deleted.<br><span class="lp-heading--accent">WhatsApp gets opened.</span></h2>
+                    <p class="lp-body-text">Over 2 billion people use WhatsApp every day &mdash; and messages sent through it get opened in minutes, not days. But the official WhatsApp Business API is built for developers, not marketers: raw JSON payloads, template approval rules, 24-hour messaging windows. Dovix AI handles all of that so you can just send the message.</p>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="lp-phone">
+                        <div class="lp-phone__frame">
+                            <div class="lp-phone__header"><i class="mdi mdi-whatsapp"></i> WhatsApp</div>
+                            <div class="lp-phone__body">
+                                <div class="lp-phone__bubble">Hi 👋<br>Here's your special offer!</div>
+                                <div class="lp-phone__bubble lp-phone__bubble--reply">Looks great! Thanks 🙌</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="lp-section lp-section--mint" id="features">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="lp-eyebrow">Powerful Features</p>
+                <h2 class="lp-heading">Everything You Need to Grow on WhatsApp</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--blue"><i class="mdi mdi-link-variant"></i></span>
+                        <h5>One-Click WhatsApp Connect</h5>
+                        <p>Link your WhatsApp Business Account through Meta's official Embedded Signup. No API keys to copy-paste, no developer required.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--purple"><i class="mdi mdi-file-document-multiple-outline"></i></span>
+                        <h5>Templates, Synced Live</h5>
+                        <p>Build and manage WhatsApp templates &mdash; text, image, video, document, buttons, coupon codes &mdash; pulled directly from your Meta account, always in sync with approval status.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--green"><i class="mdi mdi-bullhorn-outline"></i></span>
+                        <h5>Broadcast &amp; Personalized Campaigns</h5>
+                        <p>Send one message to your whole list or personalize each one by name, tag, or custom segment. Schedule for later or send instantly.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--orange"><i class="mdi mdi-account-group-outline"></i></span>
+                        <h5>Contacts, Tags &amp; Segments</h5>
+                        <p>Import contacts in bulk, organize with tags, and build audiences by tag or manual selection &mdash; with built-in opt-out handling so you never message someone who said stop.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--blue"><i class="mdi mdi-chart-line"></i></span>
+                        <h5>Real Per-Message Analytics</h5>
+                        <p>Not just "delivered %." See exactly who read your message, who clicked, who replied, and who bounced &mdash; down to the individual contact, filterable by day, week, or custom range.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--teal"><i class="mdi mdi-radar"></i></span>
+                        <h5>One-Click Retargeting</h5>
+                        <p>Filter any campaign by status &mdash; delivered-but-unread, clicked-but-silent, failed &mdash; select them, and relaunch a new campaign to just that group in seconds.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--purple"><i class="mdi mdi-sitemap-outline"></i></span>
+                        <h5>Visual Flow Builder</h5>
+                        <p>Build automated chat flows with a drag-and-drop canvas: ask questions, capture answers, branch on button taps, even call your own APIs mid-conversation. No code.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="lp-feature-card">
+                        <span class="lp-icon-badge lp-icon-badge--green"><i class="mdi mdi-code-tags"></i></span>
+                        <h5>Developer API</h5>
+                        <p>Send single or bulk WhatsApp messages from your own systems with a documented REST API and your own auth token &mdash; perfect for agencies and platforms building on top of Dovix AI.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="lp-eyebrow">How It Works</p>
+                <h2 class="lp-heading">From Zero to Your First Campaign in 3 Steps</h2>
+            </div>
+            <div class="lp-steps">
+                <div class="lp-step">
+                    <span class="lp-step__circle"><i class="mdi mdi-link-variant"></i></span>
+                    <h5>1. Connect</h5>
+                    <p>Link your WhatsApp Business Account with one click through Meta's official signup flow.</p>
+                </div>
+                <div class="lp-step__connector"><i class="mdi mdi-arrow-right"></i></div>
+                <div class="lp-step">
+                    <span class="lp-step__circle"><i class="mdi mdi-file-document-edit-outline"></i></span>
+                    <h5>2. Create</h5>
+                    <p>Pick a template or write your message, choose your audience, and set the schedule.</p>
+                </div>
+                <div class="lp-step__connector"><i class="mdi mdi-arrow-right"></i></div>
+                <div class="lp-step">
+                    <span class="lp-step__circle"><i class="mdi mdi-send-outline"></i></span>
+                    <h5>3. Send &amp; Track</h5>
+                    <p>Launch the campaign and watch delivery, reads, clicks, and replies roll in live.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics spotlight -->
+    <section class="lp-section lp-section--mint">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 order-lg-1">
+                    <p class="lp-eyebrow">Know What Actually Happened</p>
+                    <h2 class="lp-heading">Stop guessing why a campaign underperformed.</h2>
+                    <p class="lp-body-text">Every message is tracked individually &mdash; sent, delivered, read, clicked, replied, or failed &mdash; with the real reason attached when something goes wrong (opted out, invalid number, outside the messaging window). Filter by any time range, drill into any single contact's message, and export a full report as a spreadsheet.</p>
+                    <ul class="lp-check-list">
+                        <li><i class="mdi mdi-check-circle-outline"></i> Live dashboard: totals + trend chart, filterable by Today / 7 days / 30 days / custom range</li>
+                        <li><i class="mdi mdi-check-circle-outline"></i> Per-contact drill-down with delivery status and failure reason</li>
+                        <li><i class="mdi mdi-check-circle-outline"></i> One-click export to Excel, broken out by status</li>
+                        <li><i class="mdi mdi-check-circle-outline"></i> Know instantly which failures are worth retrying and which aren't</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    {% include "partials/_lp_dashboard_mock.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retargeting spotlight -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-5">
+                    <div class="lp-mock lp-mock--retarget">
+                        <div class="lp-mock__topbar">
+                            <span class="lp-mock__title">Retarget Audience</span>
+                            <i class="mdi mdi-whatsapp text-success"></i>
+                        </div>
+                        <div class="lp-mock__body">
+                            <div class="lp-retarget-row">
+                                <span><span class="lp-status-dot lp-status-dot--purple"></span>Delivered but Unread</span>
+                                <strong>1,254</strong>
+                            </div>
+                            <div class="lp-retarget-row">
+                                <span><span class="lp-status-dot lp-status-dot--teal"></span>Clicked but Silent</span>
+                                <strong>432</strong>
+                            </div>
+                            <div class="lp-retarget-row">
+                                <span><span class="lp-status-dot lp-status-dot--red"></span>Failed</span>
+                                <strong>87</strong>
+                            </div>
+                            <button type="button" class="btn btn-primary w-100 mt-3">Create Campaign</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <p class="lp-eyebrow">Don't Let a Failed Send Be the End</p>
+                    <h2 class="lp-heading">Turn your &ldquo;delivered but unread&rdquo; list into your next win.</h2>
+                    <p class="lp-body-text">Every campaign leaves behind a list of people who didn't open it, didn't click, or never got the message at all. Dovix AI turns that list into your next audience &mdash; pick a segment, hit Retarget, and you're already halfway through building the follow-up campaign with the same template pre-loaded.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Automation spotlight -->
+    <section class="lp-section lp-section--mint">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <p class="lp-eyebrow">Let WhatsApp Work While You Sleep</p>
+                    <h2 class="lp-heading">Build a chatbot without writing a line of code.</h2>
+                    <p class="lp-body-text">Design conversation flows visually &mdash; greet new contacts, answer FAQs, collect information, even pull live data from your own systems &mdash; all triggered automatically the moment someone messages you.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="lp-flow">
+                        <div class="lp-flow__node">
+                            <div class="lp-flow__node-title"><i class="mdi mdi-message-text-outline"></i> Welcome Message</div>
+                            <div class="lp-flow__node-body">Hi there! How can I help you today?</div>
+                            <div class="lp-flow__node-buttons">
+                                <span class="lp-flow__chip">Check Order</span>
+                                <span class="lp-flow__chip">Talk to Support</span>
+                            </div>
+                        </div>
+                        <div class="lp-flow__arrow"><i class="mdi mdi-arrow-right"></i></div>
+                        <div class="lp-flow__node">
+                            <div class="lp-flow__node-title"><i class="mdi mdi-cloud-download-outline"></i> Fetch Order Details</div>
+                            <div class="lp-flow__node-body">Get order info from your API</div>
+                        </div>
+                    </div>
+                    <div class="lp-flow mt-3">
+                        <div class="lp-flow__node lp-flow__node--full">
+                            <div class="lp-flow__node-title"><i class="mdi mdi-reply-outline"></i> Reply Message</div>
+                            <div class="lp-flow__node-body">Your order is on the way!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="lp-section lp-section--white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="lp-eyebrow">Simple Pricing</p>
+                <h2 class="lp-heading">Simple Pricing, No Surprises</h2>
+                <div class="lp-toggle mt-4">
+                    <button type="button" class="lp-toggle__btn active" id="lpMonthlyBtn">Monthly</button>
+                    <button type="button" class="lp-toggle__btn" id="lpYearlyBtn">Yearly</button>
+                </div>
+            </div>
+            <div class="row justify-content-center g-4">
+                <div class="col-md-5 col-lg-4">
+                    <div class="lp-price-card">
+                        <h5 class="lp-price-card__plan">Free Trial</h5>
+                        <div class="lp-price-card__amount"><span id="lpFreePrice">&#8377;0</span><span class="lp-price-card__period" id="lpFreeDuration"> for 14 days</span></div>
+                        <ul class="lp-check-list lp-check-list--plain">
+                            <li><i class="mdi mdi-check-circle-outline"></i> 50 Contacts</li>
+                            <li><i class="mdi mdi-check-circle-outline"></i> 1 Campaign</li>
+                            <li><i class="mdi mdi-check-circle-outline"></i> 5 Templates</li>
+                            <li><i class="mdi mdi-close-circle-outline text-muted"></i> Standard Support</li>
+                        </ul>
+                        <a href="/accounts/signup" class="btn btn-outline-primary w-100">Start Free</a>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-4">
+                    <div class="lp-price-card lp-price-card--highlight">
+                        <h5 class="lp-price-card__plan">Advanced</h5>
+                        <div class="lp-price-card__amount"><span id="lpPaidPrice">&#8377;5,000</span><span class="lp-price-card__period" id="lpPaidDuration"> /mo</span></div>
+                        <ul class="lp-check-list lp-check-list--plain">
+                            <li><i class="mdi mdi-check-circle-outline"></i> Unlimited Contacts</li>
+                            <li><i class="mdi mdi-check-circle-outline"></i> Unlimited Campaigns</li>
+                            <li><i class="mdi mdi-check-circle-outline"></i> Unlimited Templates</li>
+                            <li><i class="mdi mdi-check-circle-outline"></i> 24/7 Support</li>
+                        </ul>
+                        <a href="/accounts/signup" class="btn btn-primary w-100">Upgrade Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="lp-section lp-section--mint">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="lp-eyebrow">Frequently Asked Questions</p>
+                <h2 class="lp-heading">Got Questions? We've Got Answers.</h2>
+            </div>
+            <div class="lp-faq-grid">
+                <div class="lp-faq-item">
+                    <button type="button" class="lp-faq-item__q" data-bs-toggle="collapse" data-bs-target="#lpFaq1">
+                        Do I need my own WhatsApp Business API account? <i class="mdi mdi-chevron-down"></i>
+                    </button>
+                    <div class="collapse show" id="lpFaq1">
+                        <p class="lp-faq-item__a">No &mdash; connect your existing WhatsApp Business number through our one-click Meta signup, and we handle the technical setup.</p>
+                    </div>
+                </div>
+                <div class="lp-faq-item">
+                    <button type="button" class="lp-faq-item__q" data-bs-toggle="collapse" data-bs-target="#lpFaq2">
+                        Can I automate responses without hiring a developer? <i class="mdi mdi-chevron-down"></i>
+                    </button>
+                    <div class="collapse" id="lpFaq2">
+                        <p class="lp-faq-item__a">Yes &mdash; the Flow Builder is drag-and-drop, no code required.</p>
+                    </div>
+                </div>
+                <div class="lp-faq-item">
+                    <button type="button" class="lp-faq-item__q" data-bs-toggle="collapse" data-bs-target="#lpFaq3">
+                        What happens if I message someone after 24 hours of their last reply? <i class="mdi mdi-chevron-down"></i>
+                    </button>
+                    <div class="collapse" id="lpFaq3">
+                        <p class="lp-faq-item__a">WhatsApp requires an approved template message outside that window &mdash; Dovix AI handles this automatically and tells you exactly why a message failed if it's blocked.</p>
+                    </div>
+                </div>
+                <div class="lp-faq-item">
+                    <button type="button" class="lp-faq-item__q" data-bs-toggle="collapse" data-bs-target="#lpFaq4">
+                        Can I integrate this into my own app or platform? <i class="mdi mdi-chevron-down"></i>
+                    </button>
+                    <div class="collapse" id="lpFaq4">
+                        <p class="lp-faq-item__a">Yes &mdash; the developer API lets you send messages programmatically with your own auth token.</p>
+                    </div>
+                </div>
+                <div class="lp-faq-item">
+                    <button type="button" class="lp-faq-item__q" data-bs-toggle="collapse" data-bs-target="#lpFaq5">
+                        Can contacts opt out? <i class="mdi mdi-chevron-down"></i>
+                    </button>
+                    <div class="collapse" id="lpFaq5">
+                        <p class="lp-faq-item__a">Yes &mdash; anyone can reply "stop" or tap an unsubscribe button, and they're automatically excluded from future campaigns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="lp-cta">
+        <div class="container text-center">
+            <h2 class="lp-cta__title">Your Customers Are Already on WhatsApp.<br>Are You?</h2>
+            <a href="/accounts/signup" class="btn btn-light btn-lg lp-cta__btn">Start Your Free Trial &mdash; No Credit Card Required</a>
+        </div>
+    </section>
+
+</div>
+
+<style>
+:root {
+    --lp-green: #51B56D;
+    --lp-green-dark: #3f9457;
+    --lp-green-light: #e0f2e5;
+    --lp-mint-bg: #eefaf1;
+    --lp-ink: #1f2937;
+    --lp-muted: #6b7280;
+}
+
+.lp-section { padding: 72px 0; }
+.lp-section--mint { background: var(--lp-mint-bg); }
+.lp-section--white { background: #fff; }
+
+.lp-eyebrow {
+    color: var(--lp-green-dark);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+.lp-heading {
+    font-weight: 700;
+    color: var(--lp-ink);
+    line-height: 1.25;
+    margin-bottom: 18px;
+}
+.lp-heading--accent { color: var(--lp-green-dark); }
+.lp-body-text { color: var(--lp-muted); font-size: 16px; line-height: 1.7; }
+
+.lp-hero__title { font-size: 44px; font-weight: 800; color: var(--lp-ink); line-height: 1.2; margin-bottom: 18px; }
+.lp-hero__subtitle { color: var(--lp-muted); font-size: 17px; line-height: 1.7; margin-bottom: 26px; max-width: 520px; }
+.lp-trust-line { display: flex; flex-wrap: wrap; gap: 18px; color: var(--lp-muted); font-size: 13.5px; }
+.lp-trust-line i { color: var(--lp-green); margin-right: 4px; }
+
+.lp-check-list { list-style: none; padding: 0; margin: 0; }
+.lp-check-list li { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; color: var(--lp-ink); font-size: 15px; }
+.lp-check-list li i { color: var(--lp-green); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.lp-check-list--plain li { font-size: 14.5px; color: var(--lp-muted); }
+
+/* Feature cards */
+.lp-feature-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 22px;
+    height: 100%;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+}
+.lp-feature-card h5 { font-weight: 700; color: var(--lp-ink); margin: 16px 0 8px; font-size: 16px; }
+.lp-feature-card p { color: var(--lp-muted); font-size: 14px; line-height: 1.6; margin: 0; }
+
+.lp-icon-badge {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 22px;
+}
+.lp-icon-badge--blue { background: #e8f0ff; color: #3b7dfb; }
+.lp-icon-badge--green { background: var(--lp-green-light); color: var(--lp-green-dark); }
+.lp-icon-badge--purple { background: #f1e9fd; color: #9b6bf0; }
+.lp-icon-badge--teal { background: #e3f7f6; color: #17a2a4; }
+.lp-icon-badge--orange { background: #fff2e2; color: #f39c12; }
+
+/* How it works */
+.lp-steps { display: flex; align-items: flex-start; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.lp-step { text-align: center; max-width: 240px; }
+.lp-step__circle {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--lp-green-light); color: var(--lp-green-dark);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 14px;
+}
+.lp-step h5 { font-weight: 700; color: var(--lp-ink); margin-bottom: 8px; font-size: 16px; }
+.lp-step p { color: var(--lp-muted); font-size: 14px; }
+.lp-step__connector { color: var(--lp-green); font-size: 22px; margin-top: 18px; }
+
+/* Dashboard / phone / retarget / flow mockups */
+.lp-mock {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, .10);
+    overflow: hidden;
+}
+.lp-mock__topbar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 18px; border-bottom: 1px solid #eef1f6;
+}
+.lp-mock__title { font-weight: 700; font-size: 13.5px; color: var(--lp-ink); }
+.lp-mock--dashboard .lp-mock__title { margin-left: 8px; }
+.lp-mock__dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.lp-mock__dot--red { background: #ff5f57; }
+.lp-mock__dot--yellow { background: #febc2e; }
+.lp-mock__dot--green { background: #28c840; }
+.lp-mock__body { padding: 18px; }
+.lp-mock__kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+.lp-mock__kpi { background: #f8faf9; border-radius: 10px; padding: 10px 8px; text-align: left; }
+.lp-mock__kpi-icon {
+    width: 24px; height: 24px; border-radius: 6px; display: inline-flex;
+    align-items: center; justify-content: center; font-size: 13px; margin-bottom: 6px;
+}
+.lp-mock__kpi-icon--blue { background: #e8f0ff; color: #3b7dfb; }
+.lp-mock__kpi-icon--green { background: var(--lp-green-light); color: var(--lp-green-dark); }
+.lp-mock__kpi-icon--purple { background: #f1e9fd; color: #9b6bf0; }
+.lp-mock__kpi-icon--teal { background: #e3f7f6; color: #17a2a4; }
+.lp-mock__kpi strong { display: block; font-size: 16px; color: var(--lp-ink); }
+.lp-mock__kpi span { display: block; font-size: 10.5px; color: var(--lp-muted); }
+.lp-mock__chart-label { font-size: 12.5px; font-weight: 700; color: var(--lp-ink); margin-bottom: 8px; }
+.lp-mock__chart { width: 100%; height: 90px; display: block; }
+
+.lp-phone { width: 260px; }
+.lp-phone__frame {
+    background: #fff; border-radius: 26px; padding: 10px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, .12);
+}
+.lp-phone__header {
+    background: var(--lp-green); color: #fff; border-radius: 18px 18px 0 0;
+    padding: 12px 16px; font-weight: 700; font-size: 14px;
+}
+.lp-phone__header i { margin-right: 6px; }
+.lp-phone__body { background: #eafaf0; padding: 20px 14px; border-radius: 0 0 18px 18px; min-height: 180px; }
+.lp-phone__bubble {
+    background: #fff; border-radius: 12px; padding: 10px 12px; font-size: 13px;
+    color: var(--lp-ink); margin-bottom: 10px; max-width: 85%; box-shadow: 0 2px 6px rgba(15,23,42,.06);
+}
+.lp-phone__bubble--reply { background: var(--lp-green); color: #fff; margin-left: auto; }
+
+.lp-retarget-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid #f0f2f5; font-size: 14px; color: var(--lp-ink);
+}
+.lp-retarget-row:last-of-type { border-bottom: none; }
+.lp-status-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+.lp-status-dot--purple { background: #9b6bf0; }
+.lp-status-dot--teal { background: #17a2a4; }
+.lp-status-dot--red { background: #ff5a5f; }
+
+.lp-flow { display: flex; align-items: center; gap: 10px; }
+.lp-flow__node {
+    background: #fff; border-radius: 12px; padding: 14px 16px; flex: 1;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, .08);
+}
+.lp-flow__node--full { flex: none; width: 100%; }
+.lp-flow__node-title { font-weight: 700; font-size: 13.5px; color: var(--lp-ink); margin-bottom: 6px; }
+.lp-flow__node-title i { color: var(--lp-green-dark); margin-right: 6px; }
+.lp-flow__node-body { font-size: 12.5px; color: var(--lp-muted); margin-bottom: 8px; }
+.lp-flow__node-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+.lp-flow__chip {
+    background: var(--lp-green-light); color: var(--lp-green-dark);
+    border-radius: 999px; padding: 3px 10px; font-size: 11px; font-weight: 600;
+}
+.lp-flow__arrow { color: var(--lp-green); font-size: 20px; flex-shrink: 0; }
+
+/* Pricing */
+.lp-toggle { display: inline-flex; background: #eef1f6; border-radius: 999px; padding: 4px; }
+.lp-toggle__btn {
+    border: none; background: transparent; padding: 8px 20px; border-radius: 999px;
+    font-weight: 600; font-size: 14px; color: var(--lp-muted); cursor: pointer;
+}
+.lp-toggle__btn.active { background: var(--lp-green); color: #fff; }
+
+.lp-price-card {
+    background: #fff; border: 1px solid #eef1f6; border-radius: 16px;
+    padding: 32px 28px; height: 100%; text-align: left;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+}
+.lp-price-card--highlight { border: 2px solid var(--lp-green); box-shadow: 0 20px 40px rgba(81, 181, 109, .15); }
+.lp-price-card__plan { font-weight: 700; color: var(--lp-ink); margin-bottom: 10px; }
+.lp-price-card__amount { font-size: 34px; font-weight: 800; color: var(--lp-ink); margin-bottom: 20px; }
+.lp-price-card__period { font-size: 15px; font-weight: 500; color: var(--lp-muted); }
+.lp-price-card .lp-check-list { margin-bottom: 24px; }
+
+/* FAQ */
+.lp-faq-grid { column-count: 2; column-gap: 24px; }
+@media (max-width: 767.98px) { .lp-faq-grid { column-count: 1; } }
+.lp-faq-item {
+    background: #fff; border-radius: 12px; margin-bottom: 16px;
+    break-inside: avoid; overflow: hidden;
+}
+.lp-faq-item__q {
+    width: 100%; text-align: left; background: none; border: none;
+    padding: 16px 18px; font-weight: 600; font-size: 14.5px; color: var(--lp-ink);
+    display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+}
+.lp-faq-item__q i { color: var(--lp-muted); transition: transform .2s ease; }
+.lp-faq-item__q[aria-expanded="true"] i { transform: rotate(180deg); }
+.lp-faq-item__a { padding: 0 18px 16px; color: var(--lp-muted); font-size: 14px; line-height: 1.6; margin: 0; }
+
+/* Final CTA */
+.lp-cta { background: var(--lp-green); padding: 64px 0; }
+.lp-cta__title { color: #fff; font-weight: 700; font-size: 28px; margin-bottom: 26px; }
+.lp-cta__btn { color: var(--lp-green-dark); font-weight: 700; }
+
+@media (max-width: 991.98px) {
+    .lp-hero__title { font-size: 32px; }
+    .lp-mock__kpis { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 575.98px) {
+    .lp-section { padding: 48px 0; }
+    .lp-hero__title { font-size: 28px; }
+    .lp-flow { flex-direction: column; align-items: stretch; }
+    .lp-flow__arrow { transform: rotate(90deg); align-self: center; }
+    .lp-phone { width: 100%; max-width: 260px; }
+}
+</style>
+
+<script>
+(function () {
+    document.querySelectorAll('.lp-faq-item__q').forEach(function (btn) {
+        var target = document.querySelector(btn.getAttribute('data-bs-target'));
+        btn.setAttribute('aria-expanded', target && target.classList.contains('show') ? 'true' : 'false');
+        if (target) {
+            target.addEventListener('shown.bs.collapse', function () { btn.setAttribute('aria-expanded', 'true'); });
+            target.addEventListener('hidden.bs.collapse', function () { btn.setAttribute('aria-expanded', 'false'); });
+        }
+    });
+
+    var monthlyBtn = document.getElementById('lpMonthlyBtn');
+    var yearlyBtn = document.getElementById('lpYearlyBtn');
+    var freePrice = document.getElementById('lpFreePrice');
+    var freeDuration = document.getElementById('lpFreeDuration');
+    var paidPrice = document.getElementById('lpPaidPrice');
+    var paidDuration = document.getElementById('lpPaidDuration');
+
+    monthlyBtn.addEventListener('click', function () {
+        freePrice.textContent = '₹0';
+        freeDuration.textContent = ' for 14 days';
+        paidPrice.textContent = '₹5,000';
+        paidDuration.textContent = ' /mo';
+        monthlyBtn.classList.add('active');
+        yearlyBtn.classList.remove('active');
+    });
+    yearlyBtn.addEventListener('click', function () {
+        freePrice.textContent = '₹0';
+        freeDuration.textContent = ' for 14 days';
+        paidPrice.textContent = '₹49,999';
+        paidDuration.textContent = ' /yr';
+        yearlyBtn.classList.add('active');
+        monthlyBtn.classList.remove('active');
+    });
+})();
+</script>
+
+{% endblock %}

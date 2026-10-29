@@ -1,0 +1,66 @@
+{% extends 'services.html' %}
+{% load static %}
+
+{% block design %}
+<style>
+    .checkout-wrap { max-width: 480px; margin: 20px auto 0; }
+    .checkout-card {
+        background: #fff; border: 1.5px solid #e7ebee; border-radius: 14px; padding: 28px;
+    }
+    .checkout-card h2 { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+    .checkout-card .sub { color: #6b7280; font-size: 13.5px; margin: 0 0 20px; }
+    .checkout-row {
+        display: flex; justify-content: space-between; padding: 10px 0;
+        border-bottom: 1px solid #f1f3f5; font-size: 14.5px; color: #374151;
+    }
+    .checkout-row:last-of-type { border-bottom: none; }
+    .checkout-total { font-weight: 700; font-size: 17px; color: #1f2937; }
+    .checkout-demo-note {
+        display: flex; gap: 10px; align-items: flex-start; background: #fff7e6; color: #92640a;
+        border-radius: 10px; padding: 12px 14px; font-size: 13px; margin: 18px 0;
+    }
+    .checkout-demo-note i { font-size: 18px; margin-top: 1px; }
+</style>
+
+<div class="app-page">
+    <div class="app-page__head">
+        <div>
+            <h1 class="app-page__title"><i class="mdi mdi-cart-check" style="color: var(--au-green);"></i> Confirm Your Plan</h1>
+            <p class="app-page__subtitle">Review the order summary before switching.</p>
+        </div>
+    </div>
+
+    <div class="checkout-wrap">
+        <div class="checkout-card">
+            <h2>{{ plan.name }}</h2>
+            <p class="sub">{{ plan.description }}</p>
+
+            <div class="checkout-row">
+                <span>Plan price</span>
+                <span>{% if plan.is_free %}Free{% else %}₹{{ plan.price|floatformat:2 }}{% endif %}</span>
+            </div>
+            <div class="checkout-row">
+                <span>Billing cycle</span>
+                <span>Every {{ plan.duration_label }}</span>
+            </div>
+            <div class="checkout-row checkout-total">
+                <span>Total due today</span>
+                <span>{% if plan.is_free %}₹0.00{% else %}₹{{ plan.price|floatformat:2 }}{% endif %}</span>
+            </div>
+
+            <div class="checkout-demo-note">
+                <i class="mdi mdi-information-outline"></i>
+                <span>This is a demo checkout — no real payment is collected. Confirming immediately activates the plan on your account.</span>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-au-primary w-100">
+                    <i class="mdi mdi-check-circle-outline"></i> Confirm &amp; Subscribe
+                </button>
+            </form>
+            <a href="{% url 'billing:plan_list' %}" class="btn-au-outline w-100 text-center mt-2">Cancel</a>
+        </div>
+    </div>
+</div>
+{% endblock design %}
