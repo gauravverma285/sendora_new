@@ -1,4 +1,4 @@
-/* Shared "lp-" design system for Dovix AI's marketing pages (index, about,
+/* Shared "lp-" design system for Sendora Chat's marketing pages (index, about,
    how-it-works, privacy policy, terms). Originally authored inline on
    index.html — pulled out here so every marketing page can reuse the same
    look without duplicating ~200 lines of CSS per template. */

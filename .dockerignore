@@ -1,0 +1,15 @@
+.git
+.gitignore
+.vscode
+**/.env
+**/.env.*
+!.env.example
+sendora
+db.sqlite3
+db.sqlite3-journal
+media
+staticfiles
+**/__pycache__
+**/*.pyc
+*.log
+celerybeat-schedule*

@@ -1,10 +1,10 @@
 {% extends 'account/_auth_layout.html' %}
-{% block title %}Sign Out - Dovix AI{% endblock %}
+{% block title %}Sign Out - Sendora Chat{% endblock %}
 
 {% block auth_content %}
 <div class="auth-icon-badge"><i class="mdi mdi-logout"></i></div>
 <h2 class="auth-card__title">Sign Out</h2>
-<p class="auth-card__sub">Are you sure you want to sign out of Dovix AI?</p>
+<p class="auth-card__sub">Are you sure you want to sign out of Sendora Chat?</p>
 
 <form method="post" action="{% url 'account_logout' %}">
     {% csrf_token %}

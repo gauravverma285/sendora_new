@@ -58,6 +58,10 @@ CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get(
 # trust its X-Forwarded-Proto header so request.is_secure() reports True.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
 
 # Application definition
 
@@ -99,7 +103,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Dovix AI WhatsApp Messaging API',
+    'TITLE': 'Sendora Chat WhatsApp Messaging API',
     'DESCRIPTION': (
         "Send WhatsApp template messages (single or bulk) through your own "
         "connected WhatsApp Business Account. Authenticate with your API "
@@ -154,14 +158,20 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'MARKit Ezy',
-        # 'USER': 'himanshu',
-        # 'PASSWORD': 'gsf777',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
     }
 }
+
+# Production (Docker) sets POSTGRES_DB; local dev without it keeps SQLite.
+if os.environ.get('POSTGRES_DB'):
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'CONN_MAX_AGE': 60,
+    }
 
 
 # Password validation
@@ -203,6 +213,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 
 ]
+# collectstatic target, served by nginx in production
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / "media"

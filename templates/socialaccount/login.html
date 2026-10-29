@@ -1,10 +1,10 @@
 {% extends 'account/_auth_layout.html' %}
-{% block title %}Continue with {{ provider }} - Dovix AI{% endblock %}
+{% block title %}Continue with {{ provider }} - Sendora Chat{% endblock %}
 
 {% block auth_content %}
 <div class="auth-icon-badge"><i class="mdi mdi-google"></i></div>
 <h2 class="auth-card__title">Continue with {{ provider }}</h2>
-<p class="auth-card__sub">You're about to sign in to Dovix AI using your {{ provider }} account.</p>
+<p class="auth-card__sub">You're about to sign in to Sendora Chat using your {{ provider }} account.</p>
 
 <form method="post">
     {% csrf_token %}
